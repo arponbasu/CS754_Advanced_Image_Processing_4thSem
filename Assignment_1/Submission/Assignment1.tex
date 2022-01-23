@@ -78,9 +78,9 @@ Arpon Basu \\ Shashwat Garg }
 \justifying
 \section*{Introduction}
 
-Welcome  to our report on CS215 Assignment 3. We have tried to make this report comprehensive and self-contained. We hope reading this would give you a proper flowing description of our work, methods used and the results obtained. Feel free to keep our code scripts alongside to know the exact implementation of our tasks. %The pictures included in the graphs folder are a part of this report as well.
+Welcome  to our report on CS754 Assignment 1. We have tried to make this report comprehensive and self-contained. We hope reading this would give you a proper flowing description of our work, methods used and the results obtained. Feel free to keep our code scripts alongside to know the exact implementation of our tasks. 
 
-We have referred to some sites on the web for finding the MATLAB implementations (generic documentation pages) and the same has been added in the references section. %general statistical knowledge needed for various parts of the assignment. 
+We have referred to some sites on the web for finding the MATLAB implementations (generic documentation pages) and the same has been added in the references section. 
 
 In many places, to better give context to the place from which the questions could have arisen, some theoretical discussions have been engaged in.
 
@@ -121,7 +121,7 @@ We set up some notation first: Let
     \boldsymbol{f(t) := } \mathrm{arg\;min}\boldsymbol{_{\lVert x\rVert_1 \leq t}\; \lVert y - Ax\rVert_2} 
 \end{gather*}
 Then note that if $\boldsymbol{t < l_1}$, $\boldsymbol{f(t) > e}$: Why? Because if $\boldsymbol{f(t) \leq e}$, then one would have that there exist $\boldsymbol{x}$ with L1-norm lesser than $\boldsymbol{l_1}$ which nevertheless make the L2 norm of $\boldsymbol{(y - Ax)}$ $\leq$ $\boldsymbol{e}$, which contradicts the minimality of $\boldsymbol{x^*}$.\\
-Also note that $\boldsymbol{f(l_1) \leq e}$, since we have a witness $\boldsymbol{x^*}$ for which the L1-norm is equal to $\boldsymbol{l_1}$ and $\boldsymbol{\lVert y - Ax^*\rVert_2 \leq e}$ due to the premise of the problem P1. Thus it's clear that all minimizers of $\boldsymbol{\lVert y - Ax\rVert_2}$ under the conditions $\boldsymbol{\lVert x\rVert_1 \leq l_1}$ actually lie only on the ``sphere" $\boldsymbol{\lVert x\rVert_1 = l_1}$ (because for points strictly to the interior of this ``sphere", $\boldsymbol{\lVert y - Ax\rVert_2}$ assumes values larger than $\boldsymbol{e}$). Now, if it so happens that there exists another $\boldsymbol{z}$ (such that $\boldsymbol{\lVert z\rVert_1 = l_1}$) such that $\boldsymbol{\lVert y - Az\rVert_2 \leq e}$, then we note that the \emph{uniqueness} of $\boldsymbol{x^*}$ is violated, as $\boldsymbol{z}$ also becomes a minimizer for P1 (along with $x^*$) since it satisfies the premise of P1 (which is $\boldsymbol{\lVert y - Ax\rVert_2 \leq e}$).\\
+Also note that $\boldsymbol{f(l_1) \leq e}$, since we have a witness $\boldsymbol{x^*}$ for which the L1-norm is equal to $\boldsymbol{l_1}$ and $\boldsymbol{\lVert y - Ax^*\rVert_2 \leq e}$ due to the premise of the problem P1. Thus it's clear that all minimizers of $\boldsymbol{\lVert y - Ax\rVert_2}$ under the conditions $\boldsymbol{\lVert x\rVert_1 \leq l_1}$ actually lie only on the ``sphere" $\boldsymbol{\lVert x\rVert_1 = l_1}$ (because for points strictly to the interior of this ``sphere", $\boldsymbol{\lVert y - Ax\rVert_2}$ assumes values larger than $\boldsymbol{e}$). Now, if it so happens that there exists another $\boldsymbol{z}$ (such that $\boldsymbol{\lVert z\rVert_1 = l_1}$) such that $\boldsymbol{\lVert y - Az\rVert_2 \leq e}$, then we note that the \emph{uniqueness} of $\boldsymbol{x^*}$ is violated, as $\boldsymbol{z}$ also becomes a minimizer for P1 (along with $\boldsymbol{x^*}$) since it satisfies the premise of P1 (which is $\boldsymbol{\lVert y - Ax\rVert_2 \leq e}$).\\
 Thus, we have that for $\boldsymbol{t = \mathrm{min}_{\lVert y - Ax\rVert_2 \leq e}\;\lVert x\rVert_1}$, both the problems P1 and Q1 have the \textbf{same unique minimizer}.\\
 Hence proved.
 \end{proof}
