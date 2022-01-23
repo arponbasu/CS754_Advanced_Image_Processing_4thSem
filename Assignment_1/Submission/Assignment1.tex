@@ -1,0 +1,117 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{filecontents}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx, array, blindtext}
+\usepackage[colorinlistoftodos]{todonotes}
+\DeclareUnicodeCharacter{2212}{-}
+\usepackage [a4 paper , hmargin = 1.2 in , bottom = 1.5 in] {geometry}
+\usepackage [parfill] {parskip}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{nameref}
+\usepackage{amssymb}
+\usepackage [linesnumbered, ruled, vlined] {algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{floatrow}
+\usepackage{siunitx}
+
+
+\usepackage{cancel}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage[document]{ragged2e}
+
+\renewcommand{\footrulewidth}{0.4pt}
+\newtheorem{definition}{Definition}
+\numberwithin{definition}{section}
+\newtheorem{mytheorem}{Theorem}
+\numberwithin{mytheorem}{subsection}
+\newcommand{\notimplies}{\;\not\!\!\!\longrightarrow}  
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{CS754 Assignment 1}
+\lhead{200050013-200050130}
+\fancyfoot[C]{Page \thepage}
+\usepackage{subcaption}
+\usepackage{listings}
+
+
+\usepackage{hyperref}
+\urlstyle{same}
+\hypersetup{pdftitle={main.pdf},
+    colorlinks=false,
+    linkbordercolor=red
+}
+\usepackage{array}
+\usepackage{listings,chngcntr}
+
+\begin{document}
+\centering{
+
+\title{\fontsize{150}{60}{CS754 Assignment 1 Report}}
+
+\author{
+Arpon Basu \\ Shashwat Garg }
+}
+
+% Replace photos after seed
+% Align equations
+% Explain each other
+
+
+
+\date{Spring 2022}
+\maketitle
+
+\justifying
+\tableofcontents
+
+\newpage
+\justifying
+\section*{Introduction}
+
+Welcome  to our report on CS215 Assignment 3. We have tried to make this report comprehensive and self-contained. We hope reading this would give you a proper flowing description of our work, methods used and the results obtained. Feel free to keep our code scripts alongside to know the exact implementation of our tasks. %The pictures included in the graphs folder are a part of this report as well.
+
+We have referred to some sites on the web for finding the MATLAB implementations (generic documentation pages) and the same has been added in the references section. %general statistical knowledge needed for various parts of the assignment. 
+
+In many places, to better give context to the place from which the questions could have arisen, some theoretical discussions have been engaged in.
+
+Hope you enjoy reading the report. Here we go!
+
+
+\section{Problem 1}
+We have been given the following problem-
+
+Let $\boldsymbol{\theta^{\star}}$ : $\textrm{min} \|\boldsymbol{\theta}\|_1$ such that $\|\boldsymbol{y}-\boldsymbol{\Phi \Psi \theta}\|_2 \leq \varepsilon$, where $\boldsymbol{x} = \boldsymbol{\Psi \theta}$ and $\boldsymbol{y} = \boldsymbol{\Phi x} + \boldsymbol{\eta}$. $\varepsilon$ is an upper bound on the magnitude of the noise vector $\boldsymbol{\eta}$.
+
+Also, Theorem 3 states-\\If $\boldsymbol{\Phi}$ obeys the restricted isometry property with isometry constant $\delta_{2s} < \sqrt{2}-1$, then we have $\|\boldsymbol{\theta} - \boldsymbol{\theta^{\star}}\|_2 \leq C_1 s^{-1/2}\|\boldsymbol{\theta}-\boldsymbol{\theta_s}\|_1 + C_2 \varepsilon$ where $C_1$ and $C_2$ are functions of only $\delta_{2s}$ and where $\forall i \in \mathcal{S}, \boldsymbol{\theta_s}_i = \theta_i; \forall i \notin \mathcal{S}, \boldsymbol{\theta_s}_i = 0$.
+
+\subsection{Trend of Error Bound with $s$}
+This is not a discrepancy. In reality, the error bound becomes worse as the value of $s$ increases. The point is, we are only focusing on the effect of $s^{-1/2}$ and $||\boldsymbol{\theta}-\boldsymbol{\theta_s}||_1$. We must also see the change in $C_1$ and $C_2$. These constants increase as the value of $\delta_{2s}$ changes. Thus, as the value of $s$ increases, we observe that the bound on $delta_{2s}$ also increases which leads to an increase in the value of $C_1$ and $C_2$. Thus, we cannot claim that the error bound improves as the sparsity measure, $s$ increases in value.
+
+
+\section{Problem 2}
+\section{Problem 3}
+\section{Problem 4}
+\section{Problem 5}
+\section{Problem 6}
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
