@@ -12,6 +12,7 @@
 \usepackage{enumitem}
 \usepackage{amsmath}
 \usepackage{amsthm}
+
 \usepackage{nameref}
 \usepackage{amssymb}
 \usepackage [linesnumbered, ruled, vlined] {algorithm2e}
@@ -94,12 +95,39 @@ Let $\boldsymbol{\theta^{\star}}$ : $\textrm{min} \|\boldsymbol{\theta}\|_1$ suc
 Also, Theorem 3 states-\\If $\boldsymbol{\Phi}$ obeys the restricted isometry property with isometry constant $\delta_{2s} < \sqrt{2}-1$, then we have $\|\boldsymbol{\theta} - \boldsymbol{\theta^{\star}}\|_2 \leq C_1 s^{-1/2}\|\boldsymbol{\theta}-\boldsymbol{\theta_s}\|_1 + C_2 \varepsilon$ where $C_1$ and $C_2$ are functions of only $\delta_{2s}$ and where $\forall i \in \mathcal{S}, \boldsymbol{\theta_s}_i = \theta_i; \forall i \notin \mathcal{S}, \boldsymbol{\theta_s}_i = 0$.
 
 \subsection{Trend of Error Bound with $s$}
-This is not a discrepancy. In reality, the error bound becomes worse as the value of $s$ increases. The point is, we are only focusing on the effect of $s^{-1/2}$ and $||\boldsymbol{\theta}-\boldsymbol{\theta_s}||_1$. We must also see the change in $C_1$ and $C_2$. These constants increase as the value of $\delta_{2s}$ changes. Thus, as the value of $s$ increases, we observe that the bound on $delta_{2s}$ also increases which leads to an increase in the value of $C_1$ and $C_2$. Thus, we cannot claim that the error bound improves as the sparsity measure, $s$ increases in value.
+This is not a discrepancy. In reality, the error bound becomes worse as the value of $s$ increases. The point is, we are only focusing on the effect of $s^{-1/2}$ and $||\boldsymbol{\theta}-\boldsymbol{\theta_s}||_1$. We must also see the change in $C_1$ and $C_2$. These constants increase as the value of $\delta_{2s}$ changes. Thus, as the value of $s$ increases, we observe that the bound on $\delta_{2s}$ also increases which leads to an increase in the value of $C_1$ and $C_2$. Thus, we cannot claim that the error bound improves as the sparsity measure, $s$ increases in value.
 
 
 \section{Problem 2}
+We note that this problem has two parts: One for demonstrating that the upper bound of $\mu(\boldsymbol{\Phi, \Psi})$ is $\sqrt{n}$, and one for demonstrating that the lower bound of $\mu(\boldsymbol{\Phi, \Psi})$ is 1. We shall deal with both parts separately.\\
+\subsection{Lower Bound}
+\begin{proof}
+Since $\boldsymbol{\Psi}$ is an orthonormal matrix, it's column vectors $\boldsymbol{\Psi_1}$, $\boldsymbol{\Psi_2}$, ..., $\boldsymbol{\Psi_n}$ form a orthonormal basis for $\mathbb{K}^n$, and consequently we can express $\boldsymbol{g}$ as $\sum_{k=1}^{n} \alpha_k\boldsymbol{\Psi_k}$. Also, $\lVert \boldsymbol{g}\rVert_2 = \sqrt{\sum_{j=1}^{n} \alpha^2_j}$, following which we get $\boldsymbol{g}_{\mathrm{normalized}} = \sum_{k=1}^{n} \frac{\alpha_k}{\sqrt{\sum_{j=1}^{n} \alpha^2_j}}\boldsymbol{\Psi_k}$. Thus $\mu(\boldsymbol{g, \Psi)} = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}| = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;\frac{|\alpha_i|}{\sqrt{\sum_{j=1}^{n} \alpha^2_j}}$. WLOG assuming that $|\alpha_1| = \mathrm{max}_{i\in[n]}\;|\alpha_i|$, we get that
+$$\mu(\boldsymbol{g, \Psi}) \geq \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;\frac{|\alpha_i|}{\sqrt{\sum_{j=1}^{n} |\alpha_1|^2}} = \sqrt{n}\frac{|\alpha_1|}{\sqrt{n\alpha^2_1}} = 1$$
+as desired. Note that equality is achieved iff $\alpha_1 = \alpha_2 = ... = \alpha_n$.
+\end{proof}
+\subsection{Upper Bound}
+\begin{proof}
+Directly borrowing from the previous proof, $\mu(\boldsymbol{g, \Psi)} = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}|$. Now, by the Cauchy Schwartz inequality, for any two vectors $\mathbf{u}$, $\mathbf{v}$, we have $|\langle \mathbf{u}, \mathbf{v}\rangle|\leq \lVert \mathbf{u}\rVert_2\lVert \mathbf{v}\rVert_2$, where $|\langle \cdot, \cdot\rangle|$ is the usual Euclidean inner product. Applying it to the coherence relation yields $|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}| \leq \lVert \boldsymbol{g}_{\mathrm{normalized}}\rVert_2\lVert \boldsymbol{\Psi_i}\rVert_2 = 1$, and consequently we obtain that $\mu(\boldsymbol{g, \Psi)} \leq \sqrt{n}$, as desired. Note that equality is achieved iff $\boldsymbol{g}$ is parallel to some column vector $\boldsymbol{\Psi_i}$ of $\boldsymbol{\Psi}$.
+\end{proof}
 \section{Problem 3}
 \section{Problem 4}
+We provide a short and sweet proof for this problem below.
+\begin{proof}
+We set up some notation first: Let 
+\begin{gather*}
+    \boldsymbol{x^*} :=  \mathrm{arg\;min}\boldsymbol{_{\lVert y - Ax\rVert_2 \leq e}\;\lVert x\rVert_1} \\
+    \boldsymbol{l_1 := } \mathrm{min}\boldsymbol{_{\lVert y - Ax\rVert_2 \leq e}\;\lVert x\rVert_1} \\
+    \boldsymbol{f(t) := } \mathrm{arg\;min}\boldsymbol{_{\lVert x\rVert_1 \leq t}\; \lVert y - Ax\rVert_2} 
+\end{gather*}
+Then note that if $\boldsymbol{t < l_1}$, $\boldsymbol{f(t) > e}$: Why? Because if $\boldsymbol{f(t) \leq e}$, then one would have that there exist $\boldsymbol{x}$ with L1-norm lesser than $\boldsymbol{l_1}$ which nevertheless make the L2 norm of $\boldsymbol{(y - Ax)}$ $\leq$ $\boldsymbol{e}$, which contradicts the minimality of $\boldsymbol{x^*}$.\\
+Also note that $\boldsymbol{f(l_1) \leq e}$, since we have a witness $\boldsymbol{x^*}$ for which the L1-norm is equal to $\boldsymbol{l_1}$ and $\boldsymbol{\lVert y - Ax^*\rVert_2 \leq e}$ due to the premise of the problem P1. Thus it's clear that all minimizers of $\boldsymbol{\lVert y - Ax\rVert_2}$ under the conditions $\boldsymbol{\lVert x\rVert_1 \leq l_1}$ actually lie only on the ``sphere" $\boldsymbol{\lVert x\rVert_1 = l_1}$ (because for points strictly to the interior of this ``sphere", $\boldsymbol{\lVert y - Ax\rVert_2}$ assumes values larger than $\boldsymbol{e}$). Now, if it so happens that there exists another $\boldsymbol{z}$ (such that $\boldsymbol{\lVert z\rVert_1 = l_1}$) such that $\boldsymbol{\lVert y - Az\rVert_2 \leq e}$, then we note that the \emph{uniqueness} of $\boldsymbol{x^*}$ is violated, as $\boldsymbol{z}$ also becomes a minimizer for P1 (along with $x^*$) since it satisfies the premise of P1 (which is $\boldsymbol{\lVert y - Ax\rVert_2 \leq e}$).\\
+Thus, we have that for $\boldsymbol{t = \mathrm{min}_{\lVert y - Ax\rVert_2 \leq e}\;\lVert x\rVert_1}$, both the problems P1 and Q1 have the \textbf{same unique minimizer}.\\
+Hence proved.
+\end{proof}
+
+
+
 \section{Problem 5}
 \section{Problem 6}
 
