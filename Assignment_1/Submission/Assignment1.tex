@@ -96,17 +96,17 @@ This is not a discrepancy. In reality, we are ignoring the change in $C_1$ and $
 
 As the value of $s$ increases, due to reducing sparsity, we observe that (the bound on) $\delta_{2s}$ also increases. Intuitively, this is because an increase in $s$ implies an increase in the required number of linearly independent columns required in the $\boldsymbol{\Phi \Psi}$ matrix. This is unlikely as s increases. An increase in $\delta_{2s}$ leads to an increase in the value of $C_1$ and $C_2$.
 
-Thus we have two opposing behaviours and we cannot claim that the error bound improves as the sparsity measure, $s$ increases in value.
+Thus we have two opposing behaviors and we cannot claim that the error bound improves as the sparsity measure, $s$ increases in value.
 
 \subsection{Dependence of error bound on $m$}
 
 $m$ does not directly affect the error bound but it has several other indirect implications. 
 
-First of all, we require our matrix $\boldsymbol{A}=\boldsymbol{\Phi \Psi}$ to obey the RIP, for which we usually construct our sensing matrix $\boldsymbol{\Phi}$ using Gaussian or Bernoulli entries randomly. The probablility that this happens is very high in case $m \geq CS log(n/S)$.
+First of all, we require our matrix $\boldsymbol{A}=\boldsymbol{\Phi \Psi}$ to obey the RIP, for which we usually construct our sensing matrix $\boldsymbol{\Phi}$ using Gaussian or Bernoulli entries randomly. The probablility that this happens is very high in case $m \geq CS \log(n/S)$.
 
-Apart from this, $m$ also affects the value of $\epsilon$ which we can take in case of uniform Gaussian noise in the measurements. In such cases, a good approximation of $\epsilon$ is given by 3 standard deviations around the mean, which effectively transaltes into $\epsilon \geq 9m\sigma^2$.
+Apart from this, $m$ also affects the value of $\epsilon$ which we can take in case of uniform Gaussian noise in the measurements. In such cases, a good approximation of $\epsilon$ is given by 3 standard deviations around the mean, which effectively translates into $\epsilon \geq 9m\sigma^2$.
 
-Finally, when $m$ increases, we observe that the rank of the matrix $\boldsymbol{A}$ increases, which would make it satisfy the RIP with a higher probablility. This would indicate a drop in the value of $\delta_{2s}$, indicating a drop in the constants $C1$ and $C2$ and thus improving the error bound.
+Finally, when $m$ increases, we observe that the rank of the matrix $\boldsymbol{A}$ increases, which would make it satisfy the RIP with a higher probability. This would indicate a drop in the value of $\delta_{2s}$, indicating a drop in the constants $C_1$ and $C_2$ and thus improving the error bound.
 
 Thus, m has a lot of indirect implications in the error bound.
 
@@ -144,7 +144,7 @@ as desired. Note that equality is achieved iff $\alpha_1 = \alpha_2 = ... = \alp
 \end{proof}
 \subsection{Upper Bound}
 \begin{proof}
-Directly borrowing from the previous proof, $\mu(\boldsymbol{g, \Psi)} = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}|$. Now, by the Cauchy Schwartz inequality, for any two vectors $\mathbf{u}$, $\mathbf{v}$, we have $|\langle \mathbf{u}, \mathbf{v}\rangle|\leq \lVert \mathbf{u}\rVert_2\lVert \mathbf{v}\rVert_2$, where $|\langle \cdot, \cdot\rangle|$ is the usual Euclidean inner product. Applying it to the coherence relation yields $|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}| \leq \lVert \boldsymbol{g}_{\mathrm{normalized}}\rVert_2\lVert \boldsymbol{\Psi_i}\rVert_2 = 1$, and consequently we obtain that $\mu(\boldsymbol{g, \Psi)} \leq \sqrt{n}$, as desired. Note that equality is achieved iff $\boldsymbol{g}$ is parallel to some column vector $\boldsymbol{\Psi_i}$ of $\boldsymbol{\Psi}$.
+Directly borrowing from the previous proof, $\mu(\boldsymbol{g, \Psi)} = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}|$. Now, by the Cauchy Schwartz inequality, for any two vectors $\boldsymbol{u}$, $\boldsymbol{v}$, we have $|\langle \boldsymbol{u}, \boldsymbol{v}\rangle|\leq \lVert \boldsymbol{u}\rVert_2\lVert \boldsymbol{v}\rVert_2$, where $|\langle \cdot, \cdot\rangle|$ is the usual Euclidean inner product. Applying it to the coherence relation yields $|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}| \leq \lVert \boldsymbol{g}_{\mathrm{normalized}}\rVert_2\lVert \boldsymbol{\Psi_i}\rVert_2 = 1$, and consequently we obtain that $\mu(\boldsymbol{g, \Psi)} \leq \sqrt{n}$, as desired. Note that equality is achieved iff $\boldsymbol{g}$ is parallel to some column vector $\boldsymbol{\Psi_i}$ of $\boldsymbol{\Psi}$.
 \end{proof}
 
 \newpage
@@ -152,70 +152,70 @@ Directly borrowing from the previous proof, $\mu(\boldsymbol{g, \Psi)} = \sqrt{n
 
 This is a problem based on the basic concepts of linear algebra and the concepts of basis vectors, null-space property and independent vectors.
 
-We have a compressed measurement $y$, of the form $\mathbf{y} = \mathbf{\Phi x}$ where $\mathbf{\Phi} \in \mathbb{R}^{m \times n}$ is the measurement matrix and $\mathbf{x} \in \mathbb{R}^n, ~n \gg 2$. Consequently, $\mathbf{y} \in \mathbb{R}^m ~(m \ll n$). Our aim is to figure out $\mathbf{x}$
+We have a compressed measurement $y$, of the form $\boldsymbol{y} = \boldsymbol{\Phi x}$ where $\boldsymbol{\Phi} \in \mathbb{R}^{m \times n}$ is the measurement matrix and $\boldsymbol{x} \in \mathbb{R}^n, ~n \gg 2$. Consequently, $\boldsymbol{y} \in \mathbb{R}^m ~(m \ll n$). Our aim is to figure out $\boldsymbol{x}$.
 
-\subsection{m=1}
-Now observe that $\mathbf{\Phi}$ is essentially a row vector and $\mathbf{x}$ is a column vector, thus, even if only a element of x was non-zero, we still do not know which index of $\mathbf{\Phi}$ and $\mathbf{x}$ combine to give the value of $\mathbf{y}$, which is effectively a scalar in this case.
+\subsection{$m$ = 1}
+Now observe that $\boldsymbol{\Phi}$ is essentially a row vector and $\boldsymbol{x}$ is a column vector, thus, even if only a element of x was non-zero, we still do not know which index of $\boldsymbol{\Phi}$ and $\boldsymbol{x}$ combine to give the value of $\boldsymbol{y}$, which is effectively a scalar in this case.
 
-On the other hand, if we know the value of index, then the vector $\mathbf{x}$ is deducible. If the index is $i$, then the elements of $\mathbf{x}$ are zero for all indices $j\neq i$ and equal to $\mathbf{y/\Phi_i}$ for the $i^{th}$ index.
+On the other hand, if we know the value of index, then the vector $\boldsymbol{x}$ is deducible. If the index is $i$, then the elements of $\boldsymbol{x}$ are zero for all indices $j\neq i$ and equal to $\boldsymbol{y/\Phi_i}$ for the $i^{th}$ index.
 
 Thus, answer of the first part is NO, and the second part is YES.
 
-\subsection{m=2}
+\subsection{$m$ = 2}
 
-Yes! It is possible in this case, if $\mathbf{x}$ has only one non-zero element.
+Yes! It is possible in this case, if $\boldsymbol{x}$ has only one non-zero element.
 
-Since $\mathbf{x}$ has only one non-zero entry, say index $i$, only a single column of $\mathbf{\Phi}$ plays a role in getting the value of $\mathbf{y}$.
+Since $\boldsymbol{x}$ has only one non-zero entry, say index $i$, only a single column of $\boldsymbol{\Phi}$ plays a role in getting the value of $\boldsymbol{y}$.
 
 Thus, effectively,
-$$\mathbf{y^1} = \mathbf{\Phi_i^1.x^i}$$
-$$\mathbf{y^2} = \mathbf{\Phi_i^2.x^i}$$
+$$\boldsymbol{y^1} = \boldsymbol{\Phi_i^1.x^i}$$
+$$\boldsymbol{y^2} = \boldsymbol{\Phi_i^2.x^i}$$
 
-This implies that the ratio of the values in the $\mathbf{y}$ vector, matches the ratio of the values in some column of the $\mathbf{\Phi}$ matrix.
+This implies that the ratio of the values in the $\boldsymbol{y}$ vector, matches the ratio of the values in some column of the $\boldsymbol{\Phi}$ matrix.
 
-If our $\mathbf{\Phi}$ matrix is sufficiently randomly generated, we can always uniquely find such an index.
+If our $\boldsymbol{\Phi}$ matrix is sufficiently randomly generated, we can always uniquely find such an index.
 
-After that, it is just like the previous question. If the index found is $i$, then the elements of $\mathbf{x}$ are zero for all indices $j\neq i$ and equal to $\mathbf{y^1/\Phi_i^1}$ or $\mathbf{y^2/\Phi_i^2}$ for the $i^{th}$ index.
+After that, it is just like the previous question. If the index found is $i$, then the elements of $\boldsymbol{x}$ are zero for all indices $j\neq i$ and equal to $\boldsymbol{y^1/\Phi_i^1}$ or $\boldsymbol{y^2/\Phi_i^2}$ for the $i^{th}$ index.
 
-Again, please note that the success of this method depends on the fact that all columns of $\mathbf{\Phi}$ are linearly independent, which is a valid assumption given the nature of $\mathbf{\Phi}$.
+Again, please note that the success of this method depends on the fact that all columns of $\boldsymbol{\Phi}$ are linearly independent, which is a valid assumption given the nature of $\boldsymbol{\Phi}$.
 
-\subsection{m=3}
+\subsection{$m$ = 3}
 
-Here, we have a 2-sparse $\mathbf{x}$ vector and 3 measurements.
+Here, we have a 2-sparse $\boldsymbol{x}$ vector and 3 measurements.
 Effectively, we need to solve the following linear system-
 
-$$\mathbf{y^1} = \mathbf{\Phi_i^1.x^i + \Phi_j^1.x^j}$$
-$$\mathbf{y^2} = \mathbf{\Phi_i^2.x^i + \Phi_j^1.x^j}$$
-$$\mathbf{y^3} = \mathbf{\Phi_i^3.x^i + \Phi_j^1.x^j}$$
+$$\boldsymbol{y^1} = \boldsymbol{\Phi_i^1.x^i + \Phi_j^1.x^j}$$
+$$\boldsymbol{y^2} = \boldsymbol{\Phi_i^2.x^i + \Phi_j^1.x^j}$$
+$$\boldsymbol{y^3} = \boldsymbol{\Phi_i^3.x^i + \Phi_j^1.x^j}$$
 
 Note that we do not have any idea about which indices the $i$ and $j$ might be.\\
-Just as we looked at the ratio in the previous part, here we need to look at the span of the two column vectors $\mathbf{\Phi_i}$ and $\mathbf{\Phi_j}$. If the vector $\mathbf{y}$ lies in the span of the two vectors, then we can find an appropriate solution to the values of vector $\mathbf{x}$.
+Just as we looked at the ratio in the previous part, here we need to look at the span of the two column vectors $\boldsymbol{\Phi_i}$ and $\boldsymbol{\Phi_j}$. If the vector $\boldsymbol{y}$ lies in the span of the two vectors, then we can find an appropriate solution to the values of vector $\boldsymbol{x}$.
 
-But there is a problem. Note that the choice of $i$ and $j$ is not unique. We know that the $m << n$. Thus, given that $\mathbf{\Phi_i}$ is a random matrix, there is a high chance that we can choose another set of 2 vectors with indices $k$ and $l$ such that $\mathbf{y}$ lies in the span of $\mathbf{\Phi_k}$ and $\mathbf{\Phi_l}$.
+But there is a problem. Note that the choice of $i$ and $j$ is not unique. We know that the $m \ll n$. Thus, given that $\boldsymbol{\Phi_i}$ is a random matrix, there is a high chance that we can choose another set of 2 vectors with indices $k$ and $l$ such that $\boldsymbol{y}$ lies in the span of $\boldsymbol{\Phi_k}$ and $\boldsymbol{\Phi_l}$.
 
 In fact, given a large enough $n$, it is certain that there will exist 4 vectors (of dimension 3) which are linearly dependent and none of the coefficients
-($\alpha_i,~\alpha_j,~\alpha_k,~\alpha_l$) is zero. This means that we will always have 2 ways of representing our $\mathbf{y}$ vector. This implies that, we cannot always get the $\mathbf{x}$ vector in this case.
+($\alpha_i,~\alpha_j,~\alpha_k,~\alpha_l$) is zero. This means that we will always have 2 ways of representing our $\boldsymbol{y}$ vector. This implies that, we cannot always get the $\boldsymbol{x}$ vector in this case.
 
-Surprisingly, without knowing the indices at which x is non-zero, we cannot even generate a specific $\mathbf{\Phi}$ such that we would have the vector $\mathbf{x}$. This is because such a $\mathbf{\Phi}$ would require most of the columns to be zero in atleast 2 places out of 3, such that we cannot get 4 linearly dependent columns with all $\alpha_i,~\alpha_j,~\alpha_k,~\alpha_l$ as non-zero. This would ensure that there is always a unique pair of indices that calculate $\mathbf{y}$, but again, it is not possible in the current scenario.
+Surprisingly, without knowing the indices at which x is non-zero, we cannot even generate a specific $\boldsymbol{\Phi}$ such that we would have the vector $\boldsymbol{x}$. This is because such a $\boldsymbol{\Phi}$ would require most of the columns to be zero in atleast 2 places out of 3, such that we cannot get 4 linearly dependent columns with all $\alpha_i,~\alpha_j,~\alpha_k,~\alpha_l$ as non-zero. This would ensure that there is always a unique pair of indices that calculate $\boldsymbol{y}$, but again, it is not possible in the current scenario.
 
 
-\subsection{m=4}
+\subsection{$m$ = 4}
 
-This problem very closely resembles the null-space theorem covered in the lectures. We have a 2-sparse vector and a matrix with m=4. If we can ensure that any 4 columns are linearly independent then we have a solution. 
+This problem very closely resembles the null-space theorem covered in the lectures. We have a 2-sparse vector and a matrix with $m = 4$. If we can ensure that any 4 columns are linearly independent then we have a solution. 
 
-If you are wondering about whether we might fail due to 5 such columns being linearly dependent, note that in that case, we would have a 2 column representation equal to a 3 column representation. But a 3 column representation is useless in this case. Thus, we can avoid it.\footnote{The previous case, for m=3 fails because in that case, any 4 columns are linearly dependent. Thus, we can get a 2 column representation equal to another 2 column representation, which leads to multiple solutions.}
+If you are wondering about whether we might fail due to 5 such columns being linearly dependent, note that in that case, we would have a 2 column representation equal to a 3 column representation. But a 3 column representation is useless in this case. Thus, we can avoid it.\footnote{The previous case, for $m$ = 3 fails because in that case, any 4 columns are linearly dependent. Thus, we can get a 2 column representation equal to another 2 column representation, which leads to multiple solutions.}
 
 The solution is as follows-
 
-We assume that the matrix is of rank=4. This implies that a unique solution exists. We follow the following algorithm.
+We assume that the matrix is of rank = 4. This implies that a unique solution exists. We follow the following algorithm.
 
 \begin{itemize}
-    \item Iterate over all pairs of columns in the matrix $\mathbf{\Phi}$
-    \item Check if the vector $\mathbf{y}$ lies in the span of the two column vectors in focus.
+    \item Iterate over all pairs of columns in the matrix $\boldsymbol{\Phi}$.
+    \item Check if the vector $\boldsymbol{y}$ lies in the span of the two column vectors in focus.
 \end{itemize}
 
-As long as the rank=4, there exists only a single solution for the algorithm.
-Otherwise, we have two 2-sparse vectors as solution. This implies that their difference ie. a 4-sparse vector lies in the null-space of $\mathbf{\Phi}$. This is a contradiction to our assumption. Hence proved.
+As long as the rank $= 4$, there exists only a single solution for the algorithm.
+Otherwise, we have two 2-sparse vectors as solution. This implies that their difference ie. a 4-sparse vector lies in the null-space of $\boldsymbol{\Phi}$. This is a contradiction to our assumption. Hence proved.
 
 Thus, the answer to this part is YES (mostly, since there is a certain randomness involved in creation of these matrices).
 
@@ -241,28 +241,28 @@ Hence proved.
 
 \newpage
 \section{Problem 5}
-
-(a) The title of the paper we reviewed was \textbf{Low-Complexity FPGA Implementation of
-Compressive Sensing Reconstruction}. It was published in \textbf{2013} by \textbf{IEEE} in the \textbf{International Conference on Computing, Networking and Communications, Multimedia Computing and Communications
-Symposium}.\\
-(b) The main aim of the paper is to optimize the hardware time required for executing reconstruction algorithms like \textbf{OMP}. To that end, it develops a novel hardware architecture which promises to deliver a execution time 3.4 $\times$ faster than what conventional hardware takes to execute OMP. The conceptualization and execution of the paper is best explained through the two images below.\\
-\begin{figure}
-    \begin{center}
-        \includegraphics[scale=0.5]{Basic Structure of OMP.png}
-        \caption{Basic Structure of OMP}
-    \end{center}
-\end{figure}
-
-\begin{figure}
-    \begin{center}
-        \includegraphics[scale=0.5]{Proposed HArdware Architecture.png}
-        \caption{Proposed Hardware Architecture}
-    \end{center}
-\end{figure}
-(c) This paper optimizes the execution of the \textbf{reconstruction technique OMP} which is very widely used in compressed sensing scenario. This paper per se itself doesn't deploy compressed sensing towards any goal but rather seeks to improve what already exists. 
-
-
-
+\begin{center}
+    \begin{tabular}{ |p{4cm}||p{12cm}|}
+   
+    \hline
+    \multicolumn{2}{|c|}{Paper Details} \\
+    \hline
+    Title of the Paper& \textbf{A Configurable Energy-Efficient Compressed
+    Sensing Architecture With Its Application
+    on Body Sensor Networks}\\
+    \hline
+    Link of the paper  &  https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7279137\&tag=1  \\
+    \hline
+    Publisher & IEEE \\
+    \hline
+    Publication Date   &  February 2016 \\
+    \hline
+    Publication Venue  & IEEE Transactions on Industrial Informatics, Vol. 12, No. 1 \\
+    \hline
+    
+    
+   \end{tabular}
+\end{center}
 
 \newpage
 
@@ -280,6 +280,3 @@ Symposium}.\\
 
 
 \end{document}
-
-
-
