@@ -8,8 +8,8 @@
 
 % We obtain the T frames in the first step directly, rather
 % than going for T=3, 5 and 7 separately.
-% file_name='cars.avi';
-file_name='flame.avi';
+file_name='cars.avi';
+% file_name='flame.avi';
 % Please choose and un-comment the file you wish to use.
 
 addpath('./MMread');

@@ -72,18 +72,11 @@ Arpon Basu \\ Shashwat Garg }
 \justifying
 \section*{Introduction}
 
-Welcome  to our report on CS754 Assignment 1. We have tried to make this report comprehensive and self-contained. We hope reading this would give you a proper flowing description of our work, methods used and the results obtained. Feel free to keep our code scripts alongside to know the exact implementation of our tasks. 
-
-We have referred to some sites on the web for finding the MATLAB implementations (generic documentation pages) and the same has been added in the references section. 
-
-In many places, to better give context to the place from which the questions could have arisen, some theoretical discussions have been engaged in.
+Welcome  to our report on CS754 Assignment 1. We have tried to make this report comprehensive and self-contained. We hope reading this would give you a proper flowing description of our work, methods used and the results obtained. Feel free to keep our code script alongside to know the exact implementation of our tasks. 
 
 Hope you enjoy reading the report. Here we go!
 
 
-
-
-\newpage
 \section{Problem 1}
 We have been given the following problem-
 
@@ -135,16 +128,27 @@ Instead, we should choose an $\epsilon$ greater than the noise magnitude, for go
 
 
 \section{Problem 2}
-We note that this problem has two parts: One for demonstrating that the upper bound of $\mu(\boldsymbol{\Phi, \Psi})$ is $\sqrt{n}$, and one for demonstrating that the lower bound of $\mu(\boldsymbol{\Phi, \Psi})$ is 1. We shall deal with both parts separately.\\
+We note that this problem has two parts: One for demonstrating that the upper bound of $\mu(\boldsymbol{\Phi, \Psi})$ is $\sqrt{n}$, and one for demonstrating that the lower bound of $\mu(\boldsymbol{\Phi, \Psi})$ is 1. We shall deal with both parts separately.
+
 \subsection{Lower Bound}
 \begin{proof}
-Since $\boldsymbol{\Psi}$ is an orthonormal matrix, it's column vectors $\boldsymbol{\Psi_1}$, $\boldsymbol{\Psi_2}$, ..., $\boldsymbol{\Psi_n}$ form a orthonormal basis for $\mathbb{K}^n$, and consequently we can express $\boldsymbol{g}$ as $\sum_{k=1}^{n} \alpha_k\boldsymbol{\Psi_k}$. Also, $\lVert \boldsymbol{g}\rVert_2 = \sqrt{\sum_{j=1}^{n} \alpha^2_j}$, following which we get $\boldsymbol{g}_{\mathrm{normalized}} = \sum_{k=1}^{n} \frac{\alpha_k}{\sqrt{\sum_{j=1}^{n} \alpha^2_j}}\boldsymbol{\Psi_k}$. Thus $\mu(\boldsymbol{g, \Psi)} = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}| = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;\frac{|\alpha_i|}{\sqrt{\sum_{j=1}^{n} \alpha^2_j}}$. WLOG assuming that $|\alpha_1| = \mathrm{max}_{i\in[n]}\;|\alpha_i|$, we get that
+Since $\boldsymbol{\Psi}$ is an orthonormal matrix, it's column vectors $\boldsymbol{\Psi_1}$, $\boldsymbol{\Psi_2}$, ..., $\boldsymbol{\Psi_n}$ form a orthonormal basis for $\mathbb{K}^n$, and consequently we can express $\boldsymbol{g}$ as $\sum_{k=1}^{n} \alpha_k\boldsymbol{\Psi_k}$.
+
+Also, $\lVert \boldsymbol{g}\rVert_2 = \sqrt{\sum_{j=1}^{n} \alpha^2_j}$, following which we get $\boldsymbol{g}_{\mathrm{normalized}} = \sum_{k=1}^{n} \frac{\alpha_k}{\sqrt{\sum_{j=1}^{n} \alpha^2_j}}\boldsymbol{\Psi_k}$. Thus $\mu(\boldsymbol{g, \Psi)} = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}| = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;\frac{|\alpha_i|}{\sqrt{\sum_{j=1}^{n} \alpha^2_j}}$.
+
+WLOG assuming that $|\alpha_1| = \mathrm{max}_{i\in[n]}\;|\alpha_i|$, we get that
 $$\mu(\boldsymbol{g, \Psi}) \geq \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;\frac{|\alpha_i|}{\sqrt{\sum_{j=1}^{n} |\alpha_1|^2}} = \sqrt{n}\frac{|\alpha_1|}{\sqrt{n\alpha^2_1}} = 1$$
 as desired. Note that equality is achieved iff $\alpha_1 = \alpha_2 = ... = \alpha_n$.
 \end{proof}
 \subsection{Upper Bound}
 \begin{proof}
-Directly borrowing from the previous proof, $\mu(\boldsymbol{g, \Psi)} = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}|$. Now, by the Cauchy Schwartz inequality, for any two vectors $\boldsymbol{u}$, $\boldsymbol{v}$, we have $|\langle \boldsymbol{u}, \boldsymbol{v}\rangle|\leq \lVert \boldsymbol{u}\rVert_2\lVert \boldsymbol{v}\rVert_2$, where $|\langle \cdot, \cdot\rangle|$ is the usual Euclidean inner product. Applying it to the coherence relation yields $|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}| \leq \lVert \boldsymbol{g}_{\mathrm{normalized}}\rVert_2\lVert \boldsymbol{\Psi_i}\rVert_2 = 1$, and consequently we obtain that $\mu(\boldsymbol{g, \Psi)} \leq \sqrt{n}$, as desired. Note that equality is achieved iff $\boldsymbol{g}$ is parallel to some column vector $\boldsymbol{\Psi_i}$ of $\boldsymbol{\Psi}$.
+Directly borrowing from the previous proof, $\mu(\boldsymbol{g, \Psi)} = \sqrt{n}\cdot\mathrm{max}_{i\in[n]}\;|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}|$.
+
+Now, by the Cauchy Schwartz inequality, for any two vectors $\boldsymbol{u}$, $\boldsymbol{v}$, we have $|\langle \boldsymbol{u}, \boldsymbol{v}\rangle|\leq \lVert \boldsymbol{u}\rVert_2\lVert \boldsymbol{v}\rVert_2$, where $|\langle \cdot, \cdot\rangle|$ is the usual Euclidean inner product.
+
+Applying it to the coherence relation yields $|\boldsymbol{g}_{\mathrm{normalized}}^T\boldsymbol{\Psi_i}| \leq \lVert \boldsymbol{g}_{\mathrm{normalized}}\rVert_2\lVert \boldsymbol{\Psi_i}\rVert_2 = 1$, and consequently we obtain that $\mu(\boldsymbol{g, \Psi)} \leq \sqrt{n}$, as desired.
+
+Note that equality is achieved iff $\boldsymbol{g}$ is parallel to some column vector $\boldsymbol{\Psi_i}$ of $\boldsymbol{\Psi}$.
 \end{proof}
 
 \newpage
@@ -235,16 +239,36 @@ We set up some notation first: Let
 \end{gather*}
 Now, we prove 3 lemmas, which when joined together will help us prove the above result.
 \subsection{Claim 1: $\boldsymbol{f(t) > e}\;\forall\;\boldsymbol{t < l_1}$}
-Assume for the sake of contradiction that $\boldsymbol{f(t) \leq e}$ for some $\boldsymbol{t < l_1}$. That means there exists a \textbf{minimizer} $\boldsymbol{x^{\prime}}$ such that $\boldsymbol{\lVert x^{\prime}\rVert_1\leq t < l_1}$ $\Rightarrow$ $\boldsymbol{\lVert x^{\prime}\rVert_1 < l_1}$ such that $\boldsymbol{f(t) = \lVert y - Ax^{\prime}\rVert_2 \leq e}$ by the premise of our assumption. But note that when we said $\boldsymbol{l_1 = } \mathrm{min}\boldsymbol{_{\lVert y - Ax\rVert_2 \leq e}\;\lVert x\rVert_1}$, it meant that \textbf{for all vectors} that kept the L2-norm of $\boldsymbol{y-Ax}$ below $\boldsymbol{e}$, their L1-norms were greater than $\boldsymbol{l_1}$, and for exactly one unique vector $\boldsymbol{x^*}$, was the minimum possible L1-norm $\boldsymbol{l_1}$ achieved. But note that we have now synthesized a vector $\boldsymbol{x^{\prime}}$ which manages to bound the L2-norm of $\boldsymbol{y-Ax}$ while also maintaining a L1-norm lesser than $\boldsymbol{l_1}$.\\
+Assume for the sake of contradiction that $\boldsymbol{f(t) \leq e}$ for some $\boldsymbol{t < l_1}$. That means there exists a \textbf{minimizer} $\boldsymbol{x^{\prime}}$ such that $\boldsymbol{\lVert x^{\prime}\rVert_1\leq t < l_1}$ $\Rightarrow$ $\boldsymbol{\lVert x^{\prime}\rVert_1 < l_1}$ such that $\boldsymbol{f(t) = \lVert y - Ax^{\prime}\rVert_2 \leq e}$ by the premise of our assumption.
+
+But note that when we said $\boldsymbol{l_1 = } \mathrm{min}\boldsymbol{_{\lVert y - Ax\rVert_2 \leq e}\;\lVert x\rVert_1}$, it meant that \textbf{for all vectors} that kept the L2-norm of $\boldsymbol{y-Ax}$ below $\boldsymbol{e}$, their L1-norms were greater than $\boldsymbol{l_1}$, and for exactly one unique vector $\boldsymbol{x^*}$, was the minimum possible L1-norm $\boldsymbol{l_1}$ achieved.
+
+But note that we have now synthesized a vector $\boldsymbol{x^{\prime}}$ which manages to bound the L2-norm of $\boldsymbol{y-Ax}$ while also maintaining a L1-norm lesser than $\boldsymbol{l_1}$.
+
 Thus, our premise that ``$\boldsymbol{f(t) \leq e}$ for some $\boldsymbol{t < l_1}$" is false, and consequently $\boldsymbol{f(t) > e}\;\forall\;\boldsymbol{t < l_1}$.
+
+
 \subsection{Claim 2: $\boldsymbol{f(l_1) \leq e}$}
-What does $\boldsymbol{f(l_1)}$ exactly signify? It denotes some minimizer $\boldsymbol{x_0}$ for which $\boldsymbol{\lVert y - Ax_0\rVert_2}$ is minimized, provided that $\boldsymbol{x_0}$ belongs to our constraint set $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 \leq \boldsymbol{l_1}\}$. Now, note that $\boldsymbol{x^*}$ is a member of our constraint set since $\boldsymbol{\lVert x^\rVert_1 = l_1 \leq l_1}$, because $\boldsymbol{x^*}$ was the argument for which the L1-norm $\boldsymbol{l_1}$ was achieved. We also know that $\boldsymbol{\lVert y - Ax^\rVert_2 \leq e}$ by the very definition of $\boldsymbol{x^*}$. Thus, since one member of our constraint set assigns to $\boldsymbol{y-Ax}$ a L2-norm $\leq$ $\boldsymbol{e}$, $\boldsymbol{f(l_1)}$, which is basically the minimum of $\boldsymbol{\lVert y - Ax\rVert_2}$ over our constraint set, the minimum will obviously be $\leq$ the value for any witness, in this case $\boldsymbol{x^*}$.
+
+What does $\boldsymbol{f(l_1)}$ exactly signify? It denotes some minimizer $\boldsymbol{x_0}$ for which $\boldsymbol{\lVert y - Ax_0\rVert_2}$ is minimized, provided that $\boldsymbol{x_0}$ belongs to our constraint set $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 \leq \boldsymbol{l_1}\}$. 
+
+Now, note that $\boldsymbol{x^*}$ is a member of our constraint set since $\boldsymbol{\lVert x^\rVert_1 = l_1 \leq l_1}$, because $\boldsymbol{x^*}$ was the argument for which the L1-norm $\boldsymbol{l_1}$ was achieved. We also know that $\boldsymbol{\lVert y - Ax^\rVert_2 \leq e}$ by the very definition of $\boldsymbol{x^*}$. 
+
+Thus, since one member of our constraint set assigns to $\boldsymbol{y-Ax}$ a L2-norm $\leq$ $\boldsymbol{e}$, $\boldsymbol{f(l_1)}$, which is basically the minimum of $\boldsymbol{\lVert y - Ax\rVert_2}$ over our constraint set, the minimum will obviously be $\leq$ the value for any witness, in this case $\boldsymbol{x^*}$.
+
 \subsection{All minimizers of $\boldsymbol{\lVert y - Ax\rVert_2}$ over $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 \leq \boldsymbol{l_1}\}$ have L1-norm $\boldsymbol{l_1}$}
-This claim follows naturally, since $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 \leq \boldsymbol{l_1}\}$ = $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 < \boldsymbol{l_1}\}\cup\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 = \boldsymbol{l_1}\}$. Now, by the proof of Claim 1, we have that $\boldsymbol{\lVert y - Ax\rVert_2}$ assumes values greater than $\boldsymbol{e}$ on $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 < \boldsymbol{l_1}\}$ (since the minimum possible value of $\boldsymbol{\lVert y - Ax\rVert_2}$ over this set is itself greater than $\boldsymbol{e}$), while from the proof of Claim 2 we know that there exists at-least one member (namely $\boldsymbol{x^*}$) of the set $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 = \boldsymbol{l_1}\}$ for which $\boldsymbol{\lVert y - Ax\rVert_2}$ assumes values (which include the minima) lesser than $\boldsymbol{e}$. Thus, every minimizer of $\boldsymbol{\lVert y - Ax\rVert_2}$ over $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 \leq \boldsymbol{l_1}\}$ must have the same L1-norm of $\boldsymbol{l_1}$.
+
+This claim follows naturally, since $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 \leq \boldsymbol{l_1}\}$ = $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 < \boldsymbol{l_1}\}\cup\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 = \boldsymbol{l_1}\}$. 
+
+Now, by the proof of Claim 1, we have that $\boldsymbol{\lVert y - Ax\rVert_2}$ assumes values greater than $\boldsymbol{e}$ on $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 < \boldsymbol{l_1}\}$ (since the minimum possible value of $\boldsymbol{\lVert y - Ax\rVert_2}$ over this set is itself greater than $\boldsymbol{e}$), while from the proof of Claim 2 we know that there exists at-least one member (namely $\boldsymbol{x^*}$) of the set $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 = \boldsymbol{l_1}\}$ for which $\boldsymbol{\lVert y - Ax\rVert_2}$ assumes values (which include the minima) lesser than $\boldsymbol{e}$. 
+
+Thus, every minimizer of $\boldsymbol{\lVert y - Ax\rVert_2}$ over $\{\boldsymbol{x}: \lVert\boldsymbol{x}\rVert_1 \leq \boldsymbol{l_1}\}$ must have the same L1-norm of $\boldsymbol{l_1}$.
 
 
-But from Claim 3, we are done: If it so happens that there exists another $\boldsymbol{z}$ (such that $\boldsymbol{\lVert z\rVert_1 = l_1}$) such that $\boldsymbol{\lVert y - Az\rVert_2 \leq e}$, then we note that the \emph{uniqueness} of $\boldsymbol{x^*}$ is violated, as $\boldsymbol{z}$ also becomes a minimizer for P1 (along with $\boldsymbol{x^*}$) since it satisfies the premise of P1 (which is $\boldsymbol{\lVert y - Ax\rVert_2 \leq e}$).\\
-Thus, we have that for $\boldsymbol{t = \mathrm{min}_{\lVert y - Ax\rVert_2 \leq e}\;\lVert x\rVert_1}$, both the problems P1 and Q1 have the \textbf{same unique minimizer}.\\
+But from Claim 3, we are done: If it so happens that there exists another $\boldsymbol{z}$ (such that $\boldsymbol{\lVert z\rVert_1 = l_1}$) such that $\boldsymbol{\lVert y - Az\rVert_2 \leq e}$, then we note that the \emph{uniqueness} of $\boldsymbol{x^*}$ is violated, as $\boldsymbol{z}$ also becomes a minimizer for P1 (along with $\boldsymbol{x^*}$) since it satisfies the premise of P1 (which is $\boldsymbol{\lVert y - Ax\rVert_2 \leq e}$).
+
+Thus, we have that for $\boldsymbol{t = \mathrm{min}_{\lVert y - Ax\rVert_2 \leq e}\;\lVert x\rVert_1}$, both the problems P1 and Q1 have the \textbf{same unique minimizer}.
+
 Hence proved.
 \end{proof}
 
@@ -275,16 +299,45 @@ Hence proved.
 \end{center}
 
 \subsection{Hardware Architecture}
-The primary goal of this paper is that given a finite amount of energy, how best can we \emph{configure} our hardware so that we get larger and larger amounts of reconstruction accuracy on lesser and lesser amounts of energy. Note that the term energy, in our context, can be assumed to be synonymous to the amount of computational resources available at our disposal, and thus the paper addresses a very important issue of extracting performance under low resources.\\
+The primary goal of this paper is that given a limited amount of energy, how best can we \emph{configure} our hardware so that we get larger and larger amounts of reconstruction accuracy on lesser and lesser amounts of energy. Note that the term energy, in our context, can be assumed to be synonymous to the amount of computational resources available at our disposal, and thus the paper addresses a very important issue of extracting performance under low resources. The paper aims at \textbf{wireless data transmission}.\\
 To that end, it proposes a new hardware architecture as shown here:
 \begin{center}
     \begin{figure}[!h]
-        \includegraphics[width=400px]{Proposed Hardware architecture.png}
+        \includegraphics[width=400px]{Proposed Hardware architecture.jpeg}
     \end{figure}
 \end{center}
-This paper combines two important ideas, one of which has been already discussed in the class: We define a parameter $M$, which denotes the rate at which the continuous stream of analog data is sampled and \textbf{then randomly encoded}. The second idea is that of \textbf{quantization}, which basically argues that analog signals should be \textbf{digitally quantized} based on a given \emph{bit resolution} $b$. It then proposes that we design a configurable hardware which takes as parameters $(M,b)$
-\subsection{Reconstruction Techniques}
-In this paper, the authors propose a novel algorithm they term \textbf{RapQCS}. The objective of this algorithm is to achieve as good a performance as possible, given that our energy budget (ie:- our computational resources) is constrained.
+This paper combines two important ideas, one of which has been already discussed in the class: We define a parameter $M$, which denotes the rate at which the continuous stream of analog data is sampled and \textbf{then randomly encoded}. The second idea is that of \textbf{quantization}, which basically argues that analog signals should be \textbf{digitally quantized} based on a given \emph{bit resolution} $b$. It then proposes that we design a configurable hardware which takes as parameters $(M,b)$.
+
+Thus, we can see how the paper foresees the need to convert analog to digital and incorporates that in the architecture.
+We have an analog signal $x$, which is n-dimensional. The sensors encode that into an M-dimensional vector y, and further use quantization to convert it into $\hat{y}$, which is a bit representation of the same.
+
+Basically, the cost saving is done, as we do not need to send the whole signal $x$. We only send $\hat{y}$ over the wireless network. This leads to several times reduction in evergy consumption
+
+The algorithmic task is to deduce $x$, given $\hat{y}$.
+
+
+
+
+\subsection{Cost Function and Algorithms used}
+In this paper, the authors propose a novel algorithm they term \textbf{RapQCS}, Rapid Quantized Compressive Sensing. The objective of this algorithm is to achieve as good a performance as possible, given that our energy budget (ie:- our computational resources) is constrained.
+
+We can think of two algorithms. One for reconstruction of the signal $x$ from $\hat{y}$, which includes algorithms like OMP, to implement basis pursuit. This paper focuses on one more algorithm, estimation of maximally efficient $M$ and $b$. The point is, in this QCS architecture, both sampling rate M and bit resolution b are configurable. Thus, we have a cost function, as follows-
+$$f_c(a) = P(M,b) = \frac{||\boldsymbol{x} - \hat x||_2}{||\boldsymbol{x}||_2} \times 100\%$$
+
+This is a multivariable cost function which is minimised using nearby $M$ and $b$ values and moving in the minimisign direction. The whole point is, our values of $M$ and $b$ are discrete, and thus we do a discrete gradient descent, and try to reach the optimum combination of $M$ and $b$.
+
+Thus, this paper improves upon the traditional methods by giving us-
+\begin{itemize}
+    \item A measure of performance of the algorithm in case of conversion from analog to digital signals, which is bound to happen in many applications
+    \item A method to optimize both $M$ and $b$, such that we can get the best combination which works under our cost constraints.
+\end{itemize}
+
+This has been used in measurement of biosignals like ECG, EMG, EEG and EOG. It uses Discrete Wavelet Transform as $\Phi$, as most of the signals are sparse in this basis. According to the paper, for typical biosignals, the local minimum given by the RapQCS algorithm has a $31.39\%–47.88\%$ probability to hit the global minimum.
+
+Hence, this paper builds on Compressive sensing Applications in digital data transmission and provides us tools to reduce energy consumption in wireless data transfer.
+
+
+
 
 \newpage
 
