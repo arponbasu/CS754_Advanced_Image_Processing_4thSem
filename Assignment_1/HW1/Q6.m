@@ -8,8 +8,8 @@
 
 % We obtain the T frames in the first step directly, rather
 % than going for T=3, 5 and 7 separately.
-% file_name='cars.avi';
-file_name='flame.avi';
+file_name='cars.avi';
+% file_name='flame.avi';
 % Please choose and un-comment the file you wish to use.
 
 addpath('./MMread');
@@ -29,7 +29,10 @@ frame_list=zeros(H,W,T);
 for index=1:T   
     frame=rgb2gray(video_data.frames(index).cdata);
     frame_list(:,:,index)=frame(Initial_H-H:Initial_H-1,Initial_W-W:Initial_W-1);
-    imshow(frame_list(:,:,index))
+    fig = figure('name',sprintf('Frame %d',index));
+    imshow(uint8(frame_list(:,:,index)));
+    title(sprintf('Frame %d',index));
+    saveas(fig,sprintf('Frame %d.png',index));
 end
 % By now, we have converted the first 7 frames to grayscale
 % We have also extracted the bottom-right section of size 120*240 from all

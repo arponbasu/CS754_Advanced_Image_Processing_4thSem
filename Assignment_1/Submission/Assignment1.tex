@@ -268,6 +268,85 @@ Hence proved.
 
 \section{Problem 6}
 
+Finally, a coding problem! Here, we have to simulate compressive sensing using artificial tools to mimic the hardware architecture and omp algorithm used for processing the snapshot. Let's begin!
+
+\subsection{Generating the snapshot}
+
+We begin with reading the \verb|cars.avi| video. We use the mmread functions provided to extract the required frames.
+We convert them to grayscale using the \verb|rgb2gray()| function. This is followed by extracting the $120\times240$ subsection from each frame. Finally we have our frames, which look like this.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=200px]{"Frame 1.png"}
+    \includegraphics[width=200px]{"Frame 2.png"}
+    \includegraphics[width=200px]{"Frame 3.png"}
+\end{figure}
+
+Now, we use random bernoulli matrices to obtain the coded snapshots of the frames. Using the equation $E = \sum \limits_{t=1}^TC_t \cdot F_t$, and adding zero mean Gaussian random noise of standard deviation 2 to it, we get the following snapshot.
+
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=300px]{"Coded_Snapshot_T=3.png"}
+\end{figure}
+
+
+\subsection{What are $A$ and $b$?}
+
+We already have the coded snapshot. Assume that $E$ and $F_t$ are vectorised. This is as follows-
+$$E = \sum \limits_{t=1}^TC_t \cdot F_t$$
+We can convert the $C_t$ vector into a diagonal matrix, which will convert the dot-product into a matrix multiplication. Thus, we can say that $\Phi = diag(C_t)$. This gives us the following-
+$$E = \sum \limits_{t=1}^T\Phi_t F_t$$
+Finally, we know that $F_t$ is sparse in DCT basis, thus we have a DCT basis representation of the vector $F_t$.
+Thus, we have, where $\Psi$ stands for the DCT matrix-
+$$F_t = \Psi \Theta_t$$
+
+Finally, we can combine the above equations to get-
+$$E = \sum \limits_{t=1}^T\Phi_t \Psi \Theta_t$$
+
+$$E = \boldsymbol{\Phi} \Psi \boldsymbol{\Theta}$$
+where $\boldsymbol{\Phi}$ stands for $[\Phi_1|\Phi_2|\cdots|\Phi_T]$ and $\boldsymbol{\Theta}$ stands for $[\Theta_1^t|\Theta_2^t|\cdots|\Theta_T^t]^t$
+
+Comparing with our equation, $Ax = b$, we have-
+\begin{itemize}
+    \item $b$ is the vector we have measured, and equals the vector $E$. It is of dimension $\mathbb{R}^{HW}$
+    \item $x$ is the vector which we need to estimate. It is denoted by the vector $\boldsymbol{\Theta}$ and is basically the information about all the frames at once. Subseuently, it is of dimension $\mathbb{R}^{HWT}$.
+    \item Finally, $A$ is the product of the matrices $\boldsymbol{\Phi}$ and $\Psi$. It is of dimension $\mathbb{R}^{HW \times HWT}$.
+\end{itemize}
+
+This way, we are able to convert our problem into the form $Ax=b$.
+
+\subsection{Pathwise Reconstruction}
+
+Now suppose we are dealing with patches instead of the whole image. Still, we have the same notion of $A$ and $b$.
+
+Let the height and width of a patch be $h$ and $w$. Let the number of frames be T.
+
+\begin{itemize}
+    \item $A = \Phi \Psi $, where $A$ is of dimension $\mathbb{R}^{hw \times hwT}$.
+    \item $\Phi$ is formed by horizontal concatenation of the diagonal matrices of the individual bernoulli coded matrices. It is of dimension $\mathbb{R}^{hw \times hwT}$.
+    \item $\Psi$ is the DCT coefficient matrix, obtained by the following code in matlab-\\
+    $\Psi =$ \verb|kron(dctmtx(p)', dctmtx(p)');|\\
+    This is because we need the 2D-DCT basis for reconstruction. Our signals are sparse in 2D-DCT.    
+    \item $b$ again is the signal which we are measuring. It is of the dimension $\mathbb{R}^{hw}$.
+    \item Finally, $x$ is the signal which we need to estimate. It is the combination of all the frames in question. Thus, it is of dimension $\mathbb{R}^{hwT}$.
+\end{itemize}
+
+\subsection{Error in OMP}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
