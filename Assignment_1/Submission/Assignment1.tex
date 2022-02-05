@@ -247,11 +247,11 @@ Hence proved.
     \hline
     \multicolumn{2}{|c|}{Paper Details} \\
     \hline
-    Title of the Paper& \textbf{A Configurable Energy-Efficient Compressed
+    Title of the Paper& A Configurable Energy-Efficient Compressed
     Sensing Architecture With Its Application
-    on Body Sensor Networks}\\
+    on Body Sensor Networks\\
     \hline
-    Link of the paper  &  https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7279137\&tag=1  \\
+    Link of the paper  &  \href{https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=7279137\&tag=1}{\textbf{Click Here}}  \\
     \hline
     Publisher & IEEE \\
     \hline
@@ -263,6 +263,18 @@ Hence proved.
     
    \end{tabular}
 \end{center}
+
+\subsection{Hardware Architecture}
+The primary goal of this paper is that given a finite amount of energy, how best can we \emph{configure} our hardware so that we get larger and larger amounts of reconstruction accuracy on lesser and lesser amounts of energy. Note that the term energy, in our context, can be assumed to be synonymous to the amount of computational resources available at our disposal, and thus the paper addresses a very important issue of extracting performance under low resources.\\
+To that end, it proposes a new hardware architecture as shown here:
+\begin{center}
+    \begin{figure}[!h]
+        \includegraphics[width=400px]{Proposed Hardware architecture.png}
+    \end{figure}
+\end{center}
+This paper combines two important ideas, one of which has been already discussed in the class: We define a parameter $M$, which denotes the rate at which the continuous stream of analog data is sampled and \textbf{then randomly encoded}. The second idea is that of \textbf{quantization}, which basically argues that analog signals should be \textbf{digitally quantized} based on a given \emph{bit resolution} $b$. It then proposes that we design a configurable hardware which takes as parameters $(M,b)$
+\subsection{Reconstruction Techniques}
+In this paper, the authors propose a novel algorithm they term \textbf{RapQCS}. The objective of this algorithm is to achieve as good a performance as possible, given that our energy budget (ie:- our computational resources) is constrained.
 
 \newpage
 
@@ -326,7 +338,9 @@ Let the height and width of a patch be $h$ and $w$. Let the number of frames be 
     \item $A = \Phi \Psi $, where $A$ is of dimension $\mathbb{R}^{hw \times hwT}$.
     \item $\Phi$ is formed by horizontal concatenation of the diagonal matrices of the individual bernoulli coded matrices. It is of dimension $\mathbb{R}^{hw \times hwT}$.
     \item $\Psi$ is the DCT coefficient matrix, obtained by the following code in matlab-\\
-    $\Psi =$ \verb|kron(dctmtx(p)', dctmtx(p)');|\\
+    \begin{center}
+        $\Psi =$ \verb|kron(dctmtx(p)', dctmtx(p)');|\\
+    \end{center}
     This is because we need the 2D-DCT basis for reconstruction. Our signals are sparse in 2D-DCT.    
     \item $b$ again is the signal which we are measuring. It is of the dimension $\mathbb{R}^{hw}$.
     \item Finally, $x$ is the signal which we need to estimate. It is the combination of all the frames in question. Thus, it is of dimension $\mathbb{R}^{hwT}$.
@@ -334,13 +348,120 @@ Let the height and width of a patch be $h$ and $w$. Let the number of frames be 
 
 \subsection{Error in OMP}
 
+We have added a Gaussian noise of standard deviation 2 to each pixel of the coded snapshot. Let us deal with one patch at a time.
+
+We know that the size of a patch = $m$ = $p*p$. Assuming that the error dies out within 3 standard deviations, we have the combined error of the image as follows-
+$$ ||\eta||^2 = 9*\sigma^2*m $$.
+According to Compressive sensing theory, our epsilon (error magnitude) should always be greater than the noise. Thus, with a patch size of 8*8 and noise from Gaussian distribution with std=2, we have-
+$$ \epsilon \geq 9*4*64 $$
+$$ \epsilon \geq 2304 $$
+
+Since we are measuring the error in terms of norm($\eta$) rather than $|\eta|^2$, we have the error metric in the OMP as-
+$$ ||\eta||_2 \leq \epsilon$$, where $\epsilon = \sqrt{2304} \approx 48$
+
+Using this value of error term, we observe that the OMP algorithm completes in around 5-20 iterations for each image and we also get good results. This indicates the correctness of choosing a correct $\epsilon$.
+
+\newpage
+\subsection{Results}
+
+\subsection{Coded Snapshots- Cars}
+\begin{center}
+    \includegraphics[width=200px]{"Coded_Snapshot_T=3.png"}
+    \includegraphics[width=200px]{"Coded_Snapshot_T=5.png"}
+    \includegraphics[width=200px]{"Coded_Snapshot_T=7.png"}
+\end{center}
+
+\subsection{Coded Snapshots- Flame}
+\begin{center}
+    \includegraphics[width=200px]{"fCoded_Snapshot_T=5.png"}
+\end{center}
+Results of T=3 and T=7 for the \verb|flame.avi| were not asked for, but are included in the results folder, if you wish to see them.
+
+\newpage
+\subsubsection{Cars, T=3}
+We observed a Relative Mean Squared Error = 0.0111
 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=200px]{"Frame 1.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=3, frame number=1.png"}
+    \includegraphics[width=200px]{"Frame 2.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=3, frame number=2.png"}
+    \includegraphics[width=200px]{"Frame 3.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=3, frame number=3.png"}
+\end{figure}
+
+\newpage
+
+\subsubsection{Cars, T=5}
+
+We observed a Relative Mean Squared Error = 0.0191
 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=200px]{"Frame 1.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=5, frame number=1.png"}
+    \includegraphics[width=200px]{"Frame 2.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=5, frame number=2.png"}
+    \includegraphics[width=200px]{"Frame 3.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=5, frame number=3.png"}
+    \includegraphics[width=200px]{"Frame 4.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=5, frame number=4.png"}
+    \includegraphics[width=200px]{"Frame 5.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=5, frame number=5.png"}
+\end{figure}
+
+\newpage
+
+\subsubsection{Cars, T=7}
+
+We observed a Relative Mean Squared Error =  0.0277
 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=200px]{"Frame 1.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=7, frame number=1.png"}
+    \includegraphics[width=200px]{"Frame 2.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=7, frame number=2.png"}
+    \includegraphics[width=200px]{"Frame 3.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=7, frame number=3.png"}
+    \includegraphics[width=200px]{"Frame 4.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=7, frame number=4.png"}
+    \includegraphics[width=200px]{"Frame 5.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=7, frame number=5.png"}
 
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=200px]{"Frame 6.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=7, frame number=6.png"}
+    \includegraphics[width=200px]{"Frame 7.png"}
+    \includegraphics[width=200px]{"Reconstruction- T=7, frame number=7.png"}
+\end{figure}
+
+\newpage
+
+\subsubsection{Flame, T=5}
+
+We observed a Relative Mean Squared Error = 0.0012
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=200px]{"fFrame 1.png"}
+    \includegraphics[width=200px]{"fReconstruction- T=5, frame number=1.png"}
+    \includegraphics[width=200px]{"fFrame 2.png"}
+    \includegraphics[width=200px]{"fReconstruction- T=5, frame number=2.png"}
+    \includegraphics[width=200px]{"fFrame 3.png"}
+    \includegraphics[width=200px]{"fReconstruction- T=5, frame number=3.png"}
+    \includegraphics[width=200px]{"fFrame 4.png"}
+    \includegraphics[width=200px]{"fReconstruction- T=5, frame number=4.png"}
+    \includegraphics[width=200px]{"fFrame 5.png"}
+    \includegraphics[width=200px]{"fReconstruction- T=5, frame number=5.png"}
+\end{figure}
 
 
 
