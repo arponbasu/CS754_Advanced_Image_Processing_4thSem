@@ -3,9 +3,7 @@
 % 200050013 & 200050130
 
 % We start with adding the code for the reading the cars
-% We extract first T frames, and convert to grayscale
-
-
+%% a) We extract first T frames, and convert to grayscale
 % We obtain the T frames in the first step directly, rather
 % than going for T=3, 5 and 7 separately.
 % file_name='cars.avi';
@@ -19,7 +17,6 @@ video_data=mmread(file_name,1:T,[],false,true);
 
 H = 120;
 W = 240;
-epsilon = 10;
 
 Initial_H=video_data.height;
 Initial_W=video_data.width;
@@ -35,51 +32,40 @@ end
 % We have also extracted the bottom-right section of size 120*240 from all
 % the frames
 
+frame_list_3 = frame_list(:,:,1:3);
+frame_list_5 = frame_list(:,:,1:5);
+frame_list_7 = frame_list(:,:,1:7);
+%This gives us the required working set.
 
-% Generation of Random Code matrix.
+
+
+%% b) Generation of Random Code matrix.
 
 Random_C=randi([0 1],H,W,T);
 
+Random_C_3 = Random_C(:,:,1:3);
+Random_C_5 = Random_C(:,:,1:5);
+Random_C_7 = Random_C(:,:,1:7);
+% This gives us the required measurement matrices which are randomly generated bernoulli matrices. 
 
 gaussian_noise_stddev = 2;
 gaussian_noise_mean = 0;
 
 gaussian_noise=gaussian_noise_mean + rand([H,W])*gaussian_noise_stddev;
-% Creation of the gaussian noise matrix to be added to the coded snapshot.
+% This creates the gaussian noise matrix to be added to the coded snapshot.
 
-
-frame_list_3 = frame_list(:,:,1:3);
-%This gives us the required working set of frames.
-Random_C_3 = Random_C(:,:,1:3);
-% This gives us the required measurement matrices which are randomly generated bernoulli matrices. 
 E_3 = generate_snapshot(H,W,frame_list_3, 3, Random_C_3,gaussian_noise);
-%Coded snapshot has been generated.
-I_recon_3 = reconstruction_omp(Random_C_3, E_3, 8, epsilon);
-Mean_Squared_Error_3 = mean((I_recon_3 - frame_list_3).^2,'all') / mean(frame_list_3.^2, 'all')
-
-
-
-
-frame_list_5 = frame_list(:,:,1:5);
-%This gives us the required working set of frames.
-Random_C_5 = Random_C(:,:,1:5);
-% This gives us the required measurement matrices which are randomly generated bernoulli matrices. 
 E_5 = generate_snapshot(H,W,frame_list_5, 5, Random_C_5,gaussian_noise);
-I_recon_5 = reconstruction_omp(Random_C_5, E_5, 8, epsilon);
-Mean_Squared_Error_5 = mean((I_recon_5 - frame_list_5).^2,'all') / mean(frame_list_5.^2, 'all')
-
-
-
-
-
-frame_list_7 = frame_list(:,:,1:7);
-%This gives us the required working set of frames.
-Random_C_7 = Random_C(:,:,1:7);
-% This gives us the required measurement matrices which are randomly generated bernoulli matrices. 
 E_7 = generate_snapshot(H,W,frame_list_7, 7, Random_C_7,gaussian_noise);
-I_recon_7 = reconstruction_omp(Random_C_7, E_7, 8, epsilon);
-Mean_Squared_Error_7 = mean((I_recon_7 - frame_list_7).^2,'all') / mean(frame_list_7.^2, 'all')
 
+I_recon_3 = reconstruction_omp(Random_C_3, E_3, 8, 100);
+I_recon_5 = reconstruction_omp(Random_C_5, E_5, 8, 100);
+I_recon_7 = reconstruction_omp(Random_C_7, E_7, 8, 100);
+
+
+
+Mean_Squared_Error = mean((I_recon_3 - frame_list_3).^2,'all') / mean(frame_list_3.^2, 'all');
+fprintf("rmse = %0.4f \n", Mean_Squared_Error);
 
 
 
@@ -124,10 +110,10 @@ function reconstructed_frames = reconstruction_omp(encoding_code, encoded_frames
     reconstructed_frames = zeros(Height, Width, number_of_frames);
     count_matrix = zeros(Height, Width, number_of_frames);
     square_size = size_patch*size_patch;
-    for h = 1 : Height - size_patch + 1
-%         h
-%         to keep track of algorithm
-        for w = 1 : Width - size_patch + 1
+    for h = 1 :2: Height - size_patch + 1
+        h
+%       to keep track of algorithm
+        for w = 1:2: Width - size_patch + 1
             
             encoding_patch = encoding_code(h:h+size_patch-1, w:w+size_patch-1,:);
             A = zeros(square_size, square_size*number_of_frames);
@@ -139,55 +125,84 @@ function reconstructed_frames = reconstruction_omp(encoding_code, encoded_frames
             end
         frames_patch = encoded_frames(h:h+size_patch-1, w:w+size_patch-1);
         y_vector = reshape(frames_patch, square_size, 1);
-
-        theta = omp_for_loop(A, y_vector, error_limit, square_size);
+        theta = omp_for_loop(A, y_vector, error_limit);
         
+%         theta = omp(y_vector, A, error_limit);
+%         size(y_vector)
+%         size(dct_2d_psi_matrix)
+%         size(theta)
+%         size(dct_2d_psi_matrix)
+        p = size_patch;
         for k=1:number_of_frames
-            i_t = dct_2d_psi_matrix * theta((k-1)*size_patch*size_patch+1:k*size_patch*size_patch,:);
-            f = reshape(i_t, size_patch, size_patch);
+            i_t = dct_2d_psi_matrix * theta((k-1)*p*p+1:k*p*p,:);
+            f = reshape(i_t, p, p);
             f = max(f,0);
             f = min(f, 255);
-            reconstructed_frames(h:h+size_patch-1, w:w+size_patch-1,k) = reconstructed_frames(h:h+size_patch-1, w:w+size_patch-1,k) + f;
-            count_matrix(h:h+size_patch-1, w:w+size_patch-1,k) = count_matrix(h:h+size_patch-1, w:w+size_patch-1,k) + ones(size_patch,size_patch);
+            reconstructed_frames(h:h+p-1, w:w+p-1,k) = reconstructed_frames(h:h+p-1, w:w+p-1,k) + f;
+            count_matrix(h:h+p-1, w:w+p-1,k) = count_matrix(h:h+p-1, w:w+p-1,k) + ones(p,p);
         end
         end
     end
-    count_matrix = max(count_matrix, 1);
     reconstructed_frames = reconstructed_frames./count_matrix;
 
     for i=1:number_of_frames
-        title_name = sprintf('Reconstruction for T=%d, frame number=%d',number_of_frames, i);
-        fig = figure('name',title_name);
-        imshow(uint8(reconstructed_frames(:,:,i)));
-        title(title_name);
-        saveas(fig,sprintf('Reconstruction- T=%d, frame number=%d.png',number_of_frames, i));
+        figure();
+        imshow(uint8(I_recon_3(:,:,t)));
     end
+
+%     size(reconstructed_frames)
 end
 
 
     
 
 
-function theta = omp_for_loop(A, y, error_limit, square_size)
+function theta = omp_for_loop(A, y, error_limit)
     r = y;
     support_set = zeros(1,size(A,2));
     Count_index = 0;
     normalised_A = A./sqrt(sum(A.^2));
     theta = zeros(size(A, 2), 1);
-    norm_r = sqrt(sum(r.^2));
-    while(norm_r>error_limit && Count_index<square_size)
+%     norm_r = sqrt(sum(r.^2));
+    while(norm(r)>error_limit && Count_index<64)
         Count_index = Count_index+1;
         [~, max_val_index] = max(abs(r' * normalised_A));
         support_set(Count_index) = max_val_index;
         A_support = A(:,support_set(1:Count_index));
         theta(support_set(1:Count_index)) = pinv(A_support)* y;
         r = y - A_support * theta(support_set(1:Count_index));
-        norm_r = sqrt(sum(r.^2));
+%         norm_r = sqrt(sum(r.^2));
+%         norm(r)
+%         size(A_support)
     end
+%     Count_index
+%     norm(r)
+%     size(theta)
 end
 
 
-
+% 
+% function theta_opt = omp(y, A, epsilon)
+%     % Orthogonal Matching Pursuit
+%     r = y;
+%     theta = zeros(size(A, 2), 1);
+%     i = 0;
+%     T = [];
+%     A_N = normc(A);
+%     while (norm(r) > epsilon && i < 64)
+%         [~, j] = max(abs(r' * A_N));
+%         T = [T j];
+%         i = i + 1;
+%         A_T_i = A(:, T);
+%         theta(T) = pinv(A_T_i) * y;
+%         r = y - A_T_i * theta(T);
+% %         norm(r)
+% %         i
+%     end
+%     i
+%     theta_opt = theta;
+% end
+%     
 
       
 
