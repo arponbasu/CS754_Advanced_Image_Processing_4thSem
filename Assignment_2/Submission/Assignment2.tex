@@ -20,8 +20,6 @@
 \usepackage{xcolor}
 \usepackage{floatrow}
 \usepackage{siunitx}
-
-
 \usepackage{cancel}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
@@ -83,11 +81,45 @@ Hope you enjoy reading the report. Here we go!
 
 
 \section{Problem 2}
+(a) First of all, note that $\boldsymbol{\Phi x = \Phi_S\widetilde{x}}$, since all other entries of $\boldsymbol{x}$ are zero, and hence all the corresponding columns of $\boldsymbol{\Phi}$ get nullified. Now, we introduce the notion of \textbf{pseudo-inverse} as mentioned in the question: For any matrix $A$ (which can be rectangular too), there exists a unique \textbf{Moore-Penrose pseudo-inverse} $A^{\dagger}$ which mimics many of the properties that the actual inverse satisfies. In particular, if it so happens that the columns of $A$ are linearly independent, then $A^{\dagger}A = I$. Also note that since we are assuming $\boldsymbol{\Phi}$ satisfies RIC of order $S$, it automatically implies that any $S$ columns of $\boldsymbol{\Phi}$ are linearly independent. Thus hereon we can assume WLOG that $\boldsymbol{\Phi^{\dagger}_S\Phi_S = I}$.\\
+Armed with this knowledge, it's very easy to determine the oracular solution: Note that while deriving any \textbf{deterministic} theoretical solution, we must ignore the noise $\boldsymbol{\eta}$ as we have no precise way of quantifying it apart from an upper bound on it's norm. Thus, $\boldsymbol{y_{\mathrm{theoretical}} = \Phi x = \Phi_s \widetilde{x}}$, and thus 
+$$\boldsymbol{\widetilde{x} = \Phi_S^{\dagger}y_{\mathrm{theoretical}}}$$
+Note that we don't actually know the value of $\boldsymbol{y_{\mathrm{theoretical}}}$. This is a shortcoming that is fixed below.
+\\
+(b) Clearly 
+\begin{gather*}
+\boldsymbol{y = \Phi x + \eta = \Phi_S\widetilde{x} + \eta} \\
+\Rightarrow \boldsymbol{\Phi^{\dagger}_S y = \Phi_S^{\dagger}\Phi_S \widetilde{x} + \Phi_S^{\dagger}\eta = \widetilde{x} + \Phi_S^{\dagger}\eta}
+\end{gather*}
+Treating $\boldsymbol{\Phi^{\dagger}_S y}$ as the ``actual" $\boldsymbol{x}$, we get that 
+\begin{gather*}
+    \boldsymbol{x = \widetilde{x} + \Phi^{\dagger}_S\eta}\\
+    \Rightarrow\boldsymbol{\lVert x-\widetilde{x}\rVert_2 = \lVert\Phi_S^{\dagger}\eta\rVert_2 }
+\end{gather*}
+Now, from the theory of \textbf{Singular Value Decomposition} we recall that the largest singular value of any matrix $A$ could be framed as the maximum of the following optimization problem
+$$\boldsymbol{\sigma_{\mathrm{max}} = \lVert A\rVert_2 = \mathrm{max}_{\lVert x\rVert_2 = 1}\lVert Ax\rVert_2}$$
+Then it's a direct consequence of the above maximization that $\boldsymbol{\lVert\Phi_S^{\dagger}\eta\rVert_2 \leq \lVert\Phi_S^{\dagger}\rVert_2\lVert\eta\rVert_2}$, as desired.
+\\
+(c) From the theory of \textbf{Singular Value Decomposition} we know that the singular values of any matrix $A$ are the \textbf{square roots of the eigenvalues of $AA^*$} (note that the eigenvalues of $AA^*$ are non-negative by the Spectral theorem since $AA^*$ is Hermitian). Thus, to calculate the singular values of $\boldsymbol{\Phi_S^{\dagger}}$, we first evaluate the matrix $\boldsymbol{\Phi_S^{\dagger}}\boldsymbol{\Phi_S^{\dagger^{*}}}$ 
+$$\boldsymbol{\Phi_S^{\dagger}\Phi_S^{\dagger^{*}} = ((\Phi_S^*\Phi_S)^{-1}\Phi_S)(\Phi_S^*(\Phi_S^*\Phi_S)^{-1}) = (\Phi_S^*\Phi_S)^{-1}}$$
+Thus, $\boldsymbol{\Phi_S^{\dagger}\Phi_S^{\dagger^{*}} = (\Phi_S^*\Phi_S)^{-1}}$. Now, we utilise a linear algebra property which says that if $\lambda$ is an eigenvalue of an invertible matrix $A$, then $\frac{1}{\lambda}$ will be an eigenvalue of the matrix $A^{-1}$. \\
+Since $\boldsymbol{\Phi_S^*\Phi_S}$ is obviously invertible, the eigenvalues of $\boldsymbol{(\Phi_S^*\Phi_S)^{-1}}$ are the reciprocals of the eigenvalues of $\boldsymbol{\Phi_S^*\Phi_S}$.\\
+Now, since $\boldsymbol{\Phi}$ is RIC with order $|S| = 2k$, from the slides (\texttt{CS\_Theory, Pg.101/109}) we have that $\boldsymbol{\delta_{2k}}$ = max$\boldsymbol{(\lambda_{\mathrm{max}}-1, 1-\lambda_{\mathrm{min}})}$ where $\boldsymbol{\lambda_{\mathrm{max}}}$ is the maximum eigenvalue of $\boldsymbol{\Phi_{\Gamma}\Phi_{\Gamma}^*}$ and $\boldsymbol{\lambda_{\mathrm{min}}}$ is the minimum eigenvalue of $\boldsymbol{\Phi_{\Gamma}\Phi_{\Gamma}^*}$ over all possible sets $\boldsymbol{\Gamma\subseteq[n],\;|\Gamma| \leq |S|}$ (note that $\boldsymbol{\lambda_{\mathrm{max}}}$ and $\boldsymbol{\lambda_{\mathrm{min}}}$ both don't necessarily come from some same set $\boldsymbol{\Gamma}$). Then, considering the fact that $\boldsymbol{\Phi_{\Gamma}\Phi_{\Gamma}^*}$ and $\boldsymbol{\Phi_{\Gamma}^*\Phi_{\Gamma}}$ have the same non-zero eigenvalues, we see that every eigenvalue of $\boldsymbol{\Phi_S^*\Phi_S}$ lies in $\boldsymbol{[1-\delta_{2k}, 1+\delta_{2k}]}$ (because note that $S$ is just an instance of $\boldsymbol{\Gamma}$ and  $\boldsymbol{\delta_{2k}}$ = max$\boldsymbol{(\lambda_{\mathrm{max}}-1, 1-\lambda_{\mathrm{min}})}$ implies that all eigenvalues, are first bounded by $\boldsymbol{\lambda_{\mathrm{max}}}$ and $\boldsymbol{\lambda_{\mathrm{min}}}$ which are in turn bounded by $\boldsymbol{1-\delta_{2k}}$ and $\boldsymbol{1+\delta_{2k}}$. Refer to the solution of Q3 for an elaboration of the same), and consequently \textbf{EVERY} singular value of $\boldsymbol{\Phi_S^{\dagger}}$, which as we showed above were the square roots of the reciprocals of the eigenvalues of $\boldsymbol{\Phi_S^*\Phi_S}$, must lie within $\boldsymbol{[\frac{1}{\sqrt{1+\delta_{2k}}}, \frac{1}{\sqrt{1-\delta_{2k}}}]}$, as desired.
+\\
+(d) Note that Thm. 3 said that $\boldsymbol{\lVert x^* - x\rVert_2\leq\frac{C_0}{\sqrt{S}}\lVert x-\widetilde{x}\rVert_2 + C_1\epsilon}$. But we already know that $\boldsymbol{\lVert x-\widetilde{x}\rVert_2\leq\frac{\epsilon}{\sqrt{1-\delta_{2k}}}\leq\frac{\epsilon}{\sqrt{2-\sqrt{2}}}}$, since $\boldsymbol{\delta_{2k} \leq \sqrt{2} - 1}$ for Thm. 3 to hold.\\
+Thus, $\boldsymbol{\lVert x^* - x\rVert_2\leq(\frac{C_0}{\sqrt{(2-\sqrt{2})S}} + C_1)\epsilon}$, and since $C_0$ and $C_1$ are known bounded constants we obtain that both the solutions are some constant factors of $\boldsymbol{\epsilon}$, and consequently some constant factors of each other.
+
+
 
 
 
 
 \section{Problem 3}
+% We establish a certain lemma first before proving the asked for result.
+% \subsection{The Submatrix Lemma}
+% \textbf{Claim: } Let $A \in \mathbb{K}^{m\times n}$ be a matrix and let $A_s \in \mathbb{K}^{m\times s}$ be a submatrix of $A$. Then all the eigenvalues of $A_s^{*}A_s$ are also eigenvalues of $A^{*}A$.\\
+% \textbf{Proof: } Notice that the sampling of $A_s$ from $A$ can be done via a \textbf{selection matrix} $B\in\mathbb{K}^{n\times s}$ such that $A_s = AB$. Notice that the columns of $B$ are just ``one-hot" columns corresponding to the columns of $A$ which were sampled to make $A_s$.\\
+% Then, note that $A_s^*A_sx = \lambda x$ $\Rightarrow$ $(AB)^*(AB)x = \lambda x$ $\Rightarrow$
 
 
 
@@ -98,8 +130,15 @@ Hope you enjoy reading the report. Here we go!
 
 
 \section{Problem 5}
-
-
+\textbf{SHASHWAT CLARIFY:} SIR ASKED US TO DERIVE AN APPROPRIATE CONSTRAINT on $\epsilon^{\prime}$. MY PROOF BELOW WORKS WITHOUT ANY SUCH CONSTRAINTS. KINDLY LOOK INTO IT IF YOU HAVE TIME. PLUS MY PROOF IS TOO SHORT BUT IDK HOW TO EXTEND IT.\\
+Let
+\begin{gather*}
+    \boldsymbol{x^* := \mathrm{min}_{x\in\mathbb{K}^n}(\lVert y-\Phi x\rVert^2_2 + \lambda\lVert x\rVert_1)}\\
+    \boldsymbol{\epsilon^{\prime} := \lVert y-\Phi x^*\rVert_2}\\
+    \boldsymbol{A_t := \{x_0: x_0 \in \mathbb{K}^n;\;\lVert y-\Phi x_0\rVert_2\leq t\}}
+\end{gather*}
+Thus the sample space of the problem P1 for any given $\boldsymbol{\epsilon}$ is $\boldsymbol{A_{\epsilon}}$. Now, choose $\boldsymbol{\epsilon = \epsilon^{\prime}}$. Thus, $\boldsymbol{\lVert y-\Phi x\rVert_2 \leq \epsilon^{\prime}}$ $\forall$ $\boldsymbol{x\in A_{\epsilon^{\prime}}}$. But since the value of $\boldsymbol{\lVert y-\Phi x\rVert_2}$ over $\boldsymbol{A_{\epsilon^{\prime}}}$ is lesser than or equal to $\boldsymbol{\epsilon^{\prime}}$, we have that their L1 norms should be greater than or equal to $\boldsymbol{\lVert x^*\rVert_1}$ because otherwise if there existed $\boldsymbol{x^{\prime}\in A_{\epsilon^{\prime}}}$ such that $\boldsymbol{\lVert y-\Phi x^{\prime}\rVert_2 \leq \epsilon^{\prime}}$ and $\boldsymbol{\lVert x^{\prime}\rVert_1 < \lVert x^*\rVert_1}$, then $\boldsymbol{J(x^{\prime}) < J(x^*)}$, contradicting the minimality of $\boldsymbol{x^*}$.\\
+Thus $\boldsymbol{\lVert x^{\prime}\rVert_1 \geq \lVert x^{*}\rVert_1}$ $\forall$ $\boldsymbol{x^{\prime}\in A_{\epsilon^{\prime}}}$ (note that $\boldsymbol{x^*\in A_{\epsilon^{\prime}}}$ too). Thus, the set of vectors with minimum L1-norms in $\boldsymbol{A_{\epsilon^{\prime}}}$ includes $\boldsymbol{x^*}$, and consequently $\boldsymbol{x^*}$ is a minimizer for problem P1 too (although note that without additional information we can't say if $\boldsymbol{x^*}$ is the unique minimizer of P1 or not).
 
 
 \section{Problem 6}
@@ -120,3 +159,5 @@ Hope you enjoy reading the report. Here we go!
 
 
 \end{document}
+
+This claim follows almost immediately from a result mentioned in the slides, which is that $\boldsymbol{\delta_{2k}}$ = max$\boldsymbol{(\lambda_{\mathrm{max}}-1, 1-\lambda_{\mathrm{min}})}$, where $\boldsymbol{\lambda_{\mathrm{max}}}$ is the maximum eigenvalue of $\boldsymbol{\Phi_{\Gamma}\Phi_{\Gamma}^*}$ and $\boldsymbol{\lambda_{\mathrm{min}}}$ is the minimum eigenvalue of $\boldsymbol{\Phi_{\Gamma}\Phi_{\Gamma}^*}$ over all possible sets $\boldsymbol{\Gamma\subseteq[n],\;|\Gamma| \leq |S|}$ (note that $\boldsymbol{\lambda_{\mathrm{max}}}$ and $\boldsymbol{\lambda_{\mathrm{min}}}$ both don't necessarily come from some same set $\boldsymbol{\Gamma}$). Now, for any $\boldsymbol{\lambda}$ which is an eigenvalue of some $\boldsymbol{}$
