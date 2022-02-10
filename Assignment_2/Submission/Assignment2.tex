@@ -79,6 +79,63 @@ Hope you enjoy reading the report. Here we go!
 
 
 
+\subsection{Given $\delta_{2s}=1$}
+
+In this case, our RIP theorem inequality becomes-
+$$0 \leq \norm{\Phi h}_2^2 \leq 2 \norm{h}_2^2$$
+where $h$ is a 2s-sparse vector.
+
+We know that $\delta_{2s}$ is the smallest number such that the above holds for all s-sparse vectors for the matrix $\Phi$.
+
+This means that, unless the $\delta_{2s}=1$ is present to take care of the upper bound on $\norm{\Phi h}_2^2$, there will exist an s-sparse vector such that $\norm{\Phi h}_2^2=0$, which implies that $\Phi h =\boldsymbol{0}$. Denoting the columns of $\Phi$ as $C_1, C_2 \cdots C_n$ and the entries of $h$ as $a_1, a_2, \cdots a_n$, we can get that-
+$$ \sum_{i=1}^n C_i \cdot a_i = 0 $$
+
+If we focus only on the non-zero $a_i$, where $h \neq 0$, we can get a linear combination of 2s columns of $\Phi$ which sums up to 0. Thus, in this case, 2s columns of $\Phi$ are linearly dependent.
+
+Hence, when $\delta_{2s}=1$, 2s columns of $\Phi$ may be linearly dependent.
+
+\subsection{Triangle Inequality}
+
+We are trying to solve the following-
+
+$$ \min_{\tilde{x} \in \mathbb{R}^n} \norm{\tilde{x}}_1 ~where ~\norm{y - \Phi \tilde{x}}_2 \leq \epsilon $$
+
+The solution we receive is called $x^*$ and the actual, true, unknown solution is called $x$. Now, note that our reconstruction demands that  $\norm{y - \Phi x^*}_2 \leq \epsilon$
+
+This implies that $x^*$ will also obey the same property.
+
+Secondly, in the premise of the Theorem, we assume that the noise magnitude is less than $\epsilon$. This is one of the factors we take into account while choosing the $\epsilon$ value. Hence, by choice of $\epsilon$ in noise, we get that
+$\norm{y - \Phi x}_2 \leq \epsilon$.
+
+Finally, with these two tools, we can use the Triangle Inequality as follows-
+$$\norm{\Phi(x^* - x)}_2 = \norm{(\Phi x^* - y) + (y - \Phi x)}_2 \leq \norm{\Phi x^* - y}_2 + \norm{y-\Phi x}_2$$
+Using the two arguments above, we can say that-
+$$\norm{\Phi x^* - y}_2 + \norm{y-\Phi x}_2 \leq \epsilon + \epsilon = 2\epsilon$$
+Thus, finally, we get that 
+$$\norm{\Phi(x^* - x)}_2 \leq \norm{\Phi x^* - y}_2 + \norm{y-\Phi x}_2 \leq 2\epsilon$$
+Hence, proved.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Problem 2}
 (a) First of all, note that $\boldsymbol{\Phi x = \Phi_S\widetilde{x}}$, since all other entries of $\boldsymbol{x}$ are zero, and hence all the corresponding columns of $\boldsymbol{\Phi}$ get nullified. Now, we introduce the notion of \textbf{pseudo-inverse} as mentioned in the question: For any matrix $A$ (which can be rectangular too), there exists a unique \textbf{Moore-Penrose pseudo-inverse} $A^{\dagger}$ which mimics many of the properties that the actual inverse satisfies. In particular, if it so happens that the columns of $A$ are linearly independent, then $A^{\dagger}A = I$. Also note that since we are assuming $\boldsymbol{\Phi}$ satisfies RIC of order $S$, it automatically implies that any $S$ columns of $\boldsymbol{\Phi}$ are linearly independent. Thus hereon we can assume WLOG that $\boldsymbol{\Phi^{\dagger}_S\Phi_S = I}$.\\
