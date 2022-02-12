@@ -91,7 +91,7 @@ We know that $\delta_{2s}$ is the smallest number such that the above holds for 
 This means that, unless the $\delta_{2s}=1$ is present to take care of the upper bound on $\norm{\Phi h}_2^2$, there will exist an s-sparse vector such that $\norm{\Phi h}_2^2=0$, which implies that $\Phi h =\boldsymbol{0}$. Denoting the columns of $\Phi$ as $C_1, C_2 \cdots C_n$ and the entries of $h$ as $a_1, a_2, \cdots a_n$, we can get that-
 $$ \sum_{i=1}^n C_i \cdot a_i = 0 $$
 
-If we focus only on the non-zero $a_i$, where $h \neq 0$, we can get a linear combination of 2s columns of $\Phi$ which sums up to 0. Thus, in this case, 2s columns of $\Phi$ are linearly dependent.
+If we focus only on the non-zero entries of $h$, we can get a linear combination of at-most 2s columns of $\Phi$ which sums up to 0. Thus, in this case, we can always say that 2s columns of $\Phi$ are linearly dependent.
 
 Hence, when $\delta_{2s}=1$, 2s columns of $\Phi$ may be linearly dependent.
 
@@ -101,7 +101,7 @@ We are trying to solve the following-
 
 $$ \min_{\tilde{x} \in \mathbb{R}^n} \norm{\tilde{x}}_1 ~where ~\norm{y - \Phi \tilde{x}}_2 \leq \epsilon $$
 
-The solution we receive is called $x^*$ and the actual, true, unknown solution is called $x$. Now, note that our reconstruction demands that  $\norm{y - \Phi x^*}_2 \leq \epsilon$
+The solution we receive is called $x^*$ and the actual, true, unknown solution is called $x$. Now, note that our reconstruction demands that  $\norm{y - \Phi x_{estimated}}_2 \leq \epsilon$
 
 This implies that $x^*$ will also obey the same property.
 
@@ -114,6 +114,85 @@ Using the two arguments above, we can say that-
 $$\norm{\Phi x^* - y}_2 + \norm{y-\Phi x}_2 \leq \epsilon + \epsilon = 2\epsilon$$
 Thus, finally, we get that 
 $$\norm{\Phi(x^* - x)}_2 \leq \norm{\Phi x^* - y}_2 + \norm{y-\Phi x}_2 \leq 2\epsilon$$
+Hence, proved.
+
+\subsection{Relation between Norms}
+
+We know that $l_\infty$ norm gives out the element with the maximum magnitude in the vector. Let us assume entries of $h_{T_j}$ to be $a_1, a_2, \cdots a_n$. WLOG, let us assume that, since $h_{T_j}$ is s-sparse, $a_1, a_2, \cdots a_s$ are non-zero and rest are 0. The re-ordering won't affect the solution since we would be taking the norm anyways.
+With this knowledge, we can see that-
+$$\forall a_i:i \leq s, (a_i)^2 \leq \norm{h_{T_j}}^2_\infty$$
+Adding all these s inequalities up, since all $a_i$ for $i>s$ are zero, we get-
+$$\norm{h_{T_j}}_2^2 \leq s \norm{h_{T_j}}_{\infty}^2$$
+From this, we directly get that-
+$$\norm{h_{T_j}}_2 \leq s^{1/2} \norm{h_{T_j}}_{\infty}$$
+
+Secondly, by construction, we know that every element of $h_{T_j}$ is smaller than the every element of $h_{T_{j-1}}$. Thus, we can say the following-
+$$\norm{h_{T_j}}_{\infty} \leq |b_i| $$
+where $b_1, b_2, \cdots b_s$ are the s non-zero elements of $h_{T_{j-1}}$.
+Adding these up for the s inequalities, and using the fact that all $b_i$ for $i>s$ are zero, we get-
+$$s \norm{h_{T_j}}_\infty \leq \norm{h_{T_{j-1}}}_{1}$$
+This is equivalent to-
+$$s^{1/2} \norm{h_{T_j}}_\infty \leq  s^{-1/2} \norm{h_{T_{j-1}}}_{1}$$
+
+Hence, finally, we have obtained the required relations-
+$$\norm{h_{T_j}}_2 \leq s^{1/2} \norm{h_{T_j}}_\infty \leq  s^{-1/2} \norm{h_{T_{j-1}}}_1$$
+
+\subsection{Summing up the norms}
+
+By just summing up the above inequality, we can say that-
+$$\norm{h_{T_j}}_2 \leq s^{-1/2} \norm{h_{T_{j-1}}}_1$$
+$$\implies \sum \limits_{j \geq 2} \norm{h_{T_j}}_2 \leq s^{-1/2} \: (\norm{h_{T_1}}_1 + \norm{h_{T_2}}_1 + \ldots)$$
+
+Also, we know that-
+$$\norm{h_{T_0}}_1 + \norm{h_{T_1}}_1 + \norm{h_{T_2}}_1 + \ldots = \norm{h}_1$$
+Thus, we can say that 
+$$ \norm{h_{T_0^c}}_1 = \norm{h}_1 - \norm{h_{T_0}}_1 = \norm{h_{T_1}}_1 + \norm{h_{T_2}}_1 + \ldots $$ 
+
+Hence, finally we have-
+
+$$\sum \limits_{j \geq 2} \norm{h_{T_j}}_2 \leq s^{-1/2} ~(\norm{h_{T_1}}_1 + \norm{h_{T_2}}_1 + \ldots) \leq s^{-1/2}\norm{h_{T_0^c}}_1$$
+
+\subsection{Extended Triangle Inequality}
+
+By definition of $h_{T_i}$, we can say that, $h_{(T_0 \cup T_1)^c} = \sum_{j \geq 2} h_{T_j}$
+Thus, obviously
+$$\norm{h_{(T_0 \cup T_1)^c}}_2 = \norm{\sum_{j \geq 2} h_{T_j}}_2$$
+Also, from previous parts, we know that
+$$\sum_{j \geq 2} \norm{h_{T_j}}_2 \leq s^{-1/2} \norm{h_{T_0^c}}_1$$
+
+Now, by Triangle inequality, we know that-
+$$\norm{h_{T_2} + h_{T_3} + \cdots}_2 \leq \norm{h_{T_2}}_2 + \norm{h_{T_2}}_2 + \cdots$$
+This is equivalent to-
+$$\norm{\sum_{j \geq 2} h_{T_j}}_2 \leq \sum_{j \geq 2} \norm{h_{T_j}}_2$$
+
+Combining everything, we get-
+$$\norm{h_{(T_0 \cup T_1)^c}}_2 = \norm{\sum_{j \geq 2} h_{T_j}}_2 \leq \sum_{j \geq 2} \norm{h_{T_j}}_2 \leq s^{-1/2} \norm{h_{T_0^c}}_1$$
+
+\subsection{Reverse Triangle Inequality, for L1 norm}
+
+Note that $x^*$ is the minimizer of the l1 norm. Thus, if we have chosen a correct error bound, we will get that-
+
+$$\norm{x}_1 \geq \norm{x^*}_1 \implies \norm{x}_1 \geq \norm{x+h}_1$$
+Now from reverse triangle inequality, I can say that, $\norm{a+b}_1 \geq \norm{a}_1 - \norm{b_1}$. Also I can split the L1-norm of (x+h) into terms in $T_0$ and those in $T_{0^c}$.
+
+Thus finally, can say the following, by repeatedly applying triangle Inequality. Note that this is not the L2 norm inequality, but it works similarly, due to behaviour of the $||$ function. We are considering (x+h) to be (x-(-h)), while applying the inequality.
+$$\sum \limits_{i \in T_0}|x_i + h_i| \geq \norm{x_{T_0}}_1 - \norm{h_{T_0}}_1$$
+$$\sum \limits_{i \in T_0^c}|x_i + h_i| \geq \norm{h_{T_0^c}}_1 - \norm{x_{T_0^c}}_1 \footnote{(PS- note how the inequality was applied in the opposite sense)}$$
+
+Adding these two, along with our previous results, we get-
+$$ \norm{x}_1 \geq \norm{x+h}_1 = \sum \limits_{i \in T_0}|x_i + h_i| + \sum \limits_{i \in T_0^c}|x_i + h_i| \geq \norm{x_{T_0}}_1 - \norm{h_{T_0}}_1 + \norm{h_{T_0^c}}_1 - \norm{x_{T_0^c}}_1$$
+
+
+\subsection{Rearranging}
+
+Now, we have the following-
+$$ \norm{x}_1 \geq \norm{x_{T_0}}_1 - \norm{h_{T_0}}_1 + \norm{h_{T_0^c}}_1 - \norm{x_{T_0^c}}_1$$
+$$ \implies \norm{h_{T_0^c}}_1 \leq  \norm{h_{T_0}}_1 + \norm{x}_1 -\norm{x_{T_0}}_1 + \norm{x_{T_0^c}}_1 $$
+Now, note that $x_{T_0^c} = x - x_{T_0}$. Thus, using triangle inequality, we can say that-
+$$ \norm{x}_1 - \norm{x_{T_0}}_1 \leq \norm{x - x_{T_0}}_1 = \norm{x_{T_0^c}}_1$$
+
+Combining the above two, we get-
+$$ \norm{h_{T_0^c}}_1 \leq  \norm{h_{T_0}}_1 + \norm{x}_1 -\norm{x_{T_0}}_1 + \norm{x_{T_0^c}}_1 \leq  \norm{h_{T_0}}_1 + \norm{x_{T_0^c}}_1 + \norm{x_{T_0^c}}_1 = \norm{h_{T_0}}_1 + 2\norm{x_{T_0^c}}_1$$
 Hence, proved.
 
 
@@ -135,8 +214,7 @@ Hence, proved.
 
 
 
-
-
+\newpage
 \section{Problem 2}
 (a) First of all, note that $\boldsymbol{\Phi x = \Phi_S\widetilde{x}}$, since all other entries of $\boldsymbol{x}$ are zero, and hence all the corresponding columns of $\boldsymbol{\Phi}$ get nullified. Now, we introduce the notion of \textbf{pseudo-inverse} as mentioned in the question: For any matrix $A$ (which can be rectangular too), there exists a unique \textbf{Moore-Penrose pseudo-inverse} $A^{\dagger}$ which mimics many of the properties that the actual inverse satisfies. In particular, if it so happens that the columns of $A$ are linearly independent, then $A^{\dagger}A = I$. Also note that since we are assuming $\boldsymbol{\Phi}$ satisfies RIC of order $S$, it automatically implies that any $S$ columns of $\boldsymbol{\Phi}$ are linearly independent. Thus hereon we can assume WLOG that $\boldsymbol{\Phi^{\dagger}_S\Phi_S = I}$.\\
 Armed with this knowledge, it's very easy to determine the oracular solution: Note that while deriving any \textbf{deterministic} theoretical solution, we must ignore the noise $\boldsymbol{\eta}$ as we have no precise way of quantifying it apart from an upper bound on it's norm. Thus, $\boldsymbol{y_{\mathrm{theoretical}} = \Phi x = \Phi_s \widetilde{x}}$, and thus 
