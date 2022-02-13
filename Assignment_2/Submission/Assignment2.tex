@@ -185,7 +185,7 @@ $$ \norm{x}_1 \geq \norm{x+h}_1 = \sum \limits_{i \in T_0}|x_i + h_i| + \sum \li
 
 
 \subsection{Rearranging}
-
+\label{rearr}
 Now, we have the following-
 $$ \norm{x}_1 \geq \norm{x_{T_0}}_1 - \norm{h_{T_0}}_1 + \norm{h_{T_0^c}}_1 - \norm{x_{T_0^c}}_1$$
 $$ \implies \norm{h_{T_0^c}}_1 \leq  \norm{h_{T_0}}_1 + \norm{x}_1 -\norm{x_{T_0}}_1 + \norm{x_{T_0^c}}_1 $$
@@ -197,7 +197,7 @@ $$ \norm{h_{T_0^c}}_1 \leq  \norm{h_{T_0}}_1 + \norm{x}_1 -\norm{x_{T_0}}_1 + \n
 Hence, proved.
 
 \subsection{Using Cauchy-Schwartz}
-
+\label{cauchy}
 In section \ref{subsec1_5}, we have already seen the following result-
 $$\norm{h_{(T_0 \cup T_1)^c}}_2 \leq s^{-1/2} \norm{h_{T_0^c}}_1$$
 In the previous section, we saw the following-
@@ -214,6 +214,7 @@ This is equivalent to the desired result, when $e_0 = s^{-1/2}\norm{x - x_s}_1$
 $$\norm{h_{(T_0 \cup T_1)^c}}_2 \leq \norm{h_{T_0}}_2 + 2e_0$$
 
 \subsection{Using RIP}
+\label{rip}
 We now use RIP for the first time in the proof. First, from definition of dot product or Cauchy-Schwartz inequality, we can say that-
 $$\langle \Phi h_{T_0 \cup T_1}| \Phi h\rangle \leq \norm{\Phi h_{T_0 \cup T_1}}_2 \, \norm{\Phi h}_2$$
 We will now put individual bounds on the two expressions.
@@ -223,10 +224,11 @@ Next, we can say the following, using results derived above-
 $$\norm{\Phi h}_2 = \norm{\Phi (x^* - x)}_2 \leq \norm{\Phi x^*}_2 + \norm{\Phi x}_2 \leq \epsilon + \epsilon = 2\epsilon$$
 
 Combining the two, we get the following-
-$$\langle \Phi h_{T_0 \cup T_1}| \Phi h\rangle \leq 2\epsilon\norm{\Phi h_{T_0 \cup T_1}}_2 \, \norm{\Phi h}_2 \leq (1 + \delta_{2s})^{1/2} \norm{ h_{T_0 \cup T_1}}_2 $$
+$$\langle \Phi h_{T_0 \cup T_1}| \Phi h\rangle \leq \norm{\Phi h_{T_0 \cup T_1}}_2 \norm{\Phi h}_2 \leq 2\epsilon(1 + \delta_{2s})^{1/2} \norm{ h_{T_0 \cup T_1}}_2 $$
 
 
 \subsection{Using Lemma 2.1}
+\label{lemma}
 We are not giving the proof of Lemma 2.1 again. We will invoke it on $h_{T_0}$ and $h_{T_j}$. Both are s-sparse vectors by definition. Thus, we can apply the lemma directly to get the result. The lemma states-
 $$\langle \Phi x| \Phi x' \rangle \leq \delta_{s + s'} \norm{x}_2 \norm{x'}_2$$
 for all $x$ and $x'$ which are s-sparse.
@@ -235,6 +237,7 @@ $$\langle \Phi h_{T_0}| \Phi h_{T_j}\rangle \leq \delta_{2s}\norm{h_{T_0}}_2 \no
 Hence, proved.
 
 \subsection{AM-GM Inequality}
+\label{amgm}
 Note that-
 $$\norm{h_{T_0 \cup T_1}}^2_2 = \sum_{i \in T_0\cup T_1} {h_i}^2 = \sum_{i \in T_0} {h_i}^2 + \sum_{j \in T_1} {h_j}^2 = \norm{h_{T_1}}^2_2 + \norm{h_{T_0}}^2_2$$
 Also, note that, from AM-GM inequality, we have that-
@@ -250,7 +253,117 @@ $$\sqrt{2} \cdot \norm{h_{T_0 \cup T_1}}_2 \geq \norm{h_{T_0}}_2 + \norm{h_{T_1}
 
 Hence, shown.
 
-\subsection{}
+\subsection{Bounding norm of \textbf{h}}
+
+Firstly, from the RIP property, we have-
+From the restricted isometry property, we have
+$$(1 - \delta_{2s}) \norm{h_{T_0 \cup T_1}}_2^2 \leq \norm{\Phi h_{T_0 \cup T_1}}_2^2$$
+
+For the second part, we need some more results. Note that we can use the Triangle Inequalities, \ref{lemma} and \ref{amgm} to show the following-
+$$\langle \Phi h_{T_0} + \Phi h_{T_1}| \Phi h_{T_j}\rangle \leq \langle \Phi h_{T_0}| \Phi h_{T_j}\rangle + \langle \Phi h_{T_1}| \Phi h_{T_j}\rangle$$
+$$\langle \Phi h_{T_0}| \Phi h_{T_j}\rangle + \langle \Phi h_{T_1}| \Phi h_{T_j}\rangle \leq \delta_{2s} (\norm{h_{T_0}}_2 + \norm{h_{T_1}}_2) \norm{h_{T_{j}}} \leq  \delta_{2s} \sqrt{2}\,\norm{h_{T_0 \cup T_1}} \norm{h_{T_{j}}}$$
+Combining the two inequalities above and adding the over j-index.
+$$\langle \Phi h_{T_0} + \Phi h_{T_1}| \sum_{j \geq 2} \Phi h_{T_j}\rangle \leq \delta_{2s} \sqrt{2} \norm{h_{T_0 \cup T_1}}(\sum \limits_{j \geq 2} \norm{h_{T_j}}_2)$$
+$$\implies \langle \Phi h_{T_0 \cup T_1}| \sum_{j \geq 2} \Phi h_{T_j}\rangle \leq \delta_{2s} \sqrt{2} \norm{h_{T_0 \cup T_1}}(\sum \limits_{j \geq 2} \norm{h_{T_j}}_2)$$
+Using \ref{rip}, we can invoke the following-
+$$\langle \Phi h_{T_0 \cup T_1}| \Phi h\rangle \leq (1 + \delta_{2s})^{1/2} \norm{ h_{T_0 \cup T_1}}_2 $$
+which is the same as-
+$$\langle \Phi h_{T_0 \cup T_1}|  \Phi h_{T_0 \cup T_1} + \sum_{j \geq 2} \Phi h_{T_j} \rangle \leq 2\epsilon(1 + \delta_{2s})^{1/2} \norm{ h_{T_0 \cup T_1}}_2 $$
+Invoking the triangle inequality, I can say that-
+$$\langle \Phi h_{T_0 \cup T_1}| \Phi h_{T_0 \cup T_1} \rangle \leq \langle \Phi h_{T_0 \cup T_1}| \sum_{j \geq 2} \Phi h_{T_j}\rangle + \langle \Phi h_{T_0 \cup T_1}|  \Phi h_{T_0 \cup T_1} + \sum_{j \geq 2} \Phi h_{T_j} \rangle$$
+Thus, using the two inequalities derived above, we get that-
+$$\langle \Phi h_{T_0 \cup T_1}| \Phi h_{T_0 \cup T_1} \rangle \leq  2\epsilon(1 + \delta_{2s})^{1/2} \norm{ h_{T_0 \cup T_1}}_2 + \delta_{2s} \sqrt{2} \norm{h_{T_0 \cup T_1}}(\sum \limits_{j \geq 2} \norm{h_{T_j}}_2)$$
+Thus, we finally have the following-
+$$(1 - \delta_{2s}) \norm{h_{T_0 \cup T_1}}_2^2 \leq \norm{\Phi h_{T_0 \cup T_1}}_2^2 \leq \norm{ h_{T_0 \cup T_1}}_2 (2\epsilon (1 + \delta_{2s})^{1/2} + \delta_{2s}\sqrt{2}\sum \limits_{j \geq 2} \norm{h_{T_j}}_2) $$
+
+Hence, justified.
+
+\subsection{Rearranging (again)}
+\label{rearr2}
+Let us remind ourselves of the following from \ref{subsec1_5}-
+$$\sum_{j \geq 2} \norm{h_{T_j}}_2 \leq s^{-1/2} \norm{h_{T_0^c}}_1$$
+
+The previous inequality said that-
+$$(1 - \delta_{2s}) \norm{h_{T_0 \cup T_1}}_2^2 \leq \norm{ h_{T_0 \cup T_1}}_2 (2\epsilon (1 + \delta_{2s})^{1/2} + \delta_{2s}\sqrt{2}\sum \limits_{j \geq 2} \norm{h_{T_j}}_2) $$
+
+Combining the two above, we get that-
+$$(1 - \delta_{2s}) \norm{h_{T_0 \cup T_1}}_2^2 \leq \norm{ h_{T_0 \cup T_1}}_2 (2\epsilon (1 + \delta_{2s})^{1/2} + \delta_{2s}\sqrt{2}s^{-1/2} \norm{h_{T_0^c}}_1) $$
+
+Removing a factor of $\norm{h_{T_0 \cup T_1}}_2^2$, we get-
+$$(1 - \delta_{2s}) \norm{h_{T_0 \cup T_1}}_2 \leq 2\epsilon (1 + \delta_{2s})^{1/2} + \delta_{2s}\sqrt{2}s^{-1/2} \norm{h_{T_0^c}}_1 $$
+which is the same as-
+$$ \norm{h_{T_0 \cup T_1}}_2 \leq  \alpha\epsilon + p s^{-1/2} \norm{h_{T_0^c}}_1 $$
+where, $\alpha = \frac{2 \sqrt{1 + \delta_{2s}}}{1 - \delta_{2s}}$ and $p = \frac{\sqrt{2}\delta_{2s}}{1 - \delta_{2s}}$. Hence shown.
+
+\subsection{Condensing the inequalities}
+
+From \ref{rearr}, we know that-
+$$ \norm{h_{T_0^c}}_1 \leq  \norm{h_{T_0}}_1 + 2\norm{x_{T_0^c}}_1$$
+Using this in the above inequality, we can say-
+$$ \norm{h_{T_0 \cup T_1}}_2 \leq  \alpha\epsilon + p s^{-1/2} \norm{h_{T_0^c}}_1 \leq \alpha\epsilon + p s^{-1/2}\norm{h_{T_0}}_1 + 2p s^{-1/2}\norm{x_{T_0^c}}_1$$
+Now, using triangle inequality and Cauchy-Schwartz, like a lot of times before-
+$$ s^{-1/2} \norm{h_{T_0}}_1 \leq \norm{h_{T_0}}_2 \leq \norm{h_{T_0 \cup T_1}}_2$$
+This gives us-
+$$ \norm{h_{T_0 \cup T_1}}_2 \leq \alpha\epsilon + p \norm{h_{T_0 \cup T_1}}_2 + 2p e_0$$
+where, $e_0 = s^{-1/2}\norm{x_{T_0^c}}_1$
+
+This can be easily rearranged to give-
+$$ \norm{h_{T_0 \cup T_1}}_2 \leq (1-p)^{-1}(\alpha\epsilon + 2p e_0)$$
+
+\subsection{Bringing it all together}
+
+By Triangle Inequality, we have that-
+$$\norm{h}_2 \leq \norm{h_{T_0 \cup T_1}}_2 + \norm{h_{(T_0 \cup T_1)^c}}_2$$
+
+From \ref{cauchy}, we know that-
+$$\norm{h_{(T_0 \cup T_1)^c}}_2 \leq \norm{h_{T_0}}_2 + 2e_0 \leq \norm{h_{T_0\cup T_1}}_2 + 2e_0$$
+
+This gives-
+$$\norm{h}_2 \leq \norm{h_{T_0 \cup T_1}}_2 + \norm{h_{(T_0 \cup T_1)^c}}_2 \leq \norm{h_{T_0\cup T_1}}_2 + \norm{h_{T_0\cup T_1}}_2 + 2e_0 \leq 2\norm{h_{T_0\cup T_1}}_2 + 2e_0$$
+
+Using the previous inequality, we have-
+$$ \norm{h_{T_0 \cup T_1}}_2 \leq (1-p)^{-1}(\alpha\epsilon + 2p e_0)$$
+
+Substituting $\norm{h_{T_0 \cup T_1}}_2$ from above, we have-
+$$\norm{h}_2 \leq \norm{h_{T_0 \cup T_1}}_2 + \norm{h_{(T_0 \cup T_1)^c}}_2 \leq 2\norm{h_{T_0\cup T_1}}_2 + 2e_0 \leq (1-p)^{-1}(\alpha\epsilon + 2p e_0) + 2\epsilon$$
+
+And now, finally after simplifying, we get-
+$$\norm{h}_2 \leq \norm{h_{T_0 \cup T_1}}_2 + \norm{h_{(T_0 \cup T_1)^c}}_2 \leq 2\norm{h_{T_0\cup T_1}}_2 + 2e_0 \leq 2(1-p)^{-1}(\alpha\epsilon + (1+p) e_0)$$
+
+which is what we needed to show.
+
+\subsection{Wrapping up}
+
+By Definition, we can say that-
+$$\norm{h}_1 = \norm{h_{T_0}}_1 + \norm{h_{T_0^c}}_1$$
+
+Now, from our long journey of proving inequations, we can state the following-
+$$\norm{h_{T_0}}_1 \leq s^{1/2}\norm{h_{T_0}}_2 \leq s^{1/2}\norm{h_{T_0\cup T_1}}_2$$
+Since we have been given that $h$ is in the nullspace of $\Phi$, this means that error $\epsilon = 0$, as the case is noiseless.
+
+Hence, from \ref{rearr2}, we can say that, with $\epsilon = 0$-
+$$\norm{h_{T_0 \cup T_1}}_2 \leq p s^{-1/2} \norm{h_{T_0^c}}_1$$
+$$\implies s^{1/2}\norm{h_{T_0 \cup T_1}}_2 \leq p \norm{h_{T_0^c}}_1$$
+
+This gives-
+$$\norm{h_{T_0}}_1 \leq s^{1/2}\norm{h_{T_0\cup T_1}}_2 \leq p \norm{h_{T_0^c}}_1$$
+
+Finally-
+$$\norm{h}_1 = \norm{h_{T_0}}_1 + \norm{h_{T_0^c}}_1 \leq \norm{h_{T_0^c}}_1 + p \norm{h_{T_0^c}}_1 = (1 + p)\norm{h_{T_0^c}}_1$$
+
+From \ref{rearr}, we can get that-
+$$ \norm{h_{T_0^c}}_1 \leq \norm{h_{T_0}}_1 + 2\norm{x_{T_0^c}}_1 \leq p \norm{h_{T_0^c}}_1 + 2\norm{x_{T_0^c}}_1$$
+$$\implies \norm{h_{T_0^c}}_1 \leq 2(1-p)^{-1} \norm{x_{T_0^c}}_1$$
+
+Combining all, we get-
+$$\norm{h}_1 = \norm{h_{T_0}}_1 + \norm{h_{T_0^c}}_1 \leq 2(1+p)(1-p)^{-1} \norm{x_{T_0^c}}_1$$
+
+And for the last time,\\
+Hence, proved.
+
+
+
+
 
 
 
