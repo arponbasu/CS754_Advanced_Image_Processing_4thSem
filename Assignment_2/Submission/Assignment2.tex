@@ -153,6 +153,7 @@ Hence, finally we have-
 $$\sum \limits_{j \geq 2} \norm{h_{T_j}}_2 \leq s^{-1/2} ~(\norm{h_{T_1}}_1 + \norm{h_{T_2}}_1 + \ldots) \leq s^{-1/2}\norm{h_{T_0^c}}_1$$
 
 \subsection{Extended Triangle Inequality}
+\label{subsec1_5}
 
 By definition of $h_{T_i}$, we can say that, $h_{(T_0 \cup T_1)^c} = \sum_{j \geq 2} h_{T_j}$
 Thus, obviously
@@ -177,7 +178,7 @@ Now from reverse triangle inequality, I can say that, $\norm{a+b}_1 \geq \norm{a
 
 Thus finally, can say the following, by repeatedly applying triangle Inequality. Note that this is not the L2 norm inequality, but it works similarly, due to behaviour of the $||$ function. We are considering (x+h) to be (x-(-h)), while applying the inequality.
 $$\sum \limits_{i \in T_0}|x_i + h_i| \geq \norm{x_{T_0}}_1 - \norm{h_{T_0}}_1$$
-$$\sum \limits_{i \in T_0^c}|x_i + h_i| \geq \norm{h_{T_0^c}}_1 - \norm{x_{T_0^c}}_1 \footnote{(PS- note how the inequality was applied in the opposite sense)}$$
+$$\sum \limits_{i \in T_0^c}|x_i + h_i| \geq \norm{h_{T_0^c}}_1 - \norm{x_{T_0^c}}_1 \footnote{(PS-Please note how the inequality was applied in the opposite sense)}$$
 
 Adding these two, along with our previous results, we get-
 $$ \norm{x}_1 \geq \norm{x+h}_1 = \sum \limits_{i \in T_0}|x_i + h_i| + \sum \limits_{i \in T_0^c}|x_i + h_i| \geq \norm{x_{T_0}}_1 - \norm{h_{T_0}}_1 + \norm{h_{T_0^c}}_1 - \norm{x_{T_0^c}}_1$$
@@ -195,13 +196,61 @@ Combining the above two, we get-
 $$ \norm{h_{T_0^c}}_1 \leq  \norm{h_{T_0}}_1 + \norm{x}_1 -\norm{x_{T_0}}_1 + \norm{x_{T_0^c}}_1 \leq  \norm{h_{T_0}}_1 + \norm{x_{T_0^c}}_1 + \norm{x_{T_0^c}}_1 = \norm{h_{T_0}}_1 + 2\norm{x_{T_0^c}}_1$$
 Hence, proved.
 
+\subsection{Using Cauchy-Schwartz}
+
+In section \ref{subsec1_5}, we have already seen the following result-
+$$\norm{h_{(T_0 \cup T_1)^c}}_2 \leq s^{-1/2} \norm{h_{T_0^c}}_1$$
+In the previous section, we saw the following-
+$$ \norm{h_{T_0^c}}_1 \leq \norm{h_{T_0}}_1 + 2\norm{x_{T_0^c}}_1$$
+Also, from the Cauchy-Schwartz inequality, we can say that the do product of two vectors is less than the product of their L2 norms. Thus, we can say that-
+
+$$\norm{h_{T_0}}_1 \leq s^{1/2}\norm{h_{T_0}}_2$$
+
+This is obtained by taking a signum function on $h_{T_0}$, which returns a vector with +1 in places where $h_{T_0}$ is positive and -1 in places where $h_{T_0}$ is negative. A dot product of the two, gives us the L1 norm on the LHS, and the other 2 L2 norms on the RHS. The inequality is the classic $\cos{x} \leq 1$
+
+Finally, we can say that-
+$$\norm{h_{(T_0 \cup T_1)^c}}_2 \leq s^{-1/2} \bigg(\norm{h_{T_0}}_1 + 2\,\norm{x_{T_0^c}}_1\bigg) \leq s^{-1/2} \bigg(s^{1/2} \norm{h_{T_0}}_2 + 2\norm{x_{T_0^c}}_1\bigg)$$
+This is equivalent to the desired result, when $e_0 = s^{-1/2}\norm{x - x_s}_1$
+$$\norm{h_{(T_0 \cup T_1)^c}}_2 \leq \norm{h_{T_0}}_2 + 2e_0$$
+
+\subsection{Using RIP}
+We now use RIP for the first time in the proof. First, from definition of dot product or Cauchy-Schwartz inequality, we can say that-
+$$\langle \Phi h_{T_0 \cup T_1}| \Phi h\rangle \leq \norm{\Phi h_{T_0 \cup T_1}}_2 \, \norm{\Phi h}_2$$
+We will now put individual bounds on the two expressions.
+Firstly, from RIP of order 2s, we can say that-
+$$\norm{\Phi h_{T_0 \cup T_1}}_2 \leq (1 + \delta_{2s})^{1/2} \norm{ h_{T_0 \cup T_1}}_2$$
+Next, we can say the following, using results derived above-
+$$\norm{\Phi h}_2 = \norm{\Phi (x^* - x)}_2 \leq \norm{\Phi x^*}_2 + \norm{\Phi x}_2 \leq \epsilon + \epsilon = 2\epsilon$$
+
+Combining the two, we get the following-
+$$\langle \Phi h_{T_0 \cup T_1}| \Phi h\rangle \leq 2\epsilon\norm{\Phi h_{T_0 \cup T_1}}_2 \, \norm{\Phi h}_2 \leq (1 + \delta_{2s})^{1/2} \norm{ h_{T_0 \cup T_1}}_2 $$
 
 
+\subsection{Using Lemma 2.1}
+We are not giving the proof of Lemma 2.1 again. We will invoke it on $h_{T_0}$ and $h_{T_j}$. Both are s-sparse vectors by definition. Thus, we can apply the lemma directly to get the result. The lemma states-
+$$\langle \Phi x| \Phi x' \rangle \leq \delta_{s + s'} \norm{x}_2 \norm{x'}_2$$
+for all $x$ and $x'$ which are s-sparse.
+We just plug in $x$ as $h_{T_0}$ and $x'$ as $h_{T_j}$, to get-
+$$\langle \Phi h_{T_0}| \Phi h_{T_j}\rangle \leq \delta_{2s}\norm{h_{T_0}}_2 \norm{h_{T_j}}_2$$
+Hence, proved.
 
+\subsection{AM-GM Inequality}
+Note that-
+$$\norm{h_{T_0 \cup T_1}}^2_2 = \sum_{i \in T_0\cup T_1} {h_i}^2 = \sum_{i \in T_0} {h_i}^2 + \sum_{j \in T_1} {h_j}^2 = \norm{h_{T_1}}^2_2 + \norm{h_{T_0}}^2_2$$
+Also, note that, from AM-GM inequality, we have that-
+$$\frac{A+B}{2} \geq \sqrt{A\cdot B}$$
+Substituting $A = \norm{h_{T_0}}^2_2$ and $B = \norm{h_{T_1}}^2_2$, we get that-
+$$\frac{\norm{h_{T_0}}^2_2+\norm{h_{T_1}}^2_2}{2} \geq \sqrt{\norm{h_{T_0}}^2_2\cdot \norm{h_{T_1}}^2_2}$$
+Finally, we can say that-
+$$\norm{h_{T_0 \cup T_1}}^2_2 = \frac{\norm{h_{T_0}}^2_2}{2}  + \frac{\norm{h_{T_1}}^2_2}{2}  + \frac{\norm{h_{T_0}}^2_2}{2} + \frac{\norm{h_{T_1}}^2_2}{2} \geq \frac{\norm{h_{T_1}}^2_2}{2} + \frac{\norm{h_{T_0}}^2_2}{2} + \sqrt{\norm{h_{T_0}}^2_2\cdot \norm{h_{T_1}}^2_2}$$
+We can write the same as-
+$$2 \cdot \norm{h_{T_0 \cup T_1}}^2_2 \geq (\norm{h_{T_0}}_2 + \norm{h_{T_1}}_2)^{2}$$
+Taking the square-root, we have-
+$$\sqrt{2} \cdot \norm{h_{T_0 \cup T_1}}_2 \geq \norm{h_{T_0}}_2 + \norm{h_{T_1}}_2$$
 
+Hence, shown.
 
-
-
+\subsection{}
 
 
 
