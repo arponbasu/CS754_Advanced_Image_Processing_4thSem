@@ -1,0 +1,88 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{filecontents}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx, array, blindtext}
+\usepackage[colorinlistoftodos]{todonotes}
+\DeclareUnicodeCharacter{2212}{-}
+\usepackage [a4 paper , hmargin = 1.2 in , bottom = 1.5 in] {geometry}
+\usepackage [parfill] {parskip}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\usepackage{nameref}
+\usepackage{amssymb}
+\usepackage [linesnumbered, ruled, vlined] {algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{floatrow}
+\usepackage{siunitx}
+\usepackage{cancel}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage[document]{ragged2e}
+
+\renewcommand{\footrulewidth}{0.4pt}
+\newtheorem{definition}{Definition}
+\numberwithin{definition}{section}
+\newtheorem{mytheorem}{Theorem}
+\numberwithin{mytheorem}{subsection}
+\newcommand{\notimplies}{\;\not\!\!\!\longrightarrow}  
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{CS754 Project Proposal}
+\lhead{200050013-200050130}
+\fancyfoot[C]{Page \thepage}
+\usepackage{subcaption}
+\usepackage{listings}
+
+
+\usepackage{hyperref}
+\urlstyle{same}
+\hypersetup{pdftitle={main.pdf},
+    colorlinks=false,
+    linkbordercolor=red
+}
+\usepackage{array}
+\usepackage{listings,chngcntr}
+
+\begin{document}
+\centering{
+
+\title{\fontsize{150}{60}{CS754 Project Proposal}}
+
+\author{
+Arpon Basu- 200050013 \\ Shashwat Garg- 200050130 }
+}
+
+\date{Spring 2022}
+\maketitle
+
+\justifying
+
+\justifying
+
+Welcome  to our report on CS754 Project Proposal. We plan to implement, experiment and extend the work done in the following paper, \href{https://web.stanford.edu/~boyd/papers/pdf/rwl1.pdf}{Enhancing Sparsity by Reweighted 1 Minimization}.
+
+We plan to experiment with uncommon norms like the $l_{1/2}$ and $l_{2/3}$ norm and see theoretical and experimental differences observed.
+
+The paper also experiments with minimizing the logarithm of the norm or sometimes the arctan of the norm. They experiment with some concave functions as well. We would like to derive some theoretical results of the same and see if some progress can be made. 
+
+The main aim of the project is to experiment with different compressive sensing techniques, so as to not only discover any new developments but also obtain a better conceptual understanding of which property of which technique helps it work better.
+
+% Dataset and evaluation/validation strategy, what to write?
+
+We will first try to implement the theory mentioned in the paper and then try to come up with similar but different methods of compressive sensing.
+
+We will implement the new approaches we get and aim at trying to get some theoretical results of the same as well.
+
+
+
+
+
+\end{document}
