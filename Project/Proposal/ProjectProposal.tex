@@ -69,18 +69,48 @@ Arpon Basu- 200050013 \\ Shashwat Garg- 200050130 }
 
 Welcome  to our report on CS754 Project Proposal. We plan to implement, experiment and extend the work done in the following paper, \href{https://web.stanford.edu/~boyd/papers/pdf/rwl1.pdf}{Enhancing Sparsity by Reweighted 1 Minimization}.
 
-We plan to experiment with uncommon norms like the $l_{1/2}$ and $l_{2/3}$ norm and see theoretical and experimental differences observed.
+The paper basically introduces an iterative procedure where the \textbf{weighted $l_1$-norm minimization} problem is solved, where the weights are updated in every iteration, and the process is terminated when convergence is achieved and/or our iteration budget is exhausted.
 
-The paper also experiments with minimizing the logarithm of the norm or sometimes the arctan of the norm. They experiment with some concave functions as well. We would like to derive some theoretical results of the same and see if some progress can be made. 
+Many heuristic arguments, as well as a few concrete arguments have been given in favour of this method, especially why it performs better than the vanilla \textbf{Basis Pursuit Method} (which minimizes the $l_1$ norm). 
+\section{Our proposals regarding the implementation and extension of the algorithms given in the paper}
+Coming to our contributions, we seek to extend their work in the following ways:
+\begin{itemize}
+\item We want to see how the algorithm behaves if we replace the weighted $l_1$ norm by fractional norms such $l_{1/2}$ and $l_{2/3}$. We want to explore whether this will lead to:
+\begin{itemize}
+\item Faster convergence, ie:- do using values closer to zero lead to faster convergence?
+\item We want to explore if changing the index of the norm will significantly increase the amount of computational resources required (especially since we're dealing with fractional norms here).
+\item Note that if it so happens that ``better" results are obtained for some non-zero, non-one value of the index of norm, we shall know that beneath the linear exterior of the algorithm, some interesting non-linear behavior is taking place (due to the change of weights in every iteration, for example).
+\end{itemize}
+\item Another area in which we can tweak the algorithm is the update step: Note that in this algorithm, the weights at every iteration are updated according to a certain rule, ie:- at the end of every iteration, 
+$$w^{(l+1)}_i = g(x_i^{(l)}, \epsilon)$$
+where $\mathbf{x^{(l)}}$ is the vector which minimized the norm at the $l^{\mathrm{th}}$ iteration. Now, the function $g(x_i, \epsilon)$ can be shown to be the derivative (w.r.t the first variable $x_i$) of our \textbf{cost function} $f(x_i, \epsilon)$, which in case of the algorithm presented in the paper is $f(x_i, \epsilon) := \log (|x_i| + \epsilon)$. Thus another natural avenue for extension is the exploration of other cost functions (this is suggested in the paper itself) typically used in machine learning, for example the arctan function ($f(x_i, \epsilon) :=$atan$(x_i/\epsilon)$. This was suggested by the authors themselves), ReLU function ($f(x_i, \epsilon) := \mathrm{max}(0, x_i/\epsilon)$) and the tan-hyperbolic function ($f(x_i, \epsilon) := \mathrm{tanh}(x_i/\epsilon)$).
+\item We want to explore how slightly tweaked versions of the algorithm behave vis-a-vis convergence, ie:-
+\begin{itemize}
+    \item To achieve the same amount of accuracy $1-\varepsilon$, how many iterations are needed? How much better can we do than what is required by the algorithm given in the paper?
+    \item We can also answer the above question by answering it's ``dual" question, ie:- given a fixed iterative budget, which version of the algorithm achieves the maximum accuracy at the end of the iteration?
+    \item We also want to explore how stable our algorithm's convergence is, ie:- does the accuracy of our estimates increase consistently as the number of iterations increase, or do they oscillate violently while they converge?
+    \item What are the computational cost trade-offs as we change our norm-metrics and cost functions?
+\end{itemize}
+\item Finally, we would try to establish some theoretical results which would explain the results of our numerical experiments above. This could be done by taking inspiration from some results already established by the authors in their paper.
+\end{itemize}
 
-The main aim of the project is to experiment with different compressive sensing techniques, so as to not only discover any new developments but also obtain a better conceptual understanding of which property of which technique helps it work better.
+\section{Dataset and evaluation/validation strategy}
+We plan to apply our algorithms on a small sampling of good-quality, real life images obtained from some standard image database such as ImageNet.\\
+Once we have an image, we plan to take a ``compressed snapshot" of that image, ie:- let $\mathbf{x}$ be the vectorized form of our image. Then, we shall apply the compressed sensing matrix $A$ on $\mathbf{x}$ to obtain our compressed vector $\mathbf{y} := A\mathbf{x}$.\\
+The matrix $A$ itself is obtained via multiplying our sensing matrix $\Phi$ and basis matrix $\Psi$. Thus on the basis of standard compressed sensing theory, we can take $\Psi$ to be the Fourier basis, DCT basis or Wavelet basis, and we can choose $\Phi$ accordingly so that $A = \Phi\Psi$ has low coherence and other desirable properties typically expected of a compressed sensing matrix.\\
+Thus, after we have obtained $\mathbf{y}$, we'll apply our algorithms on $\mathbf{y}$ to obtain the reconstructed image $\mathbf{\tilde{x}}$, whose quality we can judge by checking out the MSE errors, ie:- $\mathbf{\lVert\tilde{x}-x\rVert_2/\lVert x\rVert_2}$.
 
-% Dataset and evaluation/validation strategy, what to write?
+% We plan to experiment with uncommon norms like the $l_{1/2}$ and $l_{2/3}$ norm and see theoretical and experimental differences observed.
 
-We will first try to implement the theory mentioned in the paper and then try to come up with similar but different methods of compressive sensing.
+% The paper also experiments with minimizing the logarithm of the norm or sometimes the arctan of the norm. They experiment with some concave functions as well. We would like to derive some theoretical results of the same and see if some progress can be made. 
 
-We will implement the new approaches we get and aim at trying to get some theoretical results of the same as well.
+% The main aim of the project is to experiment with different compressive sensing techniques, so as to not only discover any new developments but also obtain a better conceptual understanding of which property of which technique helps it work better.
 
+% % Dataset and evaluation/validation strategy, what to write?
+
+% We will first try to implement the theory mentioned in the paper and then try to come up with similar but different methods of compressive sensing.
+
+% We will implement the new approaches we get and aim at trying to get some theoretical results of the same as well.
 
 
 
