@@ -1,0 +1,130 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{filecontents}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx, array, blindtext}
+\usepackage[colorinlistoftodos]{todonotes}
+\DeclareUnicodeCharacter{2212}{-}
+\usepackage [a4 paper , hmargin = 1.2 in , bottom = 1.5 in] {geometry}
+\usepackage [parfill] {parskip}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\usepackage{nameref}
+\usepackage{amssymb}
+\usepackage [linesnumbered, ruled, vlined] {algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{floatrow}
+\usepackage{siunitx}
+\usepackage{cancel}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage[document]{ragged2e}
+
+\renewcommand{\footrulewidth}{0.4pt}
+\newtheorem{definition}{Definition}
+\numberwithin{definition}{section}
+\newtheorem{mytheorem}{Theorem}
+\numberwithin{mytheorem}{subsection}
+\newcommand{\notimplies}{\;\not\!\!\!\longrightarrow}  
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{CS754 Assignment 3}
+\lhead{200050013-200050130}
+\fancyfoot[C]{Page \thepage}
+\usepackage{subcaption}
+\usepackage{listings}
+
+
+\usepackage{hyperref}
+\urlstyle{same}
+\hypersetup{pdftitle={main.pdf},
+    colorlinks=false,
+    linkbordercolor=red
+}
+\usepackage{array}
+\usepackage{listings,chngcntr}
+
+\begin{document}
+\centering{
+
+\title{\fontsize{150}{60}{CS754 Assignment 3 Report}}
+
+\author{
+Arpon Basu \\ Shashwat Garg }
+}
+
+\date{Spring 2022}
+\maketitle
+
+\justifying
+\tableofcontents
+
+\newpage
+\justifying
+\section*{Introduction}
+
+Welcome  to our report on CS754 Assignment 3. We have tried to make this report comprehensive and self-contained. We hope reading this would give you a proper flowing description of our work, methods used and the results obtained.
+
+Hope you enjoy reading the report. Here we go!
+
+
+\section{Problem 1}
+
+
+\section{Problem 2}
+
+
+\section{Problem 3}
+
+
+\section{Problem 4}
+
+
+\section{Problem 5}
+
+We know that Radon Transform is given by-
+$$R_\theta(f) =g(\rho, \theta)= \int_{-\infty}^{+\infty}f(\rho cos\theta - zsin\theta,\rho sin \theta + z cos\theta)dz $$
+We can write the same as-
+$$R_\theta(f) =g(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x,y)\delta(xcos\theta+ysin\theta -\rho)dxdy $$
+Let the scaled image be denoted by $h(x.y) = f(ax, ay)$. This is the same image as original, but scaled by a factor of a, in both x and y directions.
+
+We can write the same Radon Transform as-
+$$ R_\theta(h) =g'(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}h(x,y)\delta(xcos\theta+ysin\theta -\rho)dxdy $$
+$$ R_\theta(h) =g'(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(ax,ay)\delta(xcos\theta+ysin\theta -\rho)dxdy $$
+$$ R_\theta(h) =g'(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x',y')\delta\bigg(\frac{x'cos\theta+y'sin\theta -a\rho}{a}\bigg)\frac{dx'}{a}\frac{dy'}{a} $$
+
+Since $\delta(ax) = \delta(x)/a$, we get-
+$$ R_\theta(h) =g'(\rho, \theta)= \frac{1}{a}\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x',y')\delta(x'cos\theta+y'sin\theta -a\rho)dx'dy' $$
+$$ R_\theta(h) =g'(\rho, \theta)= \frac{1}{a}g(a\rho, \theta) $$
+
+Thus, we can see that the Radon transform of the scaled image is also scaled by a factor of $a$ in the size of projection, but the intensity of each projection has reduced by $a$ as well.
+ 
+
+
+
+
+
+
+
+
+\section{Problem 6}
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
