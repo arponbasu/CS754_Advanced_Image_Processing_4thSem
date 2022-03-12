@@ -79,42 +79,50 @@ Hope you enjoy reading the report. Here we go!
 
 
 \section{Problem 2}
-(a) The restricted eigenvalue property has a very neat and succinct description in terms of the SVD of our sensing matrix $\boldsymbol{X}$, and that's how we'll define it.\\
-Note that the restricted eigenvalue property for the matrix $X$ is defined as follows
-$$\frac{1}{N\cdot \lVert\nu\rVert_2^2}\nu^TX^TX\nu \geq \gamma \;\forall\;\nu \in \mathbb{K}^{p\times 1}\setminus\{\mathbf{0}\}$$
-where $\gamma$ is the coefficient of the property.\\
-Now, notice that if we restrict $\nu$ to vary over only unit length vectors in $\mathbb{K}^{p\times 1}$, then we can get rid of the $\lVert\nu\rVert_2^2$ in the denominator. Also, since the inequality holds for all $\nu$ in our chosen space, it's enough to assume that the infimum of the expression $\frac{1}{N}\nu^TX^TX\nu$ over all $\nu$ such that $\lVert\nu\rVert_2 = 1$ must be greater than or equal to $\gamma$, ie:- 
-$$\mathrm{min}_{\lVert\nu\rVert_2 = 1}\frac{1}{N}\nu^TX^TX\nu \geq \gamma$$
-$$\implies \mathrm{min}_{\lVert\nu\rVert_2 = 1}(X\nu)^TX\nu \geq N\gamma$$
-$$\implies \mathrm{min}_{\lVert\nu\rVert_2 = 1}\lVert X\nu\rVert_2^2 \geq N\gamma$$
-$$\implies \mathrm{min}_{\lVert\nu\rVert_2 = 1}\lVert X\nu\rVert_2 \geq \sqrt{N\gamma}$$
-But from the theory of Singular Value Decomposition, we know that $\mathrm{min}_{\lVert\nu\rVert_2 = 1}\lVert X\nu\rVert_2$ is equal to the smallest singular value of $X$.\\
-Thus, we can \textbf{define} the \textbf{Restricted Eigenvalue Property} with coefficient $\gamma$ as follows : The matrix $\boldsymbol{X}\in\mathbb{R}^{n\times p}$ is said to satisfy the Restricted Eigenvalue Property with coefficient $\gamma$ if the \textbf{smallest singular value of $\boldsymbol{X}$ is atleast $\sqrt{N\gamma}$}.\\
+% (a) The restricted eigenvalue property has a very neat and succinct description in terms of the SVD of our sensing matrix $\boldsymbol{X}$, and that's how we'll define it.\\
+% Note that the restricted eigenvalue property for the matrix $X$ is defined as follows
+% $$\frac{1}{N\cdot \lVert\nu\rVert_2^2}\nu^TX^TX\nu \geq \gamma \;\forall\;\nu \in \mathbb{K}^{p\times 1}\setminus\{\mathbf{0}\}$$
+% where $\gamma$ is the coefficient of the property.\\
+% Now, notice that if we restrict $\nu$ to vary over only unit length vectors in $\mathbb{K}^{p\times 1}$, then we can get rid of the $\lVert\nu\rVert_2^2$ in the denominator. Also, since the inequality holds for all $\nu$ in our chosen space, it's enough to assume that the infimum of the expression $\frac{1}{N}\nu^TX^TX\nu$ over all $\nu$ such that $\lVert\nu\rVert_2 = 1$ must be greater than or equal to $\gamma$, ie:- 
+% $$\mathrm{min}_{\lVert\nu\rVert_2 = 1}\frac{1}{N}\nu^TX^TX\nu \geq \gamma$$
+% $$\implies \mathrm{min}_{\lVert\nu\rVert_2 = 1}(X\nu)^TX\nu \geq N\gamma$$
+% $$\implies \mathrm{min}_{\lVert\nu\rVert_2 = 1}\lVert X\nu\rVert_2^2 \geq N\gamma$$
+% $$\implies \mathrm{min}_{\lVert\nu\rVert_2 = 1}\lVert X\nu\rVert_2 \geq \sqrt{N\gamma}$$
+% But from the theory of Singular Value Decomposition, we know that $\mathrm{min}_{\lVert\nu\rVert_2 = 1}\lVert X\nu\rVert_2$ is equal to the smallest singular value of $X$.\\
+% Thus, we can \textbf{define} the \textbf{Restricted Eigenvalue Property} with coefficient $\gamma$ as follows : The matrix $\boldsymbol{X}\in\mathbb{R}^{n\times p}$ is said to satisfy the Restricted Eigenvalue Property with coefficient $\gamma$ if the \textbf{smallest singular value of $\boldsymbol{X}$ is atleast $\sqrt{N\gamma}$}.\\
+(a) The restricted eigenvalue condition is defined as follows:\\
+The matrix $\boldsymbol{X}\in\mathbb{R}^{n\times p}$ is said to satisfy the Restricted Eigenvalue Property over a constraint set $\mathcal{C}$ with coefficient $\gamma$ if 
+$$\frac{1}{N\cdot \lVert\nu\rVert_2^2}\nu^TX^TX\nu \geq \gamma \;\forall\;\nu \in \mathcal{C}\setminus\{\mathbf{0}\}$$
+$$\implies \frac{1}{N\cdot \lVert\nu\rVert_2^2}(X\nu)^TX\nu \geq \gamma\;\forall\;\nu \in \mathcal{C}\setminus\{\mathbf{0}\}$$
+$$\implies \frac{1}{N}\lVert X\nu\rVert^2_2 \geq \gamma\lVert\nu\rVert_2^2\;\forall\;\nu \in \mathcal{C}$$
+Thus our definition condenses to:
+\textbf{The matrix $\boldsymbol{X}\in\mathbb{R}^{n\times p}$ is said to satisfy the Restricted Eigenvalue Property over a constraint set $\mathcal{C}$ with coefficient $\gamma$ if }
+$$\boldsymbol{\frac{1}{N}\lVert X\nu\rVert^2_2 \geq \gamma\lVert\nu\rVert_2^2\;\;\forall\nu\in\mathcal{C}}$$
 (b) We have that 
 $$G(\nu) := \frac{1}{2N}\lVert y - X(\beta^{*} + \nu)\rVert^2_2 + \lambda_N\lVert\beta^{*} + \nu\rVert_1$$
 $$J(\boldsymbol{x}) := \frac{1}{2N}\lVert y - X\boldsymbol{x}\rVert^2_2 + \lambda_N\lVert\boldsymbol{x}\rVert_1$$
 Thus 
 $$G(0) := \frac{1}{2N}\lVert y - X\beta^{*}\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1 = J(\beta^{*})$$
-On the other hand, for $\hat{\nu} := \hat{\beta} - \beta^{*}$, we have
-$$G(\hat{\nu}) := \frac{1}{2N}\lVert y - X\hat{\beta}\rVert^2_2 + \lambda_N\lVert\hat{\beta}\rVert_1 = J(\hat{\beta})$$
-But $\hat{\beta}$ was, \textbf{by construction} (as mentioned on Pg\# 308, third last line), the optimizer of the LASSO function $J(\boldsymbol{x})$, and consequently $G(\hat{\nu}) = J(\hat{\beta}) \leq J(\beta^*) = G(0)$, as desired.\\
+On the other hand, for $\widehat{\nu} := \widehat{\beta} - \beta^{*}$, we have
+$$G(\widehat{\nu}) := \frac{1}{2N}\lVert y - X\widehat{\beta}\rVert^2_2 + \lambda_N\lVert\widehat{\beta}\rVert_1 = J(\widehat{\beta})$$
+But $\widehat{\beta}$ was, \textbf{by construction} (as mentioned on Pg\# 308, third last line), the optimizer of the LASSO function $J(\boldsymbol{x})$, and consequently $G(\widehat{\nu}) = J(\widehat{\beta}) \leq J(\beta^*) = G(0)$, as desired.\\
 (c) We just have to piece together some equations and inequalities to derive equation 11.21. They go as follows:
-$$G(\hat{\nu}) \leq G(0)$$
+$$G(\widehat{\nu}) \leq G(0)$$
 $$y = X\beta^* + w$$
-$$\hat{\beta} = \beta^* + \hat{\nu}$$
-The first inequality $G(\hat{\nu}) \leq G(0)$, combined with the fact that $\hat{\beta} = \beta^* + \hat{\nu}$ yields
-$$G(\hat{\nu}) \leq G(0)$$
-$$\implies \frac{1}{2N}\lVert y - X\hat{\beta}\rVert^2_2 + \lambda_N\lVert\hat{\beta}\rVert_1 \leq \frac{1}{2N}\lVert y - X\beta^{*}\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1$$
-$$\implies \frac{1}{2N}\lVert y - X(\beta^* + \hat{\nu})\rVert^2_2 + \lambda_N\lVert\beta^* + \hat{\nu}\rVert_1 \leq \frac{1}{2N}\lVert y - X\beta^{*}\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1$$
+$$\widehat{\beta} = \beta^* + \widehat{\nu}$$
+The first inequality $G(\widehat{\nu}) \leq G(0)$, combined with the fact that $\widehat{\beta} = \beta^* + \widehat{\nu}$ yields
+$$G(\widehat{\nu}) \leq G(0)$$
+$$\implies \frac{1}{2N}\lVert y - X\widehat{\beta}\rVert^2_2 + \lambda_N\lVert\widehat{\beta}\rVert_1 \leq \frac{1}{2N}\lVert y - X\beta^{*}\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1$$
+$$\implies \frac{1}{2N}\lVert y - X(\beta^* + \widehat{\nu})\rVert^2_2 + \lambda_N\lVert\beta^* + \widehat{\nu}\rVert_1 \leq \frac{1}{2N}\lVert y - X\beta^{*}\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1$$
 Now, using the fact that $y = X\beta^* + w$, we get
-$$\frac{1}{2N}\lVert y - X(\beta^* + \hat{\nu})\rVert^2_2 + \lambda_N\lVert\beta^* + \hat{\nu}\rVert_1 \leq \frac{1}{2N}\lVert y - X\beta^{*}\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1$$
-$$\implies \frac{1}{2N}\lVert y - X\beta^* - X\hat{\nu}\rVert^2_2 + \lambda_N\lVert\beta^* + \hat{\nu}\rVert_1 \leq \frac{1}{2N}\lVert w\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1$$
-$$\implies \frac{1}{2N}\lVert w - X\hat{\nu}\rVert^2_2 \leq \frac{1}{2N}\lVert w\rVert^2_2 + \lambda_N(\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \hat{\nu}\rVert_1)$$
-Now, $\lVert w - X\hat{\nu}\rVert^2_2 = (w - X\hat{\nu})^T\cdot(w - X\hat{\nu}) = \lVert w\rVert^2_2 + \lVert X\hat{\nu}\rVert^2_2 - 2w^TX\hat{\nu} $. Substituting this in the equation above yields
-$$\frac{1}{2N}(\lVert w\rVert^2_2 + \lVert X\hat{\nu}\rVert^2_2 - 2w^TX\hat{\nu}) \leq \frac{1}{2N}\lVert w\rVert^2_2 + \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \hat{\nu}\rVert_1\}$$
-$$\implies \frac{1}{2N}(\lVert X\hat{\nu}\rVert^2_2 - 2w^TX\hat{\nu}) \leq \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \hat{\nu}\rVert_1\}$$
-$$\implies \frac{1}{2N}\lVert X\hat{\nu}\rVert^2_2 - \frac{1}{N}w^TX\hat{\nu}\leq \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \hat{\nu}\rVert_1\}$$
-$$\implies \frac{\lVert X\hat{\nu}\rVert^2_2}{2N} \leq \frac{w^TX\hat{\nu}}{N} + \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \hat{\nu}\rVert_1\}$$
+$$\frac{1}{2N}\lVert y - X(\beta^* + \widehat{\nu})\rVert^2_2 + \lambda_N\lVert\beta^* + \widehat{\nu}\rVert_1 \leq \frac{1}{2N}\lVert y - X\beta^{*}\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1$$
+$$\implies \frac{1}{2N}\lVert y - X\beta^* - X\widehat{\nu}\rVert^2_2 + \lambda_N\lVert\beta^* + \widehat{\nu}\rVert_1 \leq \frac{1}{2N}\lVert w\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1$$
+$$\implies \frac{1}{2N}\lVert w - X\widehat{\nu}\rVert^2_2 \leq \frac{1}{2N}\lVert w\rVert^2_2 + \lambda_N(\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1)$$
+Now, $\lVert w - X\widehat{\nu}\rVert^2_2 = (w - X\widehat{\nu})^T\cdot(w - X\widehat{\nu}) = \lVert w\rVert^2_2 + \lVert X\widehat{\nu}\rVert^2_2 - 2w^TX\widehat{\nu} $. Substituting this in the equation above yields
+$$\frac{1}{2N}(\lVert w\rVert^2_2 + \lVert X\widehat{\nu}\rVert^2_2 - 2w^TX\widehat{\nu}) \leq \frac{1}{2N}\lVert w\rVert^2_2 + \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1\}$$
+$$\implies \frac{1}{2N}(\lVert X\widehat{\nu}\rVert^2_2 - 2w^TX\widehat{\nu}) \leq \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1\}$$
+$$\implies \frac{1}{2N}\lVert X\widehat{\nu}\rVert^2_2 - \frac{1}{N}w^TX\widehat{\nu}\leq \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1\}$$
+$$\implies \frac{\lVert X\widehat{\nu}\rVert^2_2}{2N} \leq \frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1\}$$
 as desired.\\
 (d) We use a version of H\"{o}lder's inequality for vectors as follows:\\
 Let $p, q\in[1,\infty]$ be two real numbers such that $\frac{1}{p} + \frac{1}{q} = 1$. Let $\boldsymbol{x} = (x_1, x_2, ..., x_n)$ and $\boldsymbol{y} = (y_1, y_2, ..., y_n)$ be two vectors. Then
@@ -124,14 +132,49 @@ In our context let $\boldsymbol{x} = X^Tw$ and $\boldsymbol{y} = \nu$, and let $
 $$(X^Tw)\cdot\nu\leq \lVert X^Tw\rVert_{\infty}\lVert \nu\rVert_1$$
 $$\implies w^TX\nu\leq \lVert X^Tw\rVert_{\infty}\lVert \nu\rVert_1$$
 Thus, 
-$$\frac{w^TX\hat{\nu}}{N} + \lambda_N\{\lVert\hat{\nu_S}\rVert_1 - \lVert\hat{\nu_{S^c}}\rVert_1\}\leq \frac{\lVert X^Tw\rVert_{\infty}}{N}\lVert \nu\rVert_1 + \lambda_N\{\lVert\hat{\nu_S}\rVert_1 - \lVert\hat{\nu_{S^c}}\rVert_1\}$$
+$$\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}\leq \frac{\lVert X^Tw\rVert_{\infty}}{N}\lVert \nu\rVert_1 + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}$$
 as desired.\\
-% % (e) How much to write here?\\
-% (f)\\
-% % (g) When we show $\frac{\lVert X\hat{\nu}\rVert^2_2}{2N}\leq \frac{3}{2}\sqrt{k}\lambda_N\lVert\hat{\nu}\rVert_2^2$, we need to use the fact $\frac{1}{N}\lVert X^Tw\rVert_{\infty}\leq\frac{\lambda_N}{2}$. It's here that we need to utilise the fact that $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$\\
-% (h)\\
-% (i)\\
-% (j)
+(e) Let $S$ be the set of indices where $\beta^*$ is non-zero, and let $S^c := [n]\setminus S$. Now, we've already shown that
+$$\frac{\lVert X\widehat{\nu}\rVert^2_2}{2N} \leq \frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1\}$$
+Now, 
+$$\lVert \beta^* + \widehat{\nu}\rVert_1 = \lVert \beta_S^* + \widehat{\nu_S}\rVert_1 + \lVert \beta_{S^c}^* + \widehat{\nu_{S^c}}\rVert_1 = \lVert \beta_S^* + \widehat{\nu_S}\rVert_1 + \lVert \widehat{\nu_{S^c}}\rVert_1$$
+$$\geq \lVert \beta_S^*\rVert_1 -\lVert \widehat{\nu_S}\rVert_1 + \lVert \widehat{\nu_{S^c}}\rVert_1 =  \lVert \beta^*\rVert_1 -\lVert \widehat{\nu_S}\rVert_1 + \lVert \widehat{\nu_{S^c}}\rVert_1$$
+$$\implies \lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1 \geq \lVert \widehat{\nu_S}\rVert_1 - \lVert \widehat{\nu_{S^c}}\rVert_1$$
+since $\beta_{S^c}^* = \mathbf{0}$, and applying the triangle inequality.\\
+From the previous part, we also know that 
+$$\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}\leq \frac{\lVert X^Tw\rVert_{\infty}}{N}\lVert \nu\rVert_1 + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}$$
+$$\implies\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}\leq \frac{\lambda_N}{2}\lVert \nu\rVert_1 + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}$$
+since $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$ by the premise of the theorem. Finally, note that by the additivity of the $l_1$-norm, 
+$$\lVert\widehat{\nu}\rVert_1 = \lVert\widehat{\nu_S}\rVert_1 + \lVert\widehat{\nu_{S^c}}\rVert_1$$
+yielding
+$$\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}\leq \frac{\lambda_N}{2}\{\lVert\widehat{\nu_S}\rVert_1 + \lVert\widehat{\nu_{S^c}}\rVert_1\} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}$$
+$$ = \frac{3\lambda_N}{2}\lVert\widehat{\nu_S}\rVert_1 - \frac{\lambda_N}{2}\lVert\widehat{\nu_{S^c}}\rVert_1 \leq \frac{3\lambda_N}{2}\lVert\widehat{\nu_S}\rVert_1$$
+For the final step, let $|S| = k$. Then by the RMS-AM inequality on vectors,
+$$\frac{\lVert\boldsymbol{x}\rVert_1}{n}\leq\frac{\lVert\boldsymbol{x}\rVert_2}{\sqrt{n}}$$
+where $\boldsymbol{x}\in\mathbb{R}^n$.\\
+Thus $\lVert\widehat{\nu_S}\rVert_1 \leq \sqrt{|S|}\lVert\widehat{\nu_S}\rVert_2 \leq \sqrt{|S|}\lVert\widehat{\nu}\rVert_2 = \sqrt{k}\lVert\widehat{\nu}\rVert_2$. Combining this with the inequality above yields
+$$\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\} \leq \frac{3\lambda_N}{2}\lVert\widehat{\nu_S}\rVert_1 \leq \frac{3\lambda_N}{2}\sqrt{k}\lVert\widehat{\nu}\rVert_2$$
+as desired.\\
+(f) We have 
+$$\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\} \leq \frac{3\lambda_N}{2}\sqrt{k}\lVert\widehat{\nu}\rVert_2$$
+% $$\lVert\widehat{\nu_{S^c}}\rVert_1 \leq 3\lVert\widehat{\nu_{S}}\rVert_1$$
+% where the second inequality is lemma 11.1.
+We also know that 
+$$\frac{\lVert X\widehat{\nu}\rVert_2^2}{N}\geq \gamma\lVert\widehat{\nu}\rVert_2^2$$
+since $X$ satisfies the restricted eigenvalue property.\\
+Thus
+$$\frac{\gamma}{2}\lVert\widehat{\nu}\rVert_2^2\leq\frac{\lVert X\widehat{\nu}\rVert_2^2}{2N}\leq\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}\leq\frac{3\lambda_N}{2}\sqrt{k}\lVert\widehat{\nu}\rVert_2$$
+$$\implies \frac{\gamma}{2}\lVert\widehat{\nu}\rVert_2^2\leq\frac{3\lambda_N}{2}\sqrt{k}\lVert\widehat{\nu}\rVert_2$$
+$$\implies \lVert\widehat{\nu}\rVert_2\leq\frac{3\lambda_N}{\gamma}\sqrt{k} = \frac{3}{\gamma}\sqrt{\frac{k}{N}}\sqrt{N}\lambda_N$$
+Finally, recalling that $\widehat{\nu} := \widehat{\beta} - \beta^*$, we get that 
+$$\boldsymbol{\lVert\widehat{\beta} - \beta^*\rVert_2\leq\frac{3}{\gamma}\sqrt{\frac{k}{N}}\sqrt{N}\lambda_N}$$
+as desired.\\
+(g) When we show $\frac{\lVert X\widehat{\nu}\rVert^2_2}{2N}\leq \frac{3}{2}\sqrt{k}\lambda_N\lVert\widehat{\nu}\rVert_2^2$, we need to use the fact $\frac{1}{N}\lVert X^Tw\rVert_{\infty}\leq\frac{\lambda_N}{2}$. It's here that we need to utilise the fact that $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$.\\
+(h) The cone constraint naturally arises when we study the \textbf{error vector} $\widehat{\nu}$. In fact, when we define $\widehat{\nu} := \widehat{\beta} - \beta^*$, and try to derive bounds on the $l_2$-norm of $\widehat{\nu}$ \textbf{with suitable constraints on or regularization parameter $\lambda_N$, the vector $\widehat{\nu}$ automatically gets constrained within a cone set $\mathcal{C}$}. In fact, as we just proved in the previous parts, when we assumed $\lambda_N$ to be sufficiently large (as in $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$ for our sensing matrix $\boldsymbol{X}$ and a Gaussian noise $w\sim\mathcal{N}(\mathbf{0}_N, \Sigma)$, where $\Sigma\in\mathbb{R}^{N\times N}$; det$(\Sigma)$ = $\sigma^2$) we saw that $\widehat{\nu}$ automatically satisfied the cone constraint $\mathcal{C}(S; 3)$, ie:- 
+$$\lVert\widehat{\nu_{S^c}}\rVert_1\leq 3\lVert\widehat{\nu_{S}}\rVert_1\implies\widehat{\nu}\in\mathcal{C}(S;3)$$
+Finally, the cone constraints help in deriving the final forms for the bounds of $\lVert\nu\rVert_2$ by upper-bounding variable terms such as $\lVert X^Tw\rVert$ in terms of expressions in $\lambda_N$.\\
+(i)\\
+(j)
 
 \section{Problem 3}
 
