@@ -116,25 +116,22 @@ nonlinear tidal currents in the coastal sea'' by using multiple synchronised coa
 \subsection{Mathematical Formulation}
 
 
-
-
-
 \section{Problem 5}
 
 We know that Radon Transform is given by-
-$$R_\theta(f) =g(\rho, \theta)= \int_{-\infty}^{+\infty}f(\rho cos\theta - zsin\theta,\rho sin \theta + z cos\theta)dz $$
+$$R_\theta(f) =g(\rho, \theta)= \int_{-\infty}^{+\infty}f(\rho\cos\theta - z\sin\theta,\rho\sin \theta + z\cos\theta)dz $$
 We can write the same as-
-$$R_\theta(f) =g(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x,y)\delta(xcos\theta+ysin\theta -\rho)dxdy $$
-Let the scaled image be denoted by $h(x.y) = f(ax, ay)$. This is the same image as original, but scaled by a factor of a, in both x and y directions.
+$$R_\theta(f) =g(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x,y)\delta(x\cos\theta+y\sin\theta -\rho)dxdy $$
+Let the scaled image be denoted by $h(x,y) = f(ax, ay)$. This is the same image as original, but scaled by a factor of a, in both x and y directions.
 
 We can write the same Radon Transform as-
-$$ R_\theta(h) =g'(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}h(x,y)\delta(xcos\theta+ysin\theta -\rho)dxdy $$
-$$ R_\theta(h) =g'(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(ax,ay)\delta(xcos\theta+ysin\theta -\rho)dxdy $$
-$$ R_\theta(h) =g'(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x',y')\delta\bigg(\frac{x'cos\theta+y'sin\theta -a\rho}{a}\bigg)\frac{dx'}{a}\frac{dy'}{a} $$
+$$ R_\theta(h) =g^{\prime}(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}h(x,y)\delta(x\cos\theta+y\sin\theta -\rho)dxdy $$
+$$ R_\theta(h) =g^{\prime}(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(ax,ay)\delta(x\cos\theta+y\sin\theta -\rho)dxdy $$
+$$ R_\theta(h) =g^{\prime}(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x^{\prime},y^{\prime})\delta\bigg(\frac{x^{\prime}\cos\theta+y^{\prime}\sin\theta -a\rho}{a}\bigg)\frac{dx^{\prime}}{a}\frac{dy^{\prime}}{a} $$
 
 Since $\delta(ax) = \delta(x)/a$, we get-
-$$ R_\theta(h) =g'(\rho, \theta)= \frac{1}{a}\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x',y')\delta(x'cos\theta+y'sin\theta -a\rho)dx'dy' $$
-$$ R_\theta(h) =g'(\rho, \theta)= \frac{1}{a}g(a\rho, \theta) $$
+$$ R_\theta(h) =g^{\prime}(\rho, \theta)= \frac{1}{a}\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x^{\prime},y^{\prime})\delta(x^{\prime}\cos\theta+y^{\prime}\sin\theta -a\rho)dx^{\prime}dy^{\prime} $$
+$$ R_\theta(h) =g^{\prime}(\rho, \theta)= \frac{1}{a}g(a\rho, \theta) $$
 
 Thus, we can see that the Radon transform of the scaled image is also scaled by a factor of $a$ in the size of projection, but the intensity of each projection has reduced by $a$ as well.
  
@@ -148,9 +145,23 @@ Thus, we can see that the Radon transform of the scaled image is also scaled by 
 
 \section{Problem 6}
 
-
-
-
+We know that the Radon Transform is given by-
+$$R_\theta(f) =g(\rho, \theta)= \int_{-\infty}^{+\infty}f(\rho \cos\theta - z\sin\theta,\rho \sin \theta + z \cos\theta)dz $$
+We can write the same as-
+$$R_\theta(f) =g(\rho, \theta)= \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x,y)\delta(x\cos\theta+y\sin\theta -\rho)dxdy $$
+Now, let $f(x, y) = \delta(x-x_0, y-y_0)$ for some given constants $x_0$, $y_0$. Also, for the sake of simplification, call $\delta(x\cos\theta+y\sin\theta -\rho)$ as $h(x, y, \rho, \theta)$.\\
+Then the Radon transform of our function $f(x,y)$ becomes
+$$\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x,y)\delta(x\cos\theta+y\sin\theta -\rho)dxdy$$
+$$ = \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}\delta(x-x_0, y-y_0)h(x,y,\rho,\theta)dxdy$$
+Now, by a well known property of delta functions, the integration of a function multiplied by the delta function over any space (including the delta function's singularity) yields the evaluation of the function at the singularity point. In the context of our problem, we can state the above property as 
+$$\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}\delta(x-x_0, y-y_0)h(x,y)dxdy = h(x_0, y_0)$$
+Applying this property verbatim on our integral above yields
+$$\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}\delta(x-x_0, y-y_0)h(x,y,\rho,\theta)dxdy$$
+$$ = h(x_0, y_0, \rho, \theta) = \delta(x_0\cos\theta+y_0\sin\theta -\rho)$$
+since $\rho$, $\theta$ are constant parameters within the integration.\\
+Thus the Radon transform of the unit impulse function is another impulse function, ie:-
+$$\boldsymbol{R_{\theta}(\delta(x-x_0, y-y_0))) = g(\rho, \theta) = \delta(x_0\cos\theta+y_0\sin\theta -\rho)}$$
+$$\boldsymbol{R_{\theta}(\delta(x, y))) = g(\rho, \theta) = \delta(-\rho) = \delta(\rho)}$$
 
 
 
@@ -160,3 +171,4 @@ Thus, we can see that the Radon transform of the scaled image is also scaled by 
 
 
 \end{document}
+
