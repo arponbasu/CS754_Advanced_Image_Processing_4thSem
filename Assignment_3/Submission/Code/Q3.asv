@@ -1,0 +1,35 @@
+% clear all;
+addpath('./l1_ls_matlab');
+
+file1='./Images/slice_50.png';
+file2='./Images/slice_51.png';
+img1=imread(file1);
+% img1=double(img1);
+img2=imread(file2); 
+% img2=double(img2);
+
+figure();
+% imshow(img1);
+
+figure();
+imshow(img2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
