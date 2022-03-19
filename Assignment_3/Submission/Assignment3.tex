@@ -72,12 +72,31 @@ Arpon Basu \\ Shashwat Garg }
 
 Welcome  to our report on CS754 Assignment 3. We have tried to make this report comprehensive and self-contained. We hope reading this would give you a proper flowing description of our work, methods used and the results obtained.
 
+Also note that we installed the \texttt{Image Processing Toolbox} in MATLAB for this assignment. Thus the grader is urged to install it if she wishes to run the code on her on her machine.
+
 Hope you enjoy reading the report. Here we go!
 
 
 \section{Problem 1}
-
-
+For this problem we implemented the ISTA algorithm as was mentioned in the lecture slides and used it for both parts. For further perusal, we encourage the grader to check the code files submitted.\\
+(a) In this part, we read the image, vectorized it, and added some noise to it (since noise of variance 3 was required, we took a Gaussian Random Variable vector with variance 1 and multiplied it by $\sqrt{3}$ to make the variance 3). Since natural images are assumed to be sparse in orthonormal bases like the 2D-DCT, the matrix for our ISTA cost function was the DCT matrix itself. \\
+Thus our cost function was
+$$J(\theta) = \lVert y - U\theta\rVert^2_2 + \lambda\lVert\theta\rVert_1$$
+where $y$ is the vectorized noisy image.\\
+In our code, we took $\lambda = 1$, and we also took $\alpha = 1$ (note that since $U$ is orthonormal, the largest eigenvalue of $U^*U$ is 1 itself).\\
+Also, since the basis matrix for the 256$\times$256 images was too large to store in memory, we performed our computations patch-wise, in overlapping patches of 8$\times$8 and a stride of 1.\\
+We got a RMSE error of 13.81\% after all the overlapping images were summed up and averaged accordingly.
+Attached below is the reconstructed image for the graders perusal:
+\begin{figure}[H]
+    \includegraphics{1a.jpg}
+    \caption{Reconstructed image for the first part}
+\end{figure}
+(b) For the second part, we reused the same ISTA and other utility function codes from the first part. However, here the matrix was slightly different, ie:- 
+$$J(\theta) = \lVert y - \Phi U\theta\rVert^2_2 + \lambda\lVert\theta\rVert_1$$
+, and thus $A = \Phi U$, where $\Phi\in\mathbb{R}^{32\times 64}$ is a matrix of i.i.d unit Gaussian RVs. \\
+The hyperparameter $\lambda$ was kept 1 here too. However, this time $\alpha$ in the ISTA algorithm had to be chosen to be the largest eigenvalue of $A^*A$. We also added a 1 to that to avoid numerical stability issues.\\
+% Keeping the remaining factors same as in the previous part (same 8$\times$8 patches, stride to be 1),we got a reconstruction error of 
+PART B REMAINS TO BE DONE. ERROR SUDDENLY BLEW UP TO 50 \%.  
 \section{Problem 2}
 % (a) The restricted eigenvalue property has a very neat and succinct description in terms of the SVD of our sensing matrix $\boldsymbol{X}$, and that's how we'll define it.\\
 % Note that the restricted eigenvalue property for the matrix $X$ is defined as follows
@@ -169,18 +188,53 @@ $$\implies \lVert\widehat{\nu}\rVert_2\leq\frac{3\lambda_N}{\gamma}\sqrt{k} = \f
 Finally, recalling that $\widehat{\nu} := \widehat{\beta} - \beta^*$, we get that 
 $$\boldsymbol{\lVert\widehat{\beta} - \beta^*\rVert_2\leq\frac{3}{\gamma}\sqrt{\frac{k}{N}}\sqrt{N}\lambda_N}$$
 as desired.\\
-(g) When we show $\frac{\lVert X\widehat{\nu}\rVert^2_2}{2N}\leq \frac{3}{2}\sqrt{k}\lambda_N\lVert\widehat{\nu}\rVert_2^2$, we need to use the fact $\frac{1}{N}\lVert X^Tw\rVert_{\infty}\leq\frac{\lambda_N}{2}$. It's here that we need to utilise the fact that $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$.\\
-(h) The cone constraint naturally arises when we study the \textbf{error vector} $\widehat{\nu}$. In fact, when we define $\widehat{\nu} := \widehat{\beta} - \beta^*$, and try to derive bounds on the $l_2$-norm of $\widehat{\nu}$ \textbf{with suitable constraints on or regularization parameter $\lambda_N$, the vector $\widehat{\nu}$ automatically gets constrained within a cone set $\mathcal{C}$}. In fact, as we just proved in the previous parts, when we assumed $\lambda_N$ to be sufficiently large (as in $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$ for our sensing matrix $\boldsymbol{X}$ and a Gaussian noise $w\sim\mathcal{N}(\mathbf{0}_N, \Sigma)$, where $\Sigma\in\mathbb{R}^{N\times N}$; det$(\Sigma)$ = $\sigma^2$) we saw that $\widehat{\nu}$ automatically satisfied the cone constraint $\mathcal{C}(S; 3)$, ie:- 
-$$\lVert\widehat{\nu_{S^c}}\rVert_1\leq 3\lVert\widehat{\nu_{S}}\rVert_1\implies\widehat{\nu}\in\mathcal{C}(S;3)$$
-Finally, the cone constraints help in deriving the final forms for the bounds of $\lVert\nu\rVert_2$ by upper-bounding variable terms such as $\lVert X^Tw\rVert$ in terms of expressions in $\lambda_N$.\\
-(i)\\
-(j)
+(g) When we show $\frac{\lVert X\widehat{\nu}\rVert^2_2}{2N}\leq \frac{3}{2}\sqrt{k}\lambda_N\lVert\widehat{\nu}\rVert_2^2$, en route to ultimately establishing the upper bound on $\lVert\widehat{\nu}\rVert_2$, we need to use the fact $\frac{1}{N}\lVert X^Tw\rVert_{\infty}\leq\frac{\lambda_N}{2}$, to set up an inequality on the noise-dependent part of the term. It's here that we need to utilise the fact that $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$.
 
+
+
+% (h) The cone constraint naturally arises when we study the \textbf{error vector} $\widehat{\nu}$. In fact, when we define $\widehat{\nu} := \widehat{\beta} - \beta^*$, and try to derive bounds on the $l_2$-norm of $\widehat{\nu}$ \textbf{with suitable constraints on or regularization parameter $\lambda_N$, the vector $\widehat{\nu}$ automatically gets constrained within a cone set $\mathcal{C}$}. In fact, as we just proved in the previous parts, when we assumed $\lambda_N$ to be sufficiently large (as in $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$ for our sensing matrix $\boldsymbol{X}$ and a Gaussian noise $w\sim\mathcal{N}(\mathbf{0}_N, \Sigma)$, where $\Sigma\in\mathbb{R}^{N\times N}$; det$(\Sigma)$ = $\sigma^2$) we saw that $\widehat{\nu}$ automatically satisfied the cone constraint $\mathcal{C}(S; 3)$, ie:- 
+% $$\lVert\widehat{\nu_{S^c}}\rVert_1\leq 3\lVert\widehat{\nu_{S}}\rVert_1\implies\widehat{\nu}\in\mathcal{C}(S;3)$$
+% Finally, the cone constraints help in deriving the final forms for the bounds of $\lVert\nu\rVert_2$ by upper-bounding variable terms such as $\lVert X^Tw\rVert$ in terms of expressions in $\lambda_N$.\\
+(h) Note that when we defined the \textbf{Restricted Eigenvalue Property} in the first part, we only defined it over a certain constraint set $\mathcal{C}$. That was because while properties of strong convexity are very desirable while proving mathematical bounds, the rectangular matrix $X$ itself is such that the cost function ($\propto X^TX$) is only convex in certain directions while concave in others, and thus arises the the set $\mathcal{C}\subseteq\mathbb{R}^p$ which denotes the regions of convexity of our cost function. \\
+Finally, when we actually come to applying the theorem, the regression constraint (that all feasible points $\lVert\beta\rVert_1\leq R$) forces $\mathcal{C}$ to be a cone, ie:- $\lVert\widehat{\nu_S}\rVert_1\leq\alpha\lVert\widehat{\nu_{S^c}}\rVert_1$, for some $\alpha > 0$, and where $\widehat{\nu} = \beta - \beta^*$.
+
+
+% (i) Advantages of the given theorem over Theorem 3 are:
+% \begin{itemize}
+%     
+%     
+%     % \item In theorem 3, the value of $p$ (where $\boldsymbol{X}\in\mathbb{R}^{n\times p}$) indirectly influences $\delta$, 
+%     
+%     \item For applying Theorem 3, we need the \textbf{oracular indices} of $\theta$ in advance to obtain a tight bound. This theorem works without any such extra restrictions.
+%     \item 
+% \end{itemize}
+% (j)
+
+
+(i) The advantages of the given theorem over Theorem 3 are:-
+\begin{itemize}
+    \item The only property of matrix $\boldsymbol{X}$ that is needed to apply this theorem is it's coefficient $\gamma$ of restricted eigenvalue property, while for applying Theorem 3 we need to know the RIP-coefficient $\delta$ of $\boldsymbol{X}$. Note that while $\gamma$ can be easily calculated (it can be shown that $\gamma$ is linked to the smallest singular value of $\boldsymbol{X}$), calculating $\delta$ for a general matrix is NP-hard.
+    \item This theorem focuses on the matrix-noise interaction as opposed to looking at noise independently, as in Theorem 3.
+    \item The bound in this theorem is provably optimal (``minimax-optimal"), in the sense that no other estimator can improve upon it further. Such guarantees are unavailable for Theorem 3.
+    \item This theorem gives us a deterministic bound which is true for all cases, and it also gives the freedom to choose $\lambda_N$ in such a way that one can guarantee better bounds on a probabilistic basis. In theorem 3, once we fix our sensing matrix, we can't improve upon our bound further.
+    \item The fact that we can adjust $\lambda_N$ according to the level of accuracy required is a flexibility unavailable to us in Theorem 3, because the probabilistic factor in Theorem 3 is subsumed within the design of a matrix with low $\delta$. Thus, for example, if better bounds are desired in Theorem 3, one has to change the sensing matrix itself. However, in this theorem, it suffices to simply change the regularization parameter $\lambda_N$.
+\end{itemize}
+Advantages of Theorem 3 over the given theorem are:-
+\begin{itemize}
+    \item Theorem 3 works well even for compressible signals due to it's oracular upper bound. This theorem demands strict sparsity, which may be unrealistic in many situations.
+\end{itemize}
+
+(j) One of the common threads between the Dantzig selector and LASSO is the their similar treatment of noise models, ie:-
+\begin{itemize}
+    \item Both don't assume any certain distribution (as in Gaussian, or Uniform, etc.)for the noise $w$ (or $e$).
+    \item Both instead deal with all types of noise in that they propose upper bounds on $\lVert X^Tw\rVert_{\infty}$ (for LASSO) or $\lVert A^Te\rVert_{\infty}$ (for the Dantzig selector).
+    \item In both types of theorems, in case the norm of the matrix-noise interaction can't be upper bounded (ie:- if the support of our noise vector is unbounded), both of them provide (exponential) probabilistic guarantees on the theorems to still hold.
+    \item Both of them deal with the matrix-noise vector, than with the noise itself. This gives the bounds more adaptability in similar scenarios but with different sensing matrices.
+\end{itemize}
 \section{Problem 3}
 
 
 \section{Problem 4}
-
 
 \begin{center}
     \begin{tabular}{ |p{3.5cm}||p{10cm}|}
@@ -229,7 +283,7 @@ Since $\delta(ax) = \delta(x)/a$, we get-
 $$ R_\theta(h) =g^{\prime}(\rho, \theta)= \frac{1}{a}\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}f(x^{\prime},y^{\prime})\delta(x^{\prime}\cos\theta+y^{\prime}\sin\theta -a\rho)dx^{\prime}dy^{\prime} $$
 $$ R_\theta(h) =g^{\prime}(\rho, \theta)= \frac{1}{a}g(a\rho, \theta) $$
 
-Thus, we can see that the Radon transform of the scaled image is scaled by a factor of $a$ in the size of projection, but the intensity of projection has reduced by $a$ as well.
+Thus, we can see that the Radon transform of the scaled image is also scaled by a factor of $a$ in the size of projection, but the intensity of each projection has reduced by $a$ as well.
  
 
 
