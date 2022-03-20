@@ -231,7 +231,70 @@ Advantages of Theorem 3 over the given theorem are:-
     \item In both types of theorems, in case the norm of the matrix-noise interaction can't be upper bounded (ie:- if the support of our noise vector is unbounded), both of them provide (exponential) probabilistic guarantees on the theorems to still hold.
     \item Both of them deal with the matrix-noise vector, than with the noise itself. This gives the bounds more adaptability in similar scenarios but with different sensing matrices.
 \end{itemize}
+
+
+
+
 \section{Problem 3}
+
+Here, we implement tomographic reconstruction using simple techniques like the RamLak filter, as well the method of compressive reconstruction and coupled compressive reconstruction. We use uniformly distributed angles from 0 to 180 for this problem and in part(c), we take two sets of uniformly distributed angles. The subsections are as follows-
+
+\subsection{Ram-Lak Filter}
+
+We begin with reading in the image files, converting them into a square shaped image and calculating the radon transform using the radon() function in MATLAB.
+
+This part just involves calling the iradon function with RamLak as the argument, which performs the necessary reconstruction and returns an image with MSE as- 
+
+The image is as follows-
+% \begin{center}
+%     #includegraphics{ }
+% \end{center}
+
+
+\subsection{Using Compressive Sensing}
+This involves using compressive sensing to reconstruct the image using the Radon transforms. The fundamental is that the Radon Tranformation can be represented as a matrix multiplication and the image-vector can be represented as a sparse vector in the 2d-dct basis. This gives us a problem struture just like the compressive sensing problem and now we can use our familiar tools like Lasso, L1-norm minimization to get to the correct results.
+
+Overall, we get a reconstruction with an MSE of 6\%
+
+The reconstructed image is as follows-
+% \begin{center}
+%     #includegraphics{ }
+% \end{center}
+
+\subsection{Error Function for 2 consecutive slices}
+
+Here, we see an extension of the familiar compressive sensing problem. We see how instead of thinking like 2 separate CS problems, in case of consecutive slices, we can use the reducdancy in the frames to get an even better and more complete picture with less magnitude of error.
+
+This improvement is mainly due to the fact that the set of angles of the two consecutive measurements will be different but both will give some information about each other. Thus, we get better results.
+
+The formula used is as follows-
+
+$E(\beta_1,\beta_2) =  ||y_1 - R_1U\beta_1||^2 + ||y_2 - R_2U\beta_2||^2$ + $\lambda||\beta_1||_1 + \lambda||\beta_2-\beta_1||_1$
+
+$ = ||y_1 - R_1U\beta_1||^2 + ||y_2 - R_2U(\beta_1 + \Delta\beta_{21})||^2 + ||y_3 - R_3U(\beta_1 + \Delta\beta_{21} + \Delta\beta_{32})||^2$ + $\lambda||\beta_1||_1 + \lambda||\Delta\beta_{21}||_1$
+
+Overall, we get a better reconstruction with an MSE of 3.0\% and 2.5\% for both images respectively. This is an upgrade over the previous 6\%
+
+The reconstructed image is as follows-
+% \begin{center}
+%     #includegraphics{ }
+% \end{center}
+
+
+
+\subsection{Error Function for 3 consecutive slices}
+
+We use a similar approach as previous case. We center our sparsity measure at second slice and minimise the difference between the first-second and the second-third slices. This allows us to exploit the redundancy between consecutive frames.
+
+The formula is as follows-
+
+$E(\beta_1,\beta_2,\beta_3) =  ||y_1 - R_1U\beta_1||^2 + ||y_2 - R_2U\beta_2||^2 + ||y_3 - R_3U\beta_3||^2$ + $\lambda||\beta_2||_1 + \lambda||\beta_1-\beta_2||_1  + \lambda||\beta_3-\beta_2||_1$
+
+$=  ||y_1 - R_1U(\beta_2 + \Delta\beta_{12})||^2 + ||y_2 - R_2U\beta_2||^2 + ||y_3 - R_3U(\beta_2 + \Delta\beta_{32})||^2$ + $\lambda||\beta_2||_1 + \lambda||\Delta\beta_{12}||_1  + \lambda||\Delta\beta_{32}||_1$
+
+
+
+
 
 
 \section{Problem 4}
