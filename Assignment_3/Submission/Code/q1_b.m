@@ -1,11 +1,15 @@
+rng(1000);
+
 im = imread('barbara256.png');
 
 Phi = randn(32,64);
 alpha = (svds(Phi,1))^2 + 1;
-U = kron(dctmtx(8),dctmtx(8));
+U = kron(dctmtx(8)',dctmtx(8)');
 
 final = zeros(256,256,"double");
 cnt = zeros(256,256,"double");
+
+
 
 for i = 1:249
     for j = 1:249
@@ -26,6 +30,8 @@ final = final./cnt;
 final = transpose(final);
 imshow(uint8(final))
 err(double(im(:)),double(final(:)))
+imwrite(uint8(final),'1b.jpg')
+clear;
 
 function r = reconstruct_patch (patch, Phi, U, alpha, lambda, iter)
     p = patch(:); 
