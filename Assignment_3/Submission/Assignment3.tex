@@ -83,24 +83,33 @@ For this problem we implemented the ISTA algorithm as was mentioned in the lectu
     \includegraphics{barbara256.png}
     \caption{Original 256$\times$256 image for this question}
 \end{figure}
-(a) In this part, we read the image, vectorized it, and added some noise to it (since noise of variance 3 was required, we took a Gaussian Random Variable vector with variance 1 and multiplied it by $\sqrt{3}$ to make the variance 3). Since natural images are assumed to be sparse in orthonormal bases like the 2D-DCT, the matrix for our ISTA cost function was the DCT matrix itself. \\
+(a) In this part, we read the image, vectorized it, and added some noise to it (since noise of variance 3 was required, we took a Gaussian Random Variable vector with variance 1 and multiplied it by $\sqrt{3}$ to make the variance 3). Since natural images are assumed to be sparse in orthonormal bases like the 2D-DCT, the matrix for our ISTA cost function was the DCT matrix itself. 
+
 Thus our cost function was
 $$J(\theta) = \lVert y - U\theta\rVert^2_2 + \lambda\lVert\theta\rVert_1$$
-where $y$ is the vectorized noisy image.\\
-In our code, we took $\lambda = 1$, and we also took $\alpha = 2$ (note that since $U$ is orthonormal, the largest eigenvalue of $U^*U$ is 1 itself. We added an additional one to avoid numerical stability issues).\\
-Also, since the basis matrix for the 256$\times$256 images was too large to store in memory, we performed our computations patch-wise, in overlapping patches of 8$\times$8 and a stride of 1.\\
-In addition, to help average out overlapping patches, we padded images with a border of zeros so that the average count within the main image would be same for every pixel within the same image (otherwise border pixels occur in lesser patches than middle ones).\\
-We got a \textbf{RMSE error of 1.17\%} after all the overlapping images were summed up and averaged accordingly. (Note that the RMSE error of the noisy image with the original one was 1.27 \%, so our algorithm definitely gave us an improvement).\\
+where $y$ is the vectorized noisy image.
+
+In our code, we took $\lambda = 1$, and we also took $\alpha = 2$ (note that since $U$ is orthonormal, the largest eigenvalue of $U^*U$ is 1 itself. We added an additional one to avoid numerical stability issues).
+
+Also, since the basis matrix for the 256$\times$256 images was too large to store in memory, we performed our computations patch-wise, in overlapping patches of 8$\times$8 and a stride of 1.
+
+In addition, to help average out overlapping patches, we padded images with a border of zeros so that the average count within the main image would be same for every pixel within the same image (otherwise border pixels occur in lesser patches than middle ones).
+
+We got a \textbf{RMSE error of 1.17\%} after all the overlapping images were summed up and averaged accordingly. (Note that the RMSE error of the noisy image with the original one was 1.27 \%, so our algorithm definitely gave us an improvement).
+
 Attached below is the reconstructed image for the graders perusal:
 \begin{figure}[H]
     \includegraphics{Reconstructed_Image_1a.jpg}
     \caption{Reconstructed image for the first part}
 \end{figure}
+
 (b) For the second part, we reused the same ISTA and other utility function codes from the first part. However, here the matrix was slightly different, ie:- 
 $$J(\theta) = \lVert y - \Phi U\theta\rVert^2_2 + \lambda\lVert\theta\rVert_1$$
-, and thus $A = \Phi U$, where $\Phi\in\mathbb{R}^{32\times 64}$ is a matrix of i.i.d unit Gaussian RVs. \\
+, and thus $A = \Phi U$, where $\Phi\in\mathbb{R}^{32\times 64}$ is a matrix of i.i.d unit Gaussian RVs. 
+
 The hyperparameter $\lambda$ was kept 1000 here, for better results. However, this time $\alpha$ in the ISTA algorithm had to be chosen to be the largest eigenvalue of $A^*A$. We also added a 5 to that to avoid numerical stability issues.\\
-Most of the other code for this part was the same as part a, including the idea of padding to make averaging easier.\\
+Most of the other code for this part was the same as part a, including the idea of padding to make averaging easier.
+
 On running this code, we obtained a \textbf{RMSE error of 6.8 \%}.  
  \begin{figure}[H]
      \includegraphics{Reconstructed_Image_1b.jpg}
@@ -126,6 +135,7 @@ $$\implies \frac{1}{N}\lVert X\nu\rVert^2_2 \geq \gamma\lVert\nu\rVert_2^2\;\for
 Thus our definition condenses to:
 \textbf{The matrix $\boldsymbol{X}\in\mathbb{R}^{n\times p}$ is said to satisfy the Restricted Eigenvalue Property over a constraint set $\mathcal{C}$ with coefficient $\gamma$ if }
 $$\boldsymbol{\frac{1}{N}\lVert X\nu\rVert^2_2 \geq \gamma\lVert\nu\rVert_2^2\;\;\forall\nu\in\mathcal{C}}$$
+
 (b) We have that 
 $$G(\nu) := \frac{1}{2N}\lVert y - X(\beta^{*} + \nu)\rVert^2_2 + \lambda_N\lVert\beta^{*} + \nu\rVert_1$$
 $$J(\boldsymbol{x}) := \frac{1}{2N}\lVert y - X\boldsymbol{x}\rVert^2_2 + \lambda_N\lVert\boldsymbol{x}\rVert_1$$
@@ -133,7 +143,8 @@ Thus
 $$G(0) := \frac{1}{2N}\lVert y - X\beta^{*}\rVert^2_2 + \lambda_N\lVert\beta^{*}\rVert_1 = J(\beta^{*})$$
 On the other hand, for $\widehat{\nu} := \widehat{\beta} - \beta^{*}$, we have
 $$G(\widehat{\nu}) := \frac{1}{2N}\lVert y - X\widehat{\beta}\rVert^2_2 + \lambda_N\lVert\widehat{\beta}\rVert_1 = J(\widehat{\beta})$$
-But $\widehat{\beta}$ was, \textbf{by construction} (as mentioned on Pg\# 308, third last line), the optimizer of the LASSO function $J(\boldsymbol{x})$, and consequently $G(\widehat{\nu}) = J(\widehat{\beta}) \leq J(\beta^*) = G(0)$, as desired.\\
+But $\widehat{\beta}$ was, \textbf{by construction} (as mentioned on Pg\# 308, third last line), the optimizer of the LASSO function $J(\boldsymbol{x})$, and consequently $G(\widehat{\nu}) = J(\widehat{\beta}) \leq J(\beta^*) = G(0)$, as desired.
+
 (c) We just have to piece together some equations and inequalities to derive equation 11.21. They go as follows:
 $$G(\widehat{\nu}) \leq G(0)$$
 $$y = X\beta^* + w$$
@@ -151,24 +162,28 @@ $$\frac{1}{2N}(\lVert w\rVert^2_2 + \lVert X\widehat{\nu}\rVert^2_2 - 2w^TX\wide
 $$\implies \frac{1}{2N}(\lVert X\widehat{\nu}\rVert^2_2 - 2w^TX\widehat{\nu}) \leq \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1\}$$
 $$\implies \frac{1}{2N}\lVert X\widehat{\nu}\rVert^2_2 - \frac{1}{N}w^TX\widehat{\nu}\leq \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1\}$$
 $$\implies \frac{\lVert X\widehat{\nu}\rVert^2_2}{2N} \leq \frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1\}$$
-as desired.\\
+as desired.
+
 (d) We use a version of H\"{o}lder's inequality for vectors as follows:\\
 Let $p, q\in[1,\infty]$ be two real numbers such that $\frac{1}{p} + \frac{1}{q} = 1$. Let $\boldsymbol{x} = (x_1, x_2, ..., x_n)$ and $\boldsymbol{y} = (y_1, y_2, ..., y_n)$ be two vectors. Then
 $$\boldsymbol{\sum^{n}_{k = 1}|x_ky_k|\leq (\sum^{n}_{k = 1}|x_k|^p)^{\frac{1}{p}}(\sum^{n}_{k = 1}|y_k|^q)^{\frac{1}{q}} = \lVert x\rVert_p\lVert y\rVert_q}$$
-We augment this inequality for our purposes: Note that $\boldsymbol{x}\cdot\boldsymbol{y} = \sum^{n}_{k = 1}x_ky_k \leq \sum^{n}_{k = 1}|x_ky_k| \leq (\sum^{n}_{k = 1}|x_k|^p)^{\frac{1}{p}}(\sum^{n}_{k = 1}|y_k|^q)^{\frac{1}{q}}$, thus showing that $\boldsymbol{x}\cdot\boldsymbol{y}\leq (\sum^{n}_{k = 1}|x_k|^p)^{\frac{1}{p}}(\sum^{n}_{k = 1}|y_k|^q)^{\frac{1}{q}} = \lVert \boldsymbol{x}\rVert_p\lVert \boldsymbol{y}\rVert_q$.\\
+We augment this inequality for our purposes: Note that $\boldsymbol{x}\cdot\boldsymbol{y} = \sum^{n}_{k = 1}x_ky_k \leq \sum^{n}_{k = 1}|x_ky_k| \leq (\sum^{n}_{k = 1}|x_k|^p)^{\frac{1}{p}}(\sum^{n}_{k = 1}|y_k|^q)^{\frac{1}{q}}$, thus showing that $\boldsymbol{x}\cdot\boldsymbol{y}\leq (\sum^{n}_{k = 1}|x_k|^p)^{\frac{1}{p}}(\sum^{n}_{k = 1}|y_k|^q)^{\frac{1}{q}} = \lVert \boldsymbol{x}\rVert_p\lVert \boldsymbol{y}\rVert_q$.
+
 In our context let $\boldsymbol{x} = X^Tw$ and $\boldsymbol{y} = \nu$, and let $p =\infty$, $q = 1$. Then, $(X^Tw)\cdot\nu = (X^Tw)^T\nu = w^TX\nu$. Then we have that 
 $$(X^Tw)\cdot\nu\leq \lVert X^Tw\rVert_{\infty}\lVert \nu\rVert_1$$
 $$\implies w^TX\nu\leq \lVert X^Tw\rVert_{\infty}\lVert \nu\rVert_1$$
 Thus, 
 $$\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}\leq \frac{\lVert X^Tw\rVert_{\infty}}{N}\lVert \nu\rVert_1 + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}$$
-as desired.\\
+as desired.
+
 (e) Let $S$ be the set of indices where $\beta^*$ is non-zero, and let $S^c := [n]\setminus S$. Now, we've already shown that
 $$\frac{\lVert X\widehat{\nu}\rVert^2_2}{2N} \leq \frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1\}$$
 Now, 
 $$\lVert \beta^* + \widehat{\nu}\rVert_1 = \lVert \beta_S^* + \widehat{\nu_S}\rVert_1 + \lVert \beta_{S^c}^* + \widehat{\nu_{S^c}}\rVert_1 = \lVert \beta_S^* + \widehat{\nu_S}\rVert_1 + \lVert \widehat{\nu_{S^c}}\rVert_1$$
 $$\geq \lVert \beta_S^*\rVert_1 -\lVert \widehat{\nu_S}\rVert_1 + \lVert \widehat{\nu_{S^c}}\rVert_1 =  \lVert \beta^*\rVert_1 -\lVert \widehat{\nu_S}\rVert_1 + \lVert \widehat{\nu_{S^c}}\rVert_1$$
 $$\implies \lVert\beta^{*}\rVert_1 - \lVert\beta^* + \widehat{\nu}\rVert_1 \geq \lVert \widehat{\nu_S}\rVert_1 - \lVert \widehat{\nu_{S^c}}\rVert_1$$
-since $\beta_{S^c}^* = \mathbf{0}$, and applying the triangle inequality.\\
+since $\beta_{S^c}^* = \mathbf{0}$, and applying the triangle inequality.
+
 From the previous part, we also know that 
 $$\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}\leq \frac{\lVert X^Tw\rVert_{\infty}}{N}\lVert \nu\rVert_1 + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}$$
 $$\implies\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}\leq \frac{\lambda_N}{2}\lVert \nu\rVert_1 + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\}$$
@@ -182,7 +197,8 @@ $$\frac{\lVert\boldsymbol{x}\rVert_1}{n}\leq\frac{\lVert\boldsymbol{x}\rVert_2}{
 where $\boldsymbol{x}\in\mathbb{R}^n$.\\
 Thus $\lVert\widehat{\nu_S}\rVert_1 \leq \sqrt{|S|}\lVert\widehat{\nu_S}\rVert_2 \leq \sqrt{|S|}\lVert\widehat{\nu}\rVert_2 = \sqrt{k}\lVert\widehat{\nu}\rVert_2$. Combining this with the inequality above yields
 $$\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\} \leq \frac{3\lambda_N}{2}\lVert\widehat{\nu_S}\rVert_1 \leq \frac{3\lambda_N}{2}\sqrt{k}\lVert\widehat{\nu}\rVert_2$$
-as desired.\\
+as desired.
+
 (f) We have 
 $$\frac{w^TX\widehat{\nu}}{N} + \lambda_N\{\lVert\widehat{\nu_S}\rVert_1 - \lVert\widehat{\nu_{S^c}}\rVert_1\} \leq \frac{3\lambda_N}{2}\sqrt{k}\lVert\widehat{\nu}\rVert_2$$
 % $$\lVert\widehat{\nu_{S^c}}\rVert_1 \leq 3\lVert\widehat{\nu_{S}}\rVert_1$$
@@ -196,7 +212,8 @@ $$\implies \frac{\gamma}{2}\lVert\widehat{\nu}\rVert_2^2\leq\frac{3\lambda_N}{2}
 $$\implies \lVert\widehat{\nu}\rVert_2\leq\frac{3\lambda_N}{\gamma}\sqrt{k} = \frac{3}{\gamma}\sqrt{\frac{k}{N}}\sqrt{N}\lambda_N$$
 Finally, recalling that $\widehat{\nu} := \widehat{\beta} - \beta^*$, we get that 
 $$\boldsymbol{\lVert\widehat{\beta} - \beta^*\rVert_2\leq\frac{3}{\gamma}\sqrt{\frac{k}{N}}\sqrt{N}\lambda_N}$$
-as desired.\\
+as desired.
+
 (g) When we show $\frac{\lVert X\widehat{\nu}\rVert^2_2}{2N}\leq \frac{3}{2}\sqrt{k}\lambda_N\lVert\widehat{\nu}\rVert_2^2$, en route to ultimately establishing the upper bound on $\lVert\widehat{\nu}\rVert_2$, we need to use the fact $\frac{1}{N}\lVert X^Tw\rVert_{\infty}\leq\frac{\lambda_N}{2}$, to set up an inequality on the noise-dependent part of the term. It's here that we need to utilise the fact that $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$.
 
 
@@ -204,7 +221,8 @@ as desired.\\
 % (h) The cone constraint naturally arises when we study the \textbf{error vector} $\widehat{\nu}$. In fact, when we define $\widehat{\nu} := \widehat{\beta} - \beta^*$, and try to derive bounds on the $l_2$-norm of $\widehat{\nu}$ \textbf{with suitable constraints on or regularization parameter $\lambda_N$, the vector $\widehat{\nu}$ automatically gets constrained within a cone set $\mathcal{C}$}. In fact, as we just proved in the previous parts, when we assumed $\lambda_N$ to be sufficiently large (as in $\lambda_N \geq 2\frac{\lVert X^Tw\rVert_{\infty}}{N}$ for our sensing matrix $\boldsymbol{X}$ and a Gaussian noise $w\sim\mathcal{N}(\mathbf{0}_N, \Sigma)$, where $\Sigma\in\mathbb{R}^{N\times N}$; det$(\Sigma)$ = $\sigma^2$) we saw that $\widehat{\nu}$ automatically satisfied the cone constraint $\mathcal{C}(S; 3)$, ie:- 
 % $$\lVert\widehat{\nu_{S^c}}\rVert_1\leq 3\lVert\widehat{\nu_{S}}\rVert_1\implies\widehat{\nu}\in\mathcal{C}(S;3)$$
 % Finally, the cone constraints help in deriving the final forms for the bounds of $\lVert\nu\rVert_2$ by upper-bounding variable terms such as $\lVert X^Tw\rVert$ in terms of expressions in $\lambda_N$.\\
-(h) Note that when we defined the \textbf{Restricted Eigenvalue Property} in the first part, we only defined it over a certain constraint set $\mathcal{C}$. That was because while properties of strong convexity are very desirable while proving mathematical bounds, the rectangular matrix $X$ itself is such that the cost function ($\propto X^TX$) is only convex in certain directions while concave in others, and thus arises the the set $\mathcal{C}\subseteq\mathbb{R}^p$ which denotes the regions of convexity of our cost function. \\
+(h) Note that when we defined the \textbf{Restricted Eigenvalue Property} in the first part, we only defined it over a certain constraint set $\mathcal{C}$. That was because while properties of strong convexity are very desirable while proving mathematical bounds, the rectangular matrix $X$ itself is such that the cost function ($\propto X^TX$) is only convex in certain directions while concave in others, and thus arises the the set $\mathcal{C}\subseteq\mathbb{R}^p$ which denotes the regions of convexity of our cost function. 
+
 Finally, when we actually come to applying the theorem, the regression constraint (that all feasible points $\lVert\beta\rVert_1\leq R$) forces $\mathcal{C}$ to be a cone, ie:- $\lVert\widehat{\nu_S}\rVert_1\leq\alpha\lVert\widehat{\nu_{S^c}}\rVert_1$, for some $\alpha > 0$, and where $\widehat{\nu} = \beta - \beta^*$.
 
 
@@ -240,6 +258,7 @@ Advantages of Theorem 3 over the given theorem are:-
     \item In both types of theorems, in case the norm of the matrix-noise interaction can't be upper bounded (ie:- if the support of our noise vector is unbounded), both of them provide (exponential) probabilistic guarantees on the theorems to still hold.
     \item Both of them deal with the matrix-noise vector, than with the noise itself. This gives the bounds more adaptability in similar scenarios but with different sensing matrices.
 \end{itemize}
+
 \section{Problem 3}
 
 Here, we implement tomographic reconstruction using simple techniques like the RamLak filter, as well the method of compressive reconstruction and coupled compressive reconstruction. 
@@ -337,14 +356,53 @@ nonlinear tidal currents in the coastal sea'' by using multiple synchronised coa
 
 Using GPS clock signals reconstruction of tidal process behaviour is done through an inverse analysis of the acoustic signals obtained by the sensors. Separate codes are used to distinguish between signals of individual systems.
 
-Basically the concepts of tomography as we know, are being applied to get spatio-temporal information about the 
+Basically the concepts of tomography as we know, are being applied to get spatio-temporal information about the tides.
 
+\begin{center}
+    \includegraphics[height= 7cm]{paper1.png}
+    \includegraphics[height= 7cm]{paper2.png}
+\end{center}
 
-
+The figures above denote the equipment and the signals received by various stations.
 \subsection{Mathematical Formulation}
 
+We will skip the hardware details of the system. The time difference between signals from 2 stations is given by the following-
+$$\Delta t_i = \frac{1}{2}(t_i^+ - t_i^-) = - \int\frac{u(x,y)\cdot n}{C_0^2} ds$$
+Here, + and - denote the directions of transmission, $C_0$ gives the speed of sound and n is the unit vector tangent to the ray. $u(x,y)$ is the 2-D field which we want to measure finally.
 
+We put all the $\Delta t_i$ as the $y$ vector. We write the dot product of the $u(x,y)$ 2-D field along the $n$ direction as a fourier series, basically expressing it in the fourier basis as a sum of sines and cosines.
 
+The coefficients of the sine and cosine are modelled by the $x$ variable. Thus, incorporating noise, we get the following formula-
+$$y = Ex + noise$$
+Here, E is stated to be a ``data kernel matrix''. It is effectively an orthonormal matrix used for basis conversion.
+
+Note how the dot product in the integral is the point where we use tomography in this experiment. The dot product effectively takes a Radon transform of the 2D-field $u(x,y)$.
+
+\subsection{Solving the Problem}
+
+The optimization function chosen is the Lasso, thus we minimize the following-
+$$J = (y-Ex)^T(y-Ex)+\alpha^2x^Tx$$
+The solution achieved is the following-
+$$x^*=(E^TE+\alpha^2I)^{-1}E^Ty$$
+
+The damped least squares method accompanied by the L-curve method is applied here for convergence.
+
+Thus, we have an estimate of the fourier coefficients. Now, we use the travel time difference data. Effectively, all stations have information from there point of view. Thus, we have information about the time lag of different signals at different stations. 
+
+This is used to get an estimate of the motion of waves by considering the similarities and shifts in the harmonic coefficients, $x^*$ obtained from different signals. Using this, we are able to get the full picture from the 1D signals.
+
+\subsection{Actual Results (directly from the paper)}
+In the experiment, The reciprocal sound transmissions using one period of tenth-order Gold sequence were carried out every 5 min along ten ray paths, which span five acoustic stations.
+
+Travel time difference data for the first arrival peak determined in the correlation peaks was used as data in the following inverse analysis.
+
+The relative error of current velocity was only 0.2\% of the observed current velocity for observation range 5 km and positioning error was 10 m.
+
+This shows how this strategy was effective in reconstructing information in dynamic wave conditions using tomography. Below is a sample reconstructed wave snapshot.
+
+\begin{center}
+    \includegraphics[height= 9cm]{paper3.png}
+\end{center}
 
 \section{Problem 5}
 
