@@ -72,31 +72,40 @@ Arpon Basu \\ Shashwat Garg }
 
 Welcome  to our report on CS754 Assignment 3. We have tried to make this report comprehensive and self-contained. We hope reading this would give you a proper flowing description of our work, methods used and the results obtained.
 
-Also note that we installed the \texttt{Image Processing Toolbox} in MATLAB for this assignment. Thus the grader is urged to install it if she wishes to run the code on her on her machine.
+Also note that we installed the \texttt{Image Processing Toolbox} in MATLAB for this assignment. Thus the grader is urged to install it if she wishes to run the code on her on her machine. Also note that some of our code may take a while to run because of the intensive nature of the computations involved.
 
 Hope you enjoy reading the report. Here we go!
 
 
 \section{Problem 1}
-For this problem we implemented the ISTA algorithm as was mentioned in the lecture slides and used it for both parts. For further perusal, we encourage the grader to check the code files submitted.\\
+For this problem we implemented the ISTA algorithm as was mentioned in the lecture slides and used it for both parts. For further perusal, we encourage the grader to check the code files submitted, which have been written very intuitively and commented well.
+\begin{figure}[H]
+    \includegraphics{barbara256.png}
+    \caption{Original 256$\times$256 image for this question}
+\end{figure}
 (a) In this part, we read the image, vectorized it, and added some noise to it (since noise of variance 3 was required, we took a Gaussian Random Variable vector with variance 1 and multiplied it by $\sqrt{3}$ to make the variance 3). Since natural images are assumed to be sparse in orthonormal bases like the 2D-DCT, the matrix for our ISTA cost function was the DCT matrix itself. \\
 Thus our cost function was
 $$J(\theta) = \lVert y - U\theta\rVert^2_2 + \lambda\lVert\theta\rVert_1$$
 where $y$ is the vectorized noisy image.\\
-In our code, we took $\lambda = 1$, and we also took $\alpha = 1$ (note that since $U$ is orthonormal, the largest eigenvalue of $U^*U$ is 1 itself).\\
+In our code, we took $\lambda = 1$, and we also took $\alpha = 2$ (note that since $U$ is orthonormal, the largest eigenvalue of $U^*U$ is 1 itself. We added an additional one to avoid numerical stability issues).\\
 Also, since the basis matrix for the 256$\times$256 images was too large to store in memory, we performed our computations patch-wise, in overlapping patches of 8$\times$8 and a stride of 1.\\
-We got a RMSE error of 13.81\% after all the overlapping images were summed up and averaged accordingly.
+In addition, to help average out overlapping patches, we padded images with a border of zeros so that the average count within the main image would be same for every pixel within the same image (otherwise border pixels occur in lesser patches than middle ones).\\
+We got a \textbf{RMSE error of 1.17\%} after all the overlapping images were summed up and averaged accordingly. (Note that the RMSE error of the noisy image with the original one was 1.27 \%, so our algorithm definitely gave us an improvement).\\
 Attached below is the reconstructed image for the graders perusal:
 \begin{figure}[H]
-    \includegraphics{1a.jpg}
+    \includegraphics{Reconstructed_Image_1a.jpg}
     \caption{Reconstructed image for the first part}
 \end{figure}
 (b) For the second part, we reused the same ISTA and other utility function codes from the first part. However, here the matrix was slightly different, ie:- 
 $$J(\theta) = \lVert y - \Phi U\theta\rVert^2_2 + \lambda\lVert\theta\rVert_1$$
 , and thus $A = \Phi U$, where $\Phi\in\mathbb{R}^{32\times 64}$ is a matrix of i.i.d unit Gaussian RVs. \\
-The hyperparameter $\lambda$ was kept 1 here too. However, this time $\alpha$ in the ISTA algorithm had to be chosen to be the largest eigenvalue of $A^*A$. We also added a 1 to that to avoid numerical stability issues.\\
-% Keeping the remaining factors same as in the previous part (same 8$\times$8 patches, stride to be 1),we got a reconstruction error of 
-PART B REMAINS TO BE DONE. ERROR SUDDENLY BLEW UP TO 50 \%.  
+The hyperparameter $\lambda$ was kept 1000 here, for better results. However, this time $\alpha$ in the ISTA algorithm had to be chosen to be the largest eigenvalue of $A^*A$. We also added a 5 to that to avoid numerical stability issues.\\
+Most of the other code for this part was the same as part a, including the idea of padding to make averaging easier.\\
+On running this code, we obtained a \textbf{RMSE error of 6.8 \%}.  
+ \begin{figure}[H]
+     \includegraphics{Reconstructed_Image_1b.jpg}
+     \caption{Reconstructed image for the second part}
+ \end{figure}
 \section{Problem 2}
 % (a) The restricted eigenvalue property has a very neat and succinct description in terms of the SVD of our sensing matrix $\boldsymbol{X}$, and that's how we'll define it.\\
 % Note that the restricted eigenvalue property for the matrix $X$ is defined as follows
@@ -231,10 +240,6 @@ Advantages of Theorem 3 over the given theorem are:-
     \item In both types of theorems, in case the norm of the matrix-noise interaction can't be upper bounded (ie:- if the support of our noise vector is unbounded), both of them provide (exponential) probabilistic guarantees on the theorems to still hold.
     \item Both of them deal with the matrix-noise vector, than with the noise itself. This gives the bounds more adaptability in similar scenarios but with different sensing matrices.
 \end{itemize}
-
-
-
-
 \section{Problem 3}
 
 Here, we implement tomographic reconstruction using simple techniques like the RamLak filter, as well the method of compressive reconstruction and coupled compressive reconstruction. We use uniformly distributed angles from 0 to 180 for this problem and in part(c), we take two sets of uniformly distributed angles. The subsections are as follows-
@@ -325,7 +330,10 @@ $=  ||y_1 - R_1U(\beta_2 + \Delta\beta_{12})||^2 + ||y_2 - R_2U\beta_2||^2 + ||y
 This paper aims to map the structure of the ``strongly
 nonlinear tidal currents in the coastal sea'' by using multiple synchronised coastal acoustic tomography system (CATS). Using GPS clock signals and separate codes to distinguish between signals of individual systems, reconstruction of tidal process behaviour is done through an inverse analysis of the acoustic signals obtained by the sensors.
 
+
+
 \subsection{Mathematical Formulation}
+
 
 
 
@@ -379,12 +387,6 @@ $$\boldsymbol{R_{\theta}(\delta(x, y))) = g(\rho, \theta) = \delta(-\rho) = \del
 
 
 
-\section{References}
-\begin{itemize}
-        \item \href{https://www.mathworks.com/help/matlab/matlab_oop/create-a-simple-class.html}{Classes in Matlab} 
-        \item \href{https://in.mathworks.com/help/matlab/matlab_oop/implementing-operators-for-your-class.html}{Operator Overloading for function handles}
-        
-\end{itemize}
 
 
 
