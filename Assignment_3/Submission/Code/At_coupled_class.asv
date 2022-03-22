@@ -28,16 +28,14 @@ classdef At_coupled_class
 %           transformation, using the RamLak filter. Finally we convert the
 %           same to dct basis and return the concatenated results as would
 %           have been from multiplication by A'. 
-            Atx_1=dct2(iradon(reshape(matrix(1:cross_sec_size,1),object.n,[]),object.theta{1},'nearest','Ram-Lak',1,sqrt(object.m)));
+            Atx_1=dct2(iradon(reshape(matrix(1:cross_sec_size,1),object.n,numel(object.theta{1})),object.theta{1},'nearest','Ram-Lak',1,sqrt(object.m)));
 
-            Atx_2=dct2(iradon(reshape(matrix(cross_sec_size+1:2*cross_sec_size,1),object.n,[]),object.theta{2},'nearest','Ram-Lak',1,sqrt(object.m)));
+            Atx_2=dct2(iradon(reshape(matrix(cross_sec_size+1:2*cross_sec_size,1),object.n,numel(object.theta{1})),object.theta{2},'nearest','Ram-Lak',1,sqrt(object.m)));
             
 %             Note how we are mimicking the multiplication by a 2*2 matrix.
-%             The Addition in column1 is due to R1 and R2 and there is no
-%             addition in the column2 as we have 0 in one cell of A'.
+%             We are using 
             Result=[Atx_1+Atx_2, Atx_2];
-            
-%             Finally the resutls are returned.
+
             result=reshape(Result,[],1);
         end
 

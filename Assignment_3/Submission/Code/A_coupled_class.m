@@ -14,11 +14,18 @@ classdef A_coupled_class
        end
 
        function result = mtimes(object,matrix)                        
+%             This is somewhat complex as we need a matrix of matrices, as
+%             per the slides. The input matrix is supposed to be the
+%             coefficients and the difference of coefficients.
 
-            dctCoeff_1=reshape(matrix(1:object.n,1),sqrt(object.n), sqrt(object.n));
-            dctCoeff_2=reshape(matrix(object.n+1:2*object.n,1),sqrt(object.n), sqrt(object.n));
-            
-            Y = [radon(idct2(dctCoeff_1),object.theta{1}), radon(idct2(dctCoeff_1+dctCoeff_2),object.theta{2})];   
+%             We first extract this info from the matrix and store as
+%             Coefficients and delta of Coefficients
+            Coeff=reshape(matrix(1:object.n,1),sqrt(object.n), []);
+            DeltaCoeff=reshape(matrix(object.n+1:2*object.n,1),sqrt(object.n), []);
+%             Next, just as per slides, we calculate the radon
+%             tranformation of the coefficients in the original image basis
+%             and return the concatenated result.
+            Y = [radon(idct2(Coeff),object.theta{1}), radon(idct2(Coeff+DeltaCoeff),object.theta{2})];   
             result=reshape(Y,[],1);
        end  
 

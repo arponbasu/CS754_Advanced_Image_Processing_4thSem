@@ -13,7 +13,11 @@ classdef A_class
        end
 
        function product = mtimes(object,matrix)
-            product=reshape(radon(idct2(reshape(matrix,sqrt(object.num_cols),sqrt(object.num_cols))),object.theta_list), [],1);
+%            As discussed in class, we use the radon(idct2()) function to
+%            express multiplication by A. The final reshape is done as we
+%            know that the input matrix will always be in the vectorised
+%            format.
+            product=reshape(radon(idct2(reshape(matrix,sqrt(object.num_cols),[])),object.theta_list), [],1);
        end  
     end    
 end
