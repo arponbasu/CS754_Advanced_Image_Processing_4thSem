@@ -1,57 +1,53 @@
-rng(1000);
+rng(4);
 
-im = imread('barbara256.png');
-
-Phi = randn(32,64);
-alpha = (svds(Phi,1))^2 + 1;
+orig_image = double(imread("barbara256.png"));
+padded_orig_image = padarray(orig_image,[7, 7],0,"both"); 
 U = kron(dctmtx(8)',dctmtx(8)');
 
-final = zeros(256,256,"double");
-cnt = zeros(256,256,"double");
+[rows, cols] = size(padded_orig_image);
 
+phi = randn(32, 64);
+reconstructed_image = zeros(size(padded_orig_image));
+A = phi*U; %Our LASSO matrix has a measurement component too, this time
+max_eigen = max(eig(A'*A));
+alpha = max_eigen + 5; %5 is added to maximum eigenvalue to avoid numerical stability issues 
+lambda = 1000;
 
-
-for i = 1:249
-    for j = 1:249
-        
-        r = reconstruct_patch(imcrop(im,[i,j,7,7]),Phi,U,alpha,1,100);
-        for k1 = i:i+7
-            for k2 = j:j+7
-                cnt(k1,k2) = cnt(k1,k2) + 1;
-                final(k1,k2) = final(k1,k2) + r(k1-i+1,k2-j+1); 
-            end
-        end
-    
-    
+for i=1:rows-7
+    for j=1:cols-7
+        patch = padded_orig_image(i:i+7, j:j+7);
+        compressed_image = phi*patch(:);
+        reconstructed_image(i:i+7, j:j+7) = reconstructed_image(i:i+7, j:j+7) + reshape(U*ISTA(compressed_image,A,lambda,alpha,200), 8, 8);
     end
-end
+end   
 
-final = final./cnt;
-final = transpose(final);
-imshow(uint8(final))
-err(double(im(:)),double(final(:)))
-imwrite(uint8(final),'1b.jpg')
+reconstructed_image = reconstructed_image(8:263, 8:263)/64; %because of padding averaging is same for all
+rmse = err(orig_image(:),reconstructed_image(:)) %Reconstruction error
+
+
+imshow(uint8(orig_image))
+	title('Original Image', 'FontSize', 14);
+	drawnow;
+	pause(2)
+imshow(uint8(reconstructed_image))
+	title('Reconstructed Image', 'FontSize', 14);
+	drawnow;
+    pause(2)
+    imwrite(uint8(reconstructed_image), "Reconstructed_Image_1b.jpg");
+
+
+
+
 clear;
-
-function r = reconstruct_patch (patch, Phi, U, alpha, lambda, iter)
-    p = patch(:); 
-    p = double(p);
-    
-    y = Phi*p;
-    theta = ISTA(y,Phi*U,lambda,alpha,iter);
-    Ut = U*theta;
-    
-    r = reshape(Ut,size(patch,1),size(patch,2));
-end
-
-
-function theta = ISTA(y,A,lambda,alpha,iter)
-    theta = 0*A'*y; 
+%utility functions below
+function theta = ISTA(noisy_image,U,lambda,alpha,iter)    
+    theta = zeros(size(U,2),1); 
     T = lambda/(2*alpha);
-    for k = 1:iter
-        theta = soft(theta + (A'*(y - A*theta))/alpha, T);
+    for i = 1:iter        
+        theta = soft(theta + (U'*(noisy_image - U*theta))/alpha, T);
     end
 end
+
 
 function s = soft(x, T)
     s = sign(x).*(max(0, abs(x)-T));
