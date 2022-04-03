@@ -171,8 +171,8 @@ But before specifying the functional form of the prior, we'll simplify $P(y|f)$ 
 Note that since $y$ varies with $f$ as a Poisson relation
 $$P(y|f) = \frac{e^{I_0e^{-Rf}}(I_0e^{-Rf})^y}{y!}$$
 $$\implies -\log P(y|f) = I_0e^{-Rf} - y\log (I_0e^{-Rf}) + \log (y!)$$
-$$\implies -\log P(y|f) = I_0e^{-Rf} + y^TRf$$
-where we drop all terms not having $f$ in them because we're to define an objective function dependent on $f$. Note also that we transpose $y$ at the end to make the matrices multipliable.\\
+$$\implies -\log P(y|f) = \lVert I_0e^{-Rf}\rVert_1 + y^TRf$$
+where we drop all terms not having $f$ in them because we're to define an objective function dependent on $f$. Note also that we transpose $y$ at the end to make the matrices multipliable. Also note that to convert the vector $I_0e^{-Rf}$ to a scalar, we take its $l_1$ norm (note also that the $l_1$ norm promotes sparsity, which is a desirable quality to have for our objective function), because $y^TRf$ is also a scalar, and we need to add them both.\\
 Now coming to the prior, note that $f$ denotes natural tissue density. Now, from our study of natural images and other naturally arising phenomena, we know that \textbf{their gradients are sparse}. This is only to be expected since consecutive entries for the most part don't change rapidly.\\
 Thus, if we define the \textbf{gradient of a vector as follows}
 $$\nabla f := \sum^{m - 1}_{i = 1} |f_i - f_{i + 1}|$$
@@ -181,13 +181,14 @@ $$P(f) \propto e^{-\nabla f} $$
 is a suitable prior. Taking it's negative logarithm we get 
 $$-\log P(f) = \nabla f$$, and thus
 $$-\log P(f|y) = -\log P(y|f) -\log P(f)$$
-$$-\log P(f|y) = I_0e^{-Rf} + y^TRf + \mu\nabla f$$
+$$-\log P(f|y) = \lVert I_0e^{-Rf}\rVert_1 + y^TRf + \mu\nabla f$$
 where $\mu$ is a suitable hyperparameter denoting the importance of how much the gradient sparsity is to be tuned.\\
-But note that this quantity is still a vector, and we want to make it as small as possible, in the sense that each of it's entries should as close to zero as possible. Thus
-$$\boldsymbol{J(f) := \lVert I_0e^{-Rf} + y^TRf + \mu\nabla f\rVert_1}$$
+% But note that this quantity is still a vector, and we want to make it as small as possible, in the sense that each of it's entries should as close to zero as possible. 
+Thus
+$$\boldsymbol{J(f) := \lVert I_0e^{-Rf}\rVert_1 + y^TRf + \mu\nabla f}$$
 Finally, note that for additive white Gaussian noise, we can simply minimize the mean square error (unlike Poisson noise, Gaussian noise is independent of the pixel value it distorts, and thus minimizing the mean square error should suffice). Note that the mean of a Poisson RV is equal to it's parameter, and thus $y$ should be compared to $I_0e^{-Rf}$, and thus 
 $$\boldsymbol{J_{\mathrm{Gaussian}}(f) := \lVert y - I_0e^{-Rf}\rVert^2_2}$$
 Combining these two together
-$$\boldsymbol{J_{\mathrm{complete}}(f) := \lVert I_0e^{-Rf} + y^TRf + \mu\nabla f\rVert_1 + \lambda\lVert y - I_0e^{-Rf}\rVert^2_2}$$
+$$\boldsymbol{J_{\mathrm{complete}}(f) := \lVert I_0e^{-Rf}\rVert_1 + y^TRf + \mu\nabla f + \lambda\lVert y - I_0e^{-Rf}\rVert^2_2}$$
 where $\lambda$ is another hyperparameter to stress the importance of the Gaussian error function.
 \end{document}
