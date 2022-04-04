@@ -158,11 +158,13 @@ Thus, we can say that, cross validation is a powerful technique in practice and 
 
 \section{Problem 2}
 Let $D = \{d_1, d_2, ..., d_n\}$ be our dictionary, and let $I\in\mathcal{S}$ be an image in our dataset. Then by the theory of dictionary learning, $I = \sum^{n}_{i = 1}\alpha_id_i$ for some sequence of scalars $\alpha_1$, $\alpha_2$, $\hdots$, $\alpha_n$. In this problem, we are given various transformations $T$ which are applied on the images of $\mathcal{S}$, and we have to propose a modified dictionary $D_T$ such that our transformed images are still expressible as linear combination of ``atoms" in $D_T$.\\
+
 (a) From the theory taught in class and common image processing literature, we know that derivative filters on an image are obtained through \textbf{convolutions} of the image with some known convolution filter, ie:- $I_{\mathrm{filter}} = I * G$, where $G$ is the filter matrix. Now, it's not hard to see that a matrix convolution is a linear mapping, ie:- the \textbf{derivative filter `$f$' is itself a linear transform} on the image.Then 
 $$f(I) = f(\sum^{n}_{i = 1}\alpha_id_i) = \sum^{n}_{i = 1}f(\alpha_id_i) = \sum^{n}_{i = 1}\alpha_if(d_i)$$
 where all the equalities follow by the properties of linear transforms.\\
 \textbf{Thus our transformed dictionary is $D_T := \{f(d_1), f(d_2), \hdots, f(d_n)\}$, where $f$ represents our derivative filter.}
-\\
+
+
 (b) Once again, note that rotation is a linear transform. In particular, the rotation of an image (matrix) $I$ anticlockwise by an angle $\theta$ can be given as below
 $$I_{\mathrm{rotated}}(x, y) = I(x\cos\theta+y\sin\theta, y\cos\theta-x\sin\theta)$$
 or equivalently as
@@ -172,10 +174,11 @@ $$R_{\theta} = \begin{bmatrix}
     \cos\theta \;\; -\sin\theta\\
 \sin\theta \;\; \cos\theta
 \end{bmatrix}$$ 
-\\
-Thus, once again, we have a linear transform in our hands and thus the new atoms of our transformed dictionary will just be the linear transform applied on the old dictionary itself, ie:- rotated versions of the old atoms. We will have two such dictionaries (for two distinct angles of rotation). Note that we must take the union of both dictionaries as an image, say rotated by $\beta$ won't be expressible as a linear combination of dictionary atoms rotated by the angle $\alpha$.\\
+
+Thus, once again, we have a linear transform in our hands and thus the new atoms of our transformed dictionary will just be the linear transform applied on the old dictionary itself, ie:- rotated versions of the old atoms. We will have two such dictionaries (for two distinct angles of rotation). Note that we must take the union of both dictionaries as an image, say rotated by $\beta$ won't be expressible as a linear combination of dictionary atoms rotated by the angle $\alpha$.
+
 \textbf{Thus our transformed dictionary is $D_T := \{d_{1\alpha}, d_{2\alpha}, \hdots, d_{n\alpha}, d_{1\beta}, d_{2\beta}, \hdots, d_{n\beta}\}$, where $d_{k\theta}$ represents the $k^{\mathrm{th}}$ atom rotated by $\theta$.}
-\\
+
 (c) Assuming the relation holds pixel-wise, we have
 $$I_{\mathrm{new}}(x,y) = \alpha(I_{\mathrm{old}}(x,y))^2 + \beta I_{\mathrm{old}}(x,y) + \gamma$$
 But we have
@@ -188,18 +191,28 @@ Thus our new dictionary is clear:
     \item Second class of items: $\{d_i\odot d_j\}_{1\leq i < j\leq n}$, where $\odot$ denotes \textbf{elementwise multiplication}.
     \item Third item: $J_{d\times d}$, where $d_i\in\mathbb{R}^{d\times d}$, where $J$ is the matrix of all ones, ie:- $J = \;$\texttt{ones(d)}, in MATLAB notation.
 \end{itemize}
+
 \textbf{Thus our transformed dictionary is $D_T := \{d_1^{\circ 2}, d_2^{\circ 2}, ..., d_n^{\circ 2}, d_1\odot d_2,\hdots,d_{n-1}\odot d_{n},J_{d\times d}\}$.}
-\\
-(d) Blur kernel, like derivative filters, are also convolutions with kernel matrices and hence are linear transforms.\\
+
+(d) Blur kernel, like derivative filters, are also convolutions with kernel matrices and hence are linear transforms.
+
 \textbf{Thus our transformed dictionary is $D_T := \{f(d_1), f(d_2), \hdots, f(d_n)\}$, where $f$ represents our blur kernel transformation.}
-\\
+
 (e) Similar to the idea used in part (b), we have to take an union of all the dictionaries, each applied with a single blur kernel. Thus let $\mathcal{B} := \{b_1, b_2, ..., b_l\}$ be the set of our blur \emph{transforms}. Then our $l$ dictionaries are $\{b_1(d_1), b_1(d_2), \hdots, b_1(d_n)\}$, $\{b_2(d_1), b_2(d_2), \hdots, b_2(d_n)\}$, ..., $\{b_l(d_1), b_l(d_2), \hdots, b_l(d_n)\}$, and \\
 \textbf{Thus our final dictionary is $D_T$
  $:= \{b_1(d_1), \hdots, b_1(d_n), \hdots, b_l(d_1), b_l(d_2), \hdots, b_l(d_n)\}$.}\\
-(f) Note that the meaning of the notation for this part is slightly different from all other parts of this problem in the fact that our images and dictionary atoms are now assumed to the vectorized forms of the images they represented. Now, note that the Radon transform matrix can be denoted as $R_{\theta}$, which is a square matrix with entries dependent on $\theta$, which when multiplied with our image vectors gives us their Radon transform. Once again, as above, since this is a linear transform of the vectors, our new dictionary will be the Radon transform of the dictionary atoms. \textbf{Thus our new dictionary $D_T := \{Rd_1, Rd_2, \hdots, Rd_n\}$, where $R$ is the Radon transform matrix corresponding to the angle $\theta$.}\\
+
+ (f) Note that the meaning of the notation for this part is slightly different from all other parts of this problem in the fact that our images and dictionary atoms are now assumed to the vectorized forms of the images they represented. 
+ 
+ Now, note that the Radon transform matrix can be denoted as $R_{\theta}$, which is a square matrix with entries dependent on $\theta$, which when multiplied with our image vectors gives us their Radon transform.
+
+ Once again, as above, since this is a linear transform of the vectors, our new dictionary will be the Radon transform of the dictionary atoms. \textbf{Thus our new dictionary $D_T := \{Rd_1, Rd_2, \hdots, Rd_n\}$, where $R$ is the Radon transform matrix corresponding to the angle $\theta$.}
+
 (g) Note that translating an image by a certain offset $(x, y)$ basically means that we \textbf{pad the image, on the left and downwards, with $x$ columns and $y$ rows of zeros respectively}. Now, since we simply added an extra layer of padding of zeros, the linear combination relations still hold as the zero rows and columns obviously satisfy any linear relation and the old pixels also satisfy the relation too. Thus if we denote translation by the first offset to be $t_1$ and the second offset to be $t_2$, then, as we have seen many times before our \textbf{new dictionary will be $D_T$
 $:= \{t_1(d_1), \hdots, t_1(d_n), t_2(d_1), t_2(d_2), \hdots, t_2(d_n)\}$.}
+
 \section{Problem 3}
+
 \subsection{Part 1}
 We use the \textbf{Eckart-Young-Mirsky theorem} to find the \textbf{best rank $r$ approximation to the given matrix $A\in\mathbb{R}^{m\times n}$}, ie:- $A_r$, which, as we have seen in the lecture, states that the best (in terms of the Frobenius norm of the difference in between those two matrices) $r$-rank approximation is given by $A_r = U\Sigma_rV^*$, where $A = U\Sigma V^*$ is the \textbf{Singular Value Decomposition} of $A$, and $\Sigma_r$ contains the $r$ maximum singular values in $\Sigma$, ie:- we retain the $r$ largest diagonal values of $\Sigma$ and set the rest to zero.\\
 Thus the minimizer of the objective function $J(A_r) = \lVert A - A_r\rVert^2_F$; rank$(A_r) = r$ is 
@@ -215,6 +228,7 @@ Applications of low rank approximations:
         \item In a similar vein as the idea above, one can remove occlusion by \textbf{completing} a low rank matrix to effectively ``cut-out" the occluding object in the image.
     \end{itemize} 
 \end{itemize}
+
 \subsection{Part 2}
 We algebraically simplify the objective function $J(R) = \lVert A - RB\rVert^2_F$ first to find out the optimum orthonormal $R$ matrix. For that, note the following facts from linear algebra:
 \begin{itemize}
@@ -233,13 +247,17 @@ Thus minimizing $\lVert A - RB\rVert^2_F$ is equivalent to maximizing $\mathrm{t
 Now, let $BA^T$ be equal to $C$, and let $C = U\Sigma V^*$ be the \textbf{Singular Value Decomposition} of $C$.\\
 Then
 $$\mathrm{tr}(RBA^T) = \mathrm{tr}(RC) = \mathrm{tr}(RU\Sigma V^*) = \mathrm{tr}(V^*RU\Sigma)$$
+
 Now, note that since $R$, $U$ and $V$ are all orthonormal, $M = V^*RU$ is orthonormal too, and thus 
 $$\mathrm{tr}(V^*RU\Sigma) = \mathrm{tr}(M\Sigma) = \sum^{n}_{i = 1} m_{ii}\sigma_i\leq\sum^{n}_{i = 1} |m_{ii}|\sigma_i$$
 with the last inequality following by the triangle inequality (and note that $|\sigma_i| = \sigma_i$ since singular values are non-negative).\\
+
 However, since $M$ is orthonormal, ie:- all of it's column's norms are 1, we have that $|m_{ii}|\leq 1$, and thus the maxima of $\mathrm{tr}(V^*RU\Sigma)$ is achieved when all $|m_{ii}| = 1$. But that can happen only when $M = I$, and thus
 $$V^*RU = I $$
 $$\boldsymbol{\implies R = VU^*}$$
+
 Thus the best orthonormal transform that maps $B$ to $A$ is given by $VU^*$, where $U$ and $V$ are obtained from the SVD of $BA^T = U\Sigma V^*$.\\
+
 This problem is also widely encountered in image processing literature. We ourselves came across one such example in class, namely, in 3D Tomography under unknown angles, wherein we try to determine what rotation best maps one image to another, and there is where we note that orthonormal matrices basically represent unscaled rotation in higher dimensions, from which the problem of minimizing $\lVert A - RB\rVert^2_F$ under an orthonormal $R$ constraint arises.
 
 
@@ -253,58 +271,61 @@ This problem is also widely encountered in image processing literature. We ourse
     \hline
     \multicolumn{2}{|c|}{Paper Details} \\
     \hline
-    Title of the Paper& NON-NEGATIVE MATRIX FACTORIZATION OF
-    CLUSTERED DATA WITH MISSING VALUES\\
+    Title of the Paper& Non Negative Matrix Factorization Clustering Capabilities; Application on Multivariate Image Segmentation\\
     \hline
-    Link of the paper  &  \href{https://ieeexplore.ieee.org/document/8755555}{\textbf{Click Here}}  \\
+    Link of the paper  &  \href{https://ieeexplore.ieee.org/abstract/document/5066901}{\textbf{Click Here}}  \\
     \hline
-    Author List & Rebecca Chen and Lav R. Varshney\\
+    Author List & Cosmin Lazar, Andrei Doncescu\\
     \hline
-    Publication Date  & June 2019 \\
+    Publication Date  & March 2009 \\
     \hline
-    Publication Venue  &  2019 IEEE Data Science Workshop (DSW), Minneapolis, MN, USA \\
+    Publication Venue  &  2009 International Conference on Complex, Intelligent and Software Intensive Systems, Fukuoka, Japan \\
     \hline
    \end{tabular}
 \end{center}
 
 \subsection{Aim of the Paper}
 
-Non-negative Matrix Factorization (NMF) can be used in the process of Data Imputation. This means that we can use NMF for recovery of missing values in obtained statistical data.
+The aim is to try to use NMF to perform data clustering. This is compared to the result obtained form the popular Fuzzy K-means algorithm. NMF has already been popular due to its visual clustering capabilities.
 
-This paper focuses on imputing missing values in clustered data, specifically for non-negative matrix factorization (NMF), and develops an algorithm for implementation.
-
-Experimental results show that this technique performs well as compared to other inputation techniques taking into account the local structure around the missing values. The results are demonstrated on hyperspectral remote sensing
-data and biological data.
+Several other algorithms impose constraints on the clusters, but NMF only assumes the constraint of being non-negative, which makes it a good choice.
 
 
 \subsection{Mathematical Formulation}
 
-They apply the technique of NMF in clustered data. Assume that the data is represented in the form of an $F\times N$ ($N$ points in $F$ dimensions) matrix $V$ with all entries as positive. If we assume that the columns of $V$ are generated from $K$ clusters, we can easily represent $V$ as $W\times H$, where $W$ is a $\mathbb{R}^{F \times K}$ matrix and $H$ is a $\mathbb{R}^{K \times N}$ matrix. Each of the K clusters is denoted by $C_k$.
+Assume that the data is represented in the form of an $F\times N$ ($N$ points in $F$ dimensions) matrix $V$ with all entries as positive. If we assume that the columns of $V$ are generated from $K$ clusters, we can represent $V$ as $W\times H$, where $W$ is a $\mathbb{R}^{F \times K}$ matrix and $H$ is a $\mathbb{R}^{K \times N}$ matrix. Here $W$ will denote the basis vectors and $H$ will denote the coefficients.
 
-They also defined a matrix of observed value indicators, $\Omega$ of the same size as $V$ with value as 1 if $V_{ij}$ is observed and 0 otherwise. The partially observed values are denoted by $(\cdot)_{po}$. 
+Thus we are using the NMF algorithm to find an optimum dictionary, which will in turn give us the location of the cluster centers.
 
-In general, the clustering data imputation problem can be solved by trying to find the closest cluster to the observed value if we only look at the correctly observed values. This error on the feasible set is minimised over all clusters and the remaining indexes are assigned the value according to the cluster's value.
-
-To use the NMF Formulation, we need some more terms.
-
-Next, they define the circular cone and truncate it to be present only in the positive orthant. With direction $u$ and angle $\alpha$, it is represented as $C(u,\alpha)\cap P$. An assumption made here is that distance between any two points originating from the same cluster is less than the distance between any two points in different clusters.
-
-Here is the method-
-
-We can partition $V$ into $k$ sets, denoted $V_k \coloneqq \lbrace v_n \in C_k \cap P \rbrace$, and rewrite $V_k$ as the sum of a rank-one matrix $A_k$ (parallel to $u_k$) and a perturbation matrix $E_k$ (orthogonal to $u_k$).
-
-The aim is to obtain $W^*$ and $H^*$ such that-
-$$\frac{\norm{V - W^*H^*}_F}{\norm{V}_F}\leq max \lbrace sin(\alpha_k)\rbrace $$
-
-The following algorithm is used-
+The NMF based clustering algorithm is as follows-
 \begin{itemize}
-    \item Collect all columns of $V$ which are without any losses. Normalize them to norm equal to 1.
-    \item Use greedy technique to partition them into clusters
-    \item 
+    \item  Estimate the number of principal directions in the original data space.\\\\
+    This can be done by a greedy approach using tools like OMP or PCA. By setting a threshold, we can get a reasonable estimate of the number of clusters.
+    \item Compute NMF on the new dataset (the number of factors equals the number of the most significant principal directions).\\\\
+    This can use any algorithm. The approach has not been specified in the paper, but it seems like we can use the alternating method as in the lecture itself.
+    \item The rows of the matrix H are considered to be the data membership degree to a NMF cluster (each cluster is associated to a single direction).\\\\
+    By normalizing the column vectors of H to have unit length, we can obtain the final result.
+    \item A hard clustering can be obtained by assigning to each data the label corresponding to the line where the maximum value of column vectors lies.\\\\
+    This approach will work even if there are some values missing in the data. We do not need to perform data imputation in that case.
+
+    
 \end{itemize}
 
+The clustering number is chosen as the Davies-Bouldin index. In general, the clustering data problem can be solved by trying to find the closest cluster to the observed value if we only look at the correctly observed values.
 
+This error on the feasible set is minimised over all clusters and the remaining indexes are assigned the value according to the cluster's value.
 
+The error metric can be written as-
+$$\frac{\norm{V - W^*H^*}_F}{\norm{V}_F}$$
+Here, we are trying to get the basis vectors themselves to represent one cluster each. One limitation is that this approach only works when the clusters are distributed in a convex manner. This means that there are some clusters which this algorithm cannot solve efficiently.
+
+\subsection{Results}
+We observe that this NMF clustering performs better than the popular Fuzzy K-means algorithm and even works better in multispectral images segmentation.
+\begin{center}
+    \includegraphics[width=8cm]{result.png}
+\end{center}
+
+Hence, in conclusion, NMF can be considered as a fuzzy clustering approach which performs spectral clustering in case of convex shape clusters efficiently.
 
 
 

@@ -23,7 +23,7 @@ while nnz(x)<18
     x(randi(n))= unifrnd(0,random_range);
 end
 
-% All things initialised
+% All thinfs initialised
 y = phi*x;
 
 noise_sigma = abs(0.05*sum(y,"all")/m);
