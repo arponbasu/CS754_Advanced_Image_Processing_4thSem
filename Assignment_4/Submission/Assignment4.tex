@@ -24,6 +24,8 @@
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage{verbatim}
+\usepackage{color, colortbl}
+\definecolor{highlight}{rgb}{0.75,1,1}
 \usepackage[document]{ragged2e}
 
 \renewcommand{\footrulewidth}{0.4pt}
@@ -76,6 +78,66 @@ Also note that we installed the \texttt{Image Processing Toolbox} in MATLAB for 
 
 Hope you enjoy reading the report. Here we go!
 \section{Problem 1}
+
+
+In this problem, we try out the cross validation technique and see if we can train and find an optimal value of lambda and then test that value for images that are not in our trained set. This is a very popular technique in machine learning and gives us a measure of robustness of our estimate
+
+
+\subsection{Plots and Graphs of RMSE and VE}
+
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Lambda	&	RMSE  &	Validation Error\\
+        \hline
+        0.0001  &  0.0061 &   2.5425\\
+        0.0005  & 0.0061  &  2.5421\\
+        0.0010  &  0.0061 &   2.5414\\
+        0.0050  &  0.0061 &  2.5573\\
+        0.0100  &  0.0061 &  2.5517\\
+        0.0500  &  0.0060 &   2.5378\\
+        0.1000  & 0.0059  &  2.5237\\
+        0.5000  &  0.0050 &   2.0632\\
+        1.0000  &  0.0044 &   1.7882\\
+        \hline
+        \rowcolor{highlight}
+        2.0000  &  0.0040 &   1.6477\\
+        \hline
+        5.0000  &  0.0054 &   2.0351\\
+       10.0000  &  0.0101 &   3.9400\\
+       15.0000  &  0.0143 &   6.5897\\
+       20.0000  &  0.0190 &  10.4407\\
+       30.0000  &  0.0283 &  21.2658\\
+       50.0000  &  0.0470 &  54.3791\\
+      100.0000  &  0.0901 & 187.8113\\
+        \hline
+    \end{tabular}
+    \end{center}
+
+
+\includegraphics[width=7cm]{RMSE.png}
+\includegraphics[width=7cm]{VE.png}
+
+As you can see in the above graphs, the trend of both RMSE and Validation Error matches strongly. At $\lambda=2$, both the RMSE and VE are at their minimum value. Thus, we can say that our estimates of lambda on the trained set are robust. This is because they match the optimal behaviour also on the new unseen images.
+
+\subsection{Coincident V and R}
+
+The whole method of cross validation is made to simulate/test out our method in real life like scenarios, where the compressive system would encounter new images, but of the same type/distribution. Since we already train over the R set, there is no point of the V set if it is the same as R.
+
+The Validation error would just be a scaled version of the RMSE. We would not know if we have \textbf{underfitted} or \textbf{overfitted} to our training set.
+
+In case we are performing cross-validation, it is extremely important to keep the R and V sets of the same distribution for any accurate results, but also disjoint, so as to actually test out the performance.
+
+\subsection{Proxying Ability}
+
+
+
+
+\subsection{Theoretical $\theta$ vs Cross Validation $\theta$}
+
+
+
+
 \section{Problem 2}
 Let $D = \{d_1, d_2, ..., d_n\}$ be our dictionary, and let $I\in\mathcal{S}$ be an image in our dataset. Then by the theory of dictionary learning, $I = \sum^{n}_{i = 1}\alpha_id_i$ for some sequence of scalars $\alpha_1$, $\alpha_2$, $\hdots$, $\alpha_n$. In this problem, we are given various transformations $T$ which are applied on the images of $\mathcal{S}$, and we have to propose a modified dictionary $D_T$ such that our transformed images are still expressible as linear combination of ``atoms" in $D_T$.\\
 (a) From the theory taught in class and common image processing literature, we know that derivative filters on an image are obtained through \textbf{convolutions} of the image with some known convolution filter, ie:- $I_{\mathrm{filter}} = I * G$, where $G$ is the filter matrix. Now, it's not hard to see that a matrix convolution is a linear mapping, ie:- the \textbf{derivative filter `$f$' is itself a linear transform} on the image.Then 
@@ -161,7 +223,53 @@ $$V^*RU = I $$
 $$\boldsymbol{\implies R = VU^*}$$
 Thus the best orthonormal transform that maps $B$ to $A$ is given by $VU^*$, where $U$ and $V$ are obtained from the SVD of $BA^T = U\Sigma V^*$.\\
 This problem is also widely encountered in image processing literature. We ourselves came across one such example in class, namely, in 3D Tomography under unknown angles, wherein we try to determine what rotation best maps one image to another, and there is where we note that orthonormal matrices basically represent unscaled rotation in higher dimensions, from which the problem of minimizing $\lVert A - RB\rVert^2_F$ under an orthonormal $R$ constraint arises.
+
+
 \section{Problem 4}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Problem 5}
 Note that we have to find the $f$ vector which is most likely to have arisen from the $y$ vector we know under the equation $y$ $\sim$ Poisson$(I_0e^{-Rf})$, where all the operations are done element-wise on the vectors. Note that $R$ is the \textbf{known} Radon matrix.\\
 Stating this mathematically, we want
