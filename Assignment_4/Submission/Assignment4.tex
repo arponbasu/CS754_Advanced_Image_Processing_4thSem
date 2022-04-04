@@ -12,7 +12,7 @@
 \usepackage{enumitem}
 \usepackage{amsmath}
 \usepackage{amsthm}
-
+\usepackage{mathtools}
 \usepackage{nameref}
 \usepackage{amssymb}
 \usepackage [linesnumbered, ruled, vlined] {algorithm2e}
@@ -130,12 +130,30 @@ In case we are performing cross-validation, it is extremely important to keep th
 
 \subsection{Proxying Ability}
 
+Theorem 1 in the paper talks about this Proxying ability.
 
+If the number of measurements in the validation set is sufficiently large, the Theorem states that the true recovery error $\epsilon_r$ is bounded between $h(\lambda,+)\epsilon_{cv}-\sigma_n^2$ and $h(\lambda,-)\epsilon_{cv}-\sigma_n^2$, with a probability of $erf(\lambda/\sqrt{2})$.
 
+The function $h()$ is defined as-
+$$ h(\lambda, \pm) \triangleq \frac{m}{m_{cv}}\frac{1}{1\pm \lambda \sqrt{\frac{2}{m_{cv}}}} $$
+The difference between the two bounds is roughly proportional to $1/m_{cv}^{2/3}$. Thus, the bound becomes tighter as the value of $m_{cv}$ increases. This shows that both errors are related strongly.
+
+Since, $\sigma$ is a measure of the noise variance here, we can say that in case of reasonable amount of noise and sufficiently large $m_{cv}$, we will have the true error following the same trend as the cross validation error. Thus, we can comfortably use it as a measure of error/inaccuracy in our measurements.
 
 \subsection{Theoretical $\theta$ vs Cross Validation $\theta$}
 
+Cross-Validation method gives us a practical/experimental result, while the last assignment was based on theory. There are always large differences in the approach taken by these two routes. Theoretical results are more general in nature and thus tend to be more conservative. Practical results are often so direct that they give much better results but only on the specific case. We will try to explain some of the points where we thing approaches like cross-validation out perform the results of Theorems.
 
+\begin{itemize}
+    \item Cross Validation is a purely data oriented approach.  If we have a statistically significant representative set being used to find $\lambda$, then we do not need to worry about it being optimum or not.\\
+    On the other hand, the theoretical result targets the properties of the Sensing Matrix, like Restricted Eigenvalue Property and puts a bound on the noise magnitude. Many of these properties are hard to prove computationally and if at all proven, they are very conservative.
+    \item In cross validation, the optimum value of $\lambda$ obtained is already tried and tested on the training set and also verified by the validation set. It is also the optimum value since we have tried the several possibilities.\\
+    Following theoretical route gives the results which are very conservative most of the times. This means that we are not working at the efficiency we can. Nor are we utilising the specific properties of the domain we are working in.
+    \item The specific example of the paper in the last assignment just had a lower bound on the $\lambda$ required. It did not even provide us with an optimum value of $\lambda$.\\
+    Testing with a lot of values on the other hand, we can get the optimum value of $\lambda$ from cross-validation
+\end{itemize}
+
+Thus, we can say that, cross validation is a powerful technique in practice and would tend to outperform the usual theoretical upper bounds. It is good to improve the robustness of our models and obtain better results.
 
 
 \section{Problem 2}
@@ -229,6 +247,61 @@ This problem is also widely encountered in image processing literature. We ourse
 
 
 
+\begin{center}
+    \begin{tabular}{ |p{3.5cm}||p{10cm}|}
+   
+    \hline
+    \multicolumn{2}{|c|}{Paper Details} \\
+    \hline
+    Title of the Paper& NON-NEGATIVE MATRIX FACTORIZATION OF
+    CLUSTERED DATA WITH MISSING VALUES\\
+    \hline
+    Link of the paper  &  \href{https://ieeexplore.ieee.org/document/8755555}{\textbf{Click Here}}  \\
+    \hline
+    Author List & Rebecca Chen and Lav R. Varshney\\
+    \hline
+    Publication Date  & June 2019 \\
+    \hline
+    Publication Venue  &  2019 IEEE Data Science Workshop (DSW), Minneapolis, MN, USA \\
+    \hline
+   \end{tabular}
+\end{center}
+
+\subsection{Aim of the Paper}
+
+Non-negative Matrix Factorization (NMF) can be used in the process of Data Imputation. This means that we can use NMF for recovery of missing values in obtained statistical data.
+
+This paper focuses on imputing missing values in clustered data, specifically for non-negative matrix factorization (NMF), and develops an algorithm for implementation.
+
+Experimental results show that this technique performs well as compared to other inputation techniques taking into account the local structure around the missing values. The results are demonstrated on hyperspectral remote sensing
+data and biological data.
+
+
+\subsection{Mathematical Formulation}
+
+They apply the technique of NMF in clustered data. Assume that the data is represented in the form of an $F\times N$ ($N$ points in $F$ dimensions) matrix $V$ with all entries as positive. If we assume that the columns of $V$ are generated from $K$ clusters, we can easily represent $V$ as $W\times H$, where $W$ is a $\mathbb{R}^{F \times K}$ matrix and $H$ is a $\mathbb{R}^{K \times N}$ matrix. Each of the K clusters is denoted by $C_k$.
+
+They also defined a matrix of observed value indicators, $\Omega$ of the same size as $V$ with value as 1 if $V_{ij}$ is observed and 0 otherwise. The partially observed values are denoted by $(\cdot)_{po}$. 
+
+In general, the clustering data imputation problem can be solved by trying to find the closest cluster to the observed value if we only look at the correctly observed values. This error on the feasible set is minimised over all clusters and the remaining indexes are assigned the value according to the cluster's value.
+
+To use the NMF Formulation, we need some more terms.
+
+Next, they define the circular cone and truncate it to be present only in the positive orthant. With direction $u$ and angle $\alpha$, it is represented as $C(u,\alpha)\cap P$. An assumption made here is that distance between any two points originating from the same cluster is less than the distance between any two points in different clusters.
+
+Here is the method-
+
+We can partition $V$ into $k$ sets, denoted $V_k \coloneqq \lbrace v_n \in C_k \cap P \rbrace$, and rewrite $V_k$ as the sum of a rank-one matrix $A_k$ (parallel to $u_k$) and a perturbation matrix $E_k$ (orthogonal to $u_k$).
+
+The aim is to obtain $W^*$ and $H^*$ such that-
+$$\frac{\norm{V - W^*H^*}_F}{\norm{V}_F}\leq max \lbrace sin(\alpha_k)\rbrace $$
+
+The following algorithm is used-
+\begin{itemize}
+    \item Collect all columns of $V$ which are without any losses. Normalize them to norm equal to 1.
+    \item Use greedy technique to partition them into clusters
+    \item 
+\end{itemize}
 
 
 
