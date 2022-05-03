@@ -1,0 +1,84 @@
+\documentclass[a4paper,14pt]{article}
+\usepackage{filecontents}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx, array, blindtext}
+\usepackage[colorinlistoftodos]{todonotes}
+\DeclareUnicodeCharacter{2212}{-}
+\usepackage [a4 paper , hmargin = 1.2 in , bottom = 1.5 in] {geometry}
+\usepackage [parfill] {parskip}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\usepackage{nameref}
+\usepackage{amssymb}
+\usepackage [linesnumbered, ruled, vlined] {algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{floatrow}
+\usepackage{siunitx}
+\usepackage{cancel}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage[document]{ragged2e}
+
+\renewcommand{\footrulewidth}{0.4pt}
+\newtheorem{definition}{Definition}
+\numberwithin{definition}{section}
+\newtheorem{mytheorem}{Theorem}
+\numberwithin{mytheorem}{subsection}
+\newcommand{\notimplies}{\;\not\!\!\!\longrightarrow}  
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{CS754 Project Report}
+\lhead{200050013-200050130}
+\fancyfoot[C]{Page \thepage}
+\usepackage{subcaption}
+\usepackage{listings}
+
+
+\usepackage{hyperref}
+\urlstyle{same}
+\hypersetup{pdftitle={main.pdf},
+    colorlinks=false,
+    linkbordercolor=red
+}
+\usepackage{array}
+\usepackage{listings,chngcntr}
+
+\begin{document}
+\centering{
+
+\title{\fontsize{150}{60}{CS754 Project Report}}
+
+\author{
+Arpon Basu \\ Shashwat Garg }
+}
+
+\date{Spring 2022}
+\maketitle
+
+\justifying
+\tableofcontents
+
+\newpage
+\justifying
+\section*{Introduction}
+This is a report of our project which involved implementing and extending the paper ``\textbf{Enhancing Sparsity by Reweighted $l_1$ Minimization}", in which we investigate how a simple extension of the $l_1$ norm minimization principle gives us significantly better results than the vanilla $l_1$ algorithm alone.\\
+In this report, we shall explain how we (re)implemented all the results already demonstrated in the paper, as well as extended them further using some insights of our own.\\
+This is how our report will be organized: We shall first explain briefly what the new algorithm proposes to do, and then we shall explore it's various applications in the field of compressive sensing and also explain our extensions to the algorithm.
+\section{A Brief Description of the Algorithm}
+\section{Exploring the Algorithm}
+\subsection{Role of the hyperparameter $\epsilon$}
+\subsection{Our Innovation: Introduction of New Cost Functions}
+\subsection{Effect of Number of Reweighting Iterations}
+\section{Robustness of the Algorithm vis-a-vis Noise}
+\section{Weeding out Errors: How this algorithm helps in error correcting Codes}
+\section{Testing Our Algorithm out on Natural Images}
+\section{Calculating the exact value of the point sparse recovery breaks down}
+\end{document}
