@@ -1,12 +1,12 @@
 n = 256;
 m = 100;
 
-k_arr = 10:5:60;
+k_arr = 10:2:60;
 l = size(k_arr,2);
 prob_arr = zeros(l,1,'double');
 for i = 1:l
     disp(i)
-    prob_arr(i) = rp(k_arr(i),0.01,m,n,2,100/l);
+    prob_arr(i) = rp(k_arr(i),0.01,m,n,2,1000/l);
 end
 
 figure();
