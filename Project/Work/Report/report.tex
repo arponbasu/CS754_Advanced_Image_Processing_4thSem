@@ -97,10 +97,10 @@ $$\boldsymbol{f(x) := \sum^{n}_{i = 1}\mathrm{sigmoid} (|x_i/\varepsilon|)\impli
 The performance for these is included below.
 
 \begin{center}
-    \includegraphics[width=10cm]{log_epsilon.png}
-    \includegraphics[width=10cm]{atan_epsilon.png}
-    \includegraphics[width=10cm]{tanh_epsilon.png}
-    \includegraphics[width=10cm]{sigmoid_epsilon.png}
+    \includegraphics[width=9cm]{log_epsilon.png}
+    \includegraphics[width=9cm]{atan_epsilon.png}
+    \includegraphics[width=9cm]{tanh_epsilon.png}
+    \includegraphics[width=9cm]{sigmoid_epsilon.png}
 \end{center}
 
 
@@ -116,10 +116,10 @@ The performance for these is included below.
 It's obvious that the number of reweighting iterations will improve accuracy. However, our numerical experiments reveal that if convergence occurs, then it usually does so within 2-3 iterations itself, in most cases.
 
 \begin{center}
-    \includegraphics[width=10cm]{log_iterations.png}
-    \includegraphics[width=10cm]{atan_iterations.png}
-    \includegraphics[width=10cm]{tanh_iterations.png}
-    \includegraphics[width=10cm]{sigmoid_iterations.png}
+    \includegraphics[width=9cm]{log_iterations.png}
+    \includegraphics[width=9cm]{atan_iterations.png}
+    \includegraphics[width=9cm]{tanh_iterations.png}
+    \includegraphics[width=9cm]{sigmoid_iterations.png}
 \end{center}
 
 
@@ -127,8 +127,8 @@ It's obvious that the number of reweighting iterations will improve accuracy. Ho
 As discussed above, a change in the value of $\epsilon$ affects performance a lot. Somewhat surprisingly, it turns out that the value of $\varepsilon$ for which the best recovery probability (the probability of recovery is defined as the proportion of vectors recovered successfully when the same instance of the algorithm, with the same hyperparameters is run multiple times) is obtained, is also the most economical in terms of time taken for execution.
 
 \begin{center}
-    \includegraphics[width=10cm]{time_epsilon.png}
-    \includegraphics[width=10cm]{time_iterations.png}
+    \includegraphics[width=9cm]{time_epsilon.png}
+    \includegraphics[width=9cm]{time_iterations.png}
 \end{center}
 
 
@@ -138,26 +138,26 @@ We observe that more or less same results are obtained even when we consider noi
 \subsection{Different Cost Functions}
 
 \begin{center}
-    \includegraphics[width=10cm]{log_epsilon_noisy.png}
-    \includegraphics[width=10cm]{atan_epsilon_noisy.png}
-    \includegraphics[width=10cm]{tanh_epsilon_noisy.png}
-    \includegraphics[width=10cm]{sigmoid_epsilon_noisy.png}
+    \includegraphics[width=9cm]{log_epsilon_noisy.png}
+    \includegraphics[width=9cm]{atan_epsilon_noisy.png}
+    \includegraphics[width=9cm]{tanh_epsilon_noisy.png}
+    \includegraphics[width=9cm]{sigmoid_epsilon_noisy.png}
 \end{center}
 
 \subsection{Effect of Number of Iterations}
 
 \begin{center}
-    \includegraphics[width=10cm]{log_iterations_noisy.png}
-    \includegraphics[width=10cm]{atan_iterations_noisy.png}
-    \includegraphics[width=10cm]{tanh_iterations_noisy.png}
-    \includegraphics[width=10cm]{sigmoid_iterations_noisy.png}
+    \includegraphics[width=9cm]{log_iterations_noisy.png}
+    \includegraphics[width=9cm]{atan_iterations_noisy.png}
+    \includegraphics[width=9cm]{tanh_iterations_noisy.png}
+    \includegraphics[width=9cm]{sigmoid_iterations_noisy.png}
 \end{center}
 
 \subsection{Comparison of Times Taken in Noisy Case}
 
 \begin{center}
-    \includegraphics[width=10cm]{time_epsilon_noisy.png}
-    \includegraphics[width=10cm]{time_iterations_noisy.png}
+    \includegraphics[width=9cm]{time_epsilon_noisy.png}
+    \includegraphics[width=9cm]{time_iterations_noisy.png}
 \end{center}
 
 \section{Weeding out Errors: How this algorithm helps in error correcting Codes}
@@ -165,7 +165,7 @@ If $m > n$ in $\Phi$, then we enter a field called error correcting codes, in wh
 The results are more or less in line with the results obtained above.
 
 \begin{center}
-    \includegraphics[width=10cm]{Error_Recovery.png}
+    \includegraphics[width=9cm]{Error_Recovery.png}
 \end{center}
 
 % \section{Testing Our Algorithm out on Natural Images}
@@ -183,14 +183,21 @@ The results are more or less in line with the results obtained above.
 As one may observe from the graphs above, the probability of successful recovery \emph{behaves like a phase transition, ie:- after being fairly constant at 1, it suddenly takes a sharp plunge and plummets to 0 within a short interval, displaying interesting transient phenomena in the midst.} Indeed, as we identified, \textbf{the midpoint of the ``transient" region can be taken to be the point of theoretical guarantees, which say that we need $m$ to be atleast $Ck\log (\frac{n}{k})$ for recovery to happen}. This data gives us a numerical way of calculating the constant $C$, as given below.
 
 \begin{center}
-    \includegraphics[width=10cm]{constant.png}
+    \includegraphics[width=9cm]{constant.png}
 \end{center}
 
 
 \section{Conclusion}
 
-In conclusion, we observe that both concave and convex functions perform similarly in terms of the ability to converge. There is rapid increase in the convergence rate in the second iteration of the weighted L1 norm process itself and further iterations offer only marginal improvement. There seems to a sweet-spot for the hyperparameter where the recovery rate is maximum. Also, this value might differ for the cases with and without noise, as we have already seen above. In conclusion, an iterative approach using several different tools allowed us to better get an intuition of the behaviour of the algorithms.
+In conclusion, we observe that both concave and convex functions perform similarly in terms of the ability to converge. There is rapid increase in the convergence rate in the second iteration of the weighted L1 norm process itself and further iterations offer only marginal improvement.
 
+This also indicates how the weighted L1 always provides an improvement over the classic L1 norm minimization. Since we observe the same behaviour in case of all functions, it seems that the improvement factor is also robust to choice of the function.
+
+There seems to be a sweet-spot for the hyperparameter where the recovery rate is maximum. Also, this value might differ for the cases with and without noise, as we have already seen above. 
+
+In conclusion, an iterative approach using several different tools allowed us to get a better intuition of the behaviour of the algorithms.
+
+There are several future extensions of this project. One can try non-linear weighting strategies to better fit the value of the vectors. We can also try to prove the accuracy and performance metrics theoretically and obtain some new results. We hope to touch on some of these aspects in the future.
 
 Thank you for reading.
 

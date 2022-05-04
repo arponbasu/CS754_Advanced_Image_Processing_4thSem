@@ -1,0 +1,4 @@
+1. https://web.stanford.edu/~boyd/papers/pdf/rwl1.pdf
+2. https://www.cse.iitb.ac.in/~cs709/notes/code/cvx/doc/quickstart.html
+3. https://www.sciencedirect.com/science/article/pii/S1631073X08000964
+4. https://www.researchgate.net/publication/261039617_On_the_derivation_of_RIP_for_random_Gaussian_matrices_and_binary_sparse_signals
